@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="es-AR">
+<html lang="es-AR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" data-th-href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <link th:rel="stylesheet" data-th-href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
+    
     <link th:rel="stylesheet" th:href="@{/css/estilos.css}">
     <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon"/>
     <title>SpringBoot</title>
@@ -13,7 +14,7 @@
     <div class="container">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <img th:src="@{/assets/img/fi-logo.png}" alt="Logo SpringBoot">
+                <img th:src="@{/assets/img/fi-logo.png}" alt="Logo Unju-FI">
                 <span></span>
             </a>
             <ul class="nav nav-pills">
@@ -26,8 +27,16 @@
         </header>
 
         <main>
+        	<section class="mb-3">
+                <div class="card shadow-sm ">
+                    <div class="card-body">
+                        <h2 class="card-title mb-3">Facultad de Ingeniería de Jujuy</h2>
+                        <p class="card-text">La Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu) es una institución académica dedicada a la formación integral de profesionales en diversas áreas de la ingeniería. Ubicada en la provincia de Jujuy, Argentina, esta facultad se distingue por su compromiso con la excelencia educativa, la investigación y el desarrollo tecnológico.</p>
+                    </div>
+                </div>
+            </section>
             <section>
-                <div id="carouselExampleCaptions" class="carousel slide" style="margin-top: 66px !important">
+                <div id="carouselExampleCaptions" class="carousel slide">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -72,7 +81,7 @@
                 	<h4 class="fst-italic text-center">Nuestras Noticias Destacadas</h4>
                     <div class="album py-5 bg-body-tertiary">
                     	<div class="container">
-                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3">
                                 <!-- Aquí van las tarjetas (cards) -->
                                 <div class="col">
                                     <div class="card shadow-sm">
@@ -84,7 +93,7 @@
                                                     <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                                                     <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                                 </div>
-                                                <small class="text-body-secondary">9 mins</small>
+                                                <small class="text-body-secondary">7 mins</small>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +123,7 @@
                                                     <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                                                     <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                                 </div>
-                                                <small class="text-body-secondary">9 mins</small>
+                                                <small class="text-body-secondary">6 mins</small>
                                             </div>
                                         </div>
                                     </div>
@@ -181,21 +190,40 @@
         
             </div>
         </main>
-
-        <footer class="pt-5 my-5 text-muted border-top">
-            <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-                    <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-                </a>
-                <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+		<footer class="pt-3 my-3 text-muted border-top">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <div class="col-md-4 d-flex flex-column align-items-start">
+                    <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                    </a>
+                    <span class="mb-3 mb-md-0 text-body-secondary">Ítalo Palanca N° 10 - Jujuy</span>
+                    <span class="mb-3 mb-md-0 text-body-secondary">Teléfono: (388) 123-4567</span>
+                    <span class="mb-3 mb-md-0 text-body-secondary">
+                    	<i class="fas fa-envelope me-2"></i>
+                    	<a href="mailto:info@fi.unju.edu.ar" class="text-body-secondary text-decoration-none">
+                    	info@fi.unju.edu.ar</a></span>
+                    <span class="mb-3 mb-md-0 text-body-secondary">© 2024 -Facultad de Ingeniería - UNJU</span>
+                </div>
+                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex mb-0">
+                    <li class="ms-3">
+                        <a class="text-body-secondary" href="https://twitter.com/tu_usuario">
+                            <i class="fab fa-twitter" style="font-size: 1.5rem;"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3">
+                        <a class="text-body-secondary" href="https://instagram.com/tu_usuario">
+                            <i class="fab fa-instagram" style="font-size: 1.5rem;"></i>
+                        </a>
+                    </li>
+                    <li class="ms-3">
+                        <a class="text-body-secondary" href="https://facebook.com/tu_usuario">
+                            <i class="fab fa-facebook" style="font-size: 1.5rem;"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-                <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-            </ul>
         </footer>
-    </div>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+	</div>
+    <script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
