@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="es-AR">
+<head th:fragment="head">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" data-th-href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+	<link th:rel="stylesheet" data-th-href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
+	<link th:rel="stylesheet" data-th-href="@{/css/estilos.css}">
+	<link rel="shortcut icon" data-th-href="@{/assets/img/favicon.ico}" type="image/x-icon"/>
+	
+	<title data-th-text="${titulo}"></title>
+</head>
+<body>
+	<header th:fragment="header" class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+	
+         <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+              <img th:src="@{/assets/img/fi-logo.png}" alt="Logo Unju-FI">
+              <span></span>
+         </a>
+         <ul class="nav nav-pills">
+             <li class="nav-item"><a href="#" class="nav-link">Inicio</a></li>
+             <li class="nav-item"><a href="#" class="nav-link">Carreras</a></li>
+             <li class="nav-item"><a href="#" class="nav-link">Noticias</a></li>
+             <li class="nav-item"><a href="#" class="nav-link">Acerca de</a></li>
+             <li class="nav-item"><a href="#" class="nav-link">Contacto</a></li>
+         </ul>
+    </header>
+</body>
+</html>
