@@ -3,14 +3,15 @@ package ar.edu.unju.fi.model;
 import java.time.LocalDate;
 
 public class Alumno {
-	private int dni;
+	private Integer lu;
+	private Integer dni;
 	private String nombre;
 	private String apellido;
 	private String correoElectronico;
 	private String telefono;
 	private LocalDate fechaNacimiento;
 	private String domicilio;
-	private byte lu;
+
 
 	/**
 	 * Contructor por defecto
@@ -30,8 +31,8 @@ public class Alumno {
 	 * @param domicilio
 	 * @param lu
 	 */
-	public Alumno(int dni, String nombre, String apellido, String correoElectronico, String telefono,
-			LocalDate fechaNacimiento, String domicilio, byte lu) {
+	public Alumno(Integer lu, Integer dni, String nombre, String apellido, String correoElectronico, String telefono,
+			LocalDate fechaNacimiento, String domicilio) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -44,11 +45,18 @@ public class Alumno {
 
 	// Metodos accesores de la clase Alumno
 
-	public int getDni() {
+	public Integer getLu() {
+		return lu;
+	}
+
+	public void setLu(Integer lu) {
+		this.lu = lu;
+	}
+	public Integer getDni() {
 		return dni;
 	}
 
-	public void setDni(int dni) {
+	public void setDni(Integer dni) {
 		this.dni = dni;
 	}
 
@@ -100,13 +108,7 @@ public class Alumno {
 		this.domicilio = domicilio;
 	}
 
-	public byte getLu() {
-		return lu;
-	}
 
-	public void setLu(byte lu) {
-		this.lu = lu;
-	}
 
 	@Override
 	public String toString() {

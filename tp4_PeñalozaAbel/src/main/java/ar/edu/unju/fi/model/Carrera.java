@@ -4,9 +4,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Carrera {
-	private int codigo;
+	private Integer codigo;
 	private String nombre;
-	private byte cantidadAnio;
+	private Byte cantidadAnio;
 	private boolean estado;
 
 	/**
@@ -23,7 +23,7 @@ public class Carrera {
 	 * @param cantidadAnio
 	 * @param estado
 	 */
-	public Carrera(int codigo, String nombre, byte cantidadAnio, boolean estado) {
+	public Carrera(Integer codigo, String nombre, Byte cantidadAnio, boolean estado) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.cantidadAnio = cantidadAnio;
@@ -31,11 +31,11 @@ public class Carrera {
 	}
 
 	// Metodos accesores de la clase Carrera
-	public int getCodigo() {
+	public Integer getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
 
@@ -47,11 +47,11 @@ public class Carrera {
 		this.nombre = nombre;
 	}
 
-	public byte getCantidadAnio() {
+	public Byte getCantidadAnio() {
 		return cantidadAnio;
 	}
 
-	public void setCantidadAnio(byte cantidadAnio) {
+	public void setCantidadAnio(Byte cantidadAnio) {
 		this.cantidadAnio = cantidadAnio;
 	}
 

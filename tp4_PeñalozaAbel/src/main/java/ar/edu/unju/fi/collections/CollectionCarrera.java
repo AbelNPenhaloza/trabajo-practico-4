@@ -45,7 +45,7 @@ public class CollectionCarrera {
 	 * Metodo estatico que elimina un Objetos carrera del ArrayList de carreras
 	 * @param codigoCarrera.
 	 **/
-	public static void eliminarCarrera(int codigo) {
+	public static void eliminarCarrera(Integer codigo) {
 		Iterator<Carrera> iterator = carreras.iterator();
 		while (iterator.hasNext()) {
 			if (iterator.next().getCodigo() == codigo) {
@@ -79,7 +79,7 @@ public class CollectionCarrera {
 	 * @param codigo el codigo a buscar en el ArryList carreras.
 	 * @param return
 	 **/
-	public static Carrera buscarCarrera(int codigo) {
+	public static Carrera buscarCarrera(Integer codigo) {
 
 		Predicate<Carrera> filterCodigo = c -> c.getCodigo()== codigo;
 		Optional<Carrera> carrera = carreras.stream().filter(filterCodigo).findFirst();

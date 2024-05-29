@@ -56,7 +56,7 @@ public class CarreraController {
 
 	// Metodo que presenta el formulario para modificar
 	@GetMapping("/modificar/{codigo}")
-	public String getModificarCarreraPage(Model model, @PathVariable(value = "codigo") int codigo) {
+	public String getModificarCarreraPage(Model model, @PathVariable(value = "codigo") Integer codigo) {
 		Carrera carreraEncontrada = new Carrera();
 		// toma valor verdadero para editar
 		boolean edicion = true;
@@ -79,7 +79,7 @@ public class CarreraController {
 
 	// Metodo para eliminar una carrera
 	@GetMapping("/eliminar/{codigo}")
-	public String eliminarCarrera(@PathVariable(value = "codigo") int codigo) {
+	public String eliminarCarrera(@PathVariable(value = "codigo") Integer codigo) {
 		CollectionCarrera.eliminarCarrera(codigo);
 		return "redirect:/carrera/listado";
 	}

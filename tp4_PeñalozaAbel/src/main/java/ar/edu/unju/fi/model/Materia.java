@@ -1,10 +1,10 @@
 package ar.edu.unju.fi.model;
 
 public class Materia {
-	private int codigo;
+	private Integer codigo;
 	private String nombre;
 	private String curso;
-	private byte cantidadDeHoras;
+	private Byte cantidadDeHoras;
 	private Modalidad modalidad;
 	private Docente docente;
 	private Carrera carrera;
@@ -26,8 +26,8 @@ public class Materia {
 	 * @param docente
 	 * @param carrera
 	 */
-	public Materia(int codigo, String nombre, String curso, byte cantidadDeHoras, Modalidad modalidad, Docente docente,
-			Carrera carrera) {
+	public Materia(Integer codigo, String nombre, String curso, Byte cantidadDeHoras, Modalidad modalidad,
+			Docente docente, Carrera carrera) {
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.curso = curso;
@@ -39,11 +39,11 @@ public class Materia {
 
 	// Metodos accesores de la clase Materia
 
-	public int getCodigo() {
+	public Integer getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
 
@@ -63,11 +63,11 @@ public class Materia {
 		this.curso = curso;
 	}
 
-	public byte getCantidadDeHoras() {
+	public Byte getCantidadDeHoras() {
 		return cantidadDeHoras;
 	}
 
-	public void setCantidadDeHoras(byte cantidadDeHoras) {
+	public void setCantidadDeHoras(Byte cantidadDeHoras) {
 		this.cantidadDeHoras = cantidadDeHoras;
 	}
 
