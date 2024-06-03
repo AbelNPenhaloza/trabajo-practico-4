@@ -1,9 +1,12 @@
 package ar.edu.unju.fi.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Carrera {
-	private int codigo;
+	private Integer codigo;
 	private String nombre;
-	private byte cantidadAnio;
+	private Byte cantidadAnios;
 	private boolean estado;
 
 	/**
@@ -17,22 +20,22 @@ public class Carrera {
 	 * 
 	 * @param codigo
 	 * @param nombre
-	 * @param cantidadAnio
+	 * @param cantidadAnios
 	 * @param estado
 	 */
-	public Carrera(int codigo, String nombre, byte cantidadAnio, boolean estado) {
+	public Carrera(Integer codigo, String nombre, Byte cantidadAnios, boolean estado) {
 		this.codigo = codigo;
 		this.nombre = nombre;
-		this.cantidadAnio = cantidadAnio;
+		this.cantidadAnios = cantidadAnios;
 		this.estado = estado;
 	}
 
 	// Metodos accesores de la clase Carrera
-	public int getCodigo() {
+	public Integer getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
+	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
 
@@ -44,12 +47,12 @@ public class Carrera {
 		this.nombre = nombre;
 	}
 
-	public byte getCantidadAnio() {
-		return cantidadAnio;
+	public Byte getCantidadAnios() {
+		return cantidadAnios;
 	}
 
-	public void setCantidadAnio(byte cantidadAnio) {
-		this.cantidadAnio = cantidadAnio;
+	public void setCantidadAnios(Byte cantidadAnios) {
+		this.cantidadAnios = cantidadAnios;
 	}
 
 	public boolean isEstado() {
@@ -62,7 +65,7 @@ public class Carrera {
 
 	@Override
 	public String toString() {
-		return "Carrera codigo= " + codigo + ", nombre= " + nombre + ", cantidadAnio= " + cantidadAnio + ", estado= "
+		return "Carrera codigo= " + codigo + ", nombre= " + nombre + ", cantidadAnio= " + cantidadAnios + ", estado= "
 				+ estado;
 	}
 
