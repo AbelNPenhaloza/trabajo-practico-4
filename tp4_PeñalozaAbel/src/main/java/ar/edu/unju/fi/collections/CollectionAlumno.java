@@ -53,7 +53,8 @@ public class CollectionAlumno {
 	public static void eliminarAlumno(Integer lu) {
 		Iterator<Alumno> iterator = alumnos.iterator();
 		while (iterator.hasNext()) {
-			if (iterator.next().getLu() == lu) {
+			Alumno alumno = iterator.next();
+			if (alumno.getLu().equals(lu)) {
 				iterator.remove();
 			}
 		}
@@ -66,9 +67,10 @@ public class CollectionAlumno {
 	 * @param alumno objeto con los valores de atributos modificados.
 	 **/
 	public static void modificarAlumno(Alumno alumno) {
+		boolean encontrado = false;
 		for (Alumno a : alumnos) {
 
-			if (a.getLu() == alumno.getLu()) {
+			if (a.getLu().equals(alumno.getLu())) {
 				a.setDni(alumno.getDni());
 				a.setNombre(alumno.getNombre());
 				a.setApellido(alumno.getApellido());
@@ -76,9 +78,13 @@ public class CollectionAlumno {
 				a.setTelefono(alumno.getTelefono());
 				a.setFechaNacimiento(alumno.getFechaNacimiento());
 				a.setDomicilio(alumno.getDomicilio());
-			} else {
-				System.out.println("No se encuentra la Libreta Universitaria del Alumno");
+				encontrado = true;
+				break;
 			}
+
+		}
+		if (!encontrado) {
+			System.out.println("No se encuentra la Libreta Universitaria del Alumno");
 		}
 	}
 
@@ -91,7 +97,7 @@ public class CollectionAlumno {
 	 **/
 	public static Alumno buscarAlumno(Integer lu) {
 
-		Predicate<Alumno> filterLu = l -> l.getLu() == lu;
+		Predicate<Alumno> filterLu = l -> l.getLu().equals(lu);
 		Optional<Alumno> alumno = alumnos.stream().filter(filterLu).findFirst();
 		if (alumno.isPresent()) {
 			return alumno.get();

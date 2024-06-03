@@ -74,6 +74,7 @@ public class CollectionMateria {
 	 * @param materia objeto con los valores de atributos modificados.
 	 **/
 	public static void modificarMateria(Materia materia) {
+		boolean encontrado = false;
 		for (Materia m : materias) {
 
 			if (m.getCodigo() == materia.getCodigo()) {
@@ -83,9 +84,13 @@ public class CollectionMateria {
 				m.setModalidad(materia.getModalidad());
 				m.setDocente(materia.getDocente());
 				m.setCarrera(materia.getCarrera());
-			} else {
-				System.out.println("No se encuentra el codigo de la Materia");
+				encontrado = true;
+				break;
 			}
+
+		}
+		if (!encontrado) {
+			System.out.println("No se encuentra el codigo de la Materia");
 		}
 	}
 

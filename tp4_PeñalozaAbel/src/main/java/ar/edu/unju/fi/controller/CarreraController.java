@@ -21,7 +21,7 @@ public class CarreraController {
 	private Carrera carrera;
 
 	@GetMapping("/listado")
-	public String getCarreraspage(Model model) {
+	public String getCarrerasPage(Model model) {
 		model.addAttribute("carreras", CollectionCarrera.getCarreras());
 		model.addAttribute("titulo", "Carreras");
 		return "carreras";

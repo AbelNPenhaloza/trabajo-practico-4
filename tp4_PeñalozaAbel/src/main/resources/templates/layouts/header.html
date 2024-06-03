@@ -19,7 +19,17 @@
          </a>
          <ul class="nav nav-pills">
              <li class="nav-item"><a href="#" class="nav-link">Inicio</a></li>
-             <li class="nav-item"><a href="#" class="nav-link">Carreras</a></li>
+             <li class="nav-item dropdown">
+         	 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          	  Administracion
+        	  </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/carrera/listado}">Carreras</a></li>
+            <li><a class="dropdown-item" th:href="@{/docente/listado}">Docentes</a></li>
+            <li><a class="dropdown-item" th:href="@{/alumno/listado}">Alumnos</a></li>
+            <li><a class="dropdown-item" th:href="@{/materia/listado}">Materias</a></li>
+          </ul>
+        </li>
              <li class="nav-item"><a href="#" class="nav-link">Noticias</a></li>
              <li class="nav-item"><a href="#" class="nav-link">Acerca de</a></li>
              <li class="nav-item"><a href="#" class="nav-link">Contacto</a></li>

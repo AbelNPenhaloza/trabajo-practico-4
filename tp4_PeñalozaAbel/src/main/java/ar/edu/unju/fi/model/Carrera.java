@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class Carrera {
 	private Integer codigo;
 	private String nombre;
-	private Byte cantidadAnio;
+	private Byte cantidadAnios;
 	private boolean estado;
 
 	/**
@@ -20,13 +20,13 @@ public class Carrera {
 	 * 
 	 * @param codigo
 	 * @param nombre
-	 * @param cantidadAnio
+	 * @param cantidadAnios
 	 * @param estado
 	 */
-	public Carrera(Integer codigo, String nombre, Byte cantidadAnio, boolean estado) {
+	public Carrera(Integer codigo, String nombre, Byte cantidadAnios, boolean estado) {
 		this.codigo = codigo;
 		this.nombre = nombre;
-		this.cantidadAnio = cantidadAnio;
+		this.cantidadAnios = cantidadAnios;
 		this.estado = estado;
 	}
 
@@ -47,12 +47,12 @@ public class Carrera {
 		this.nombre = nombre;
 	}
 
-	public Byte getCantidadAnio() {
-		return cantidadAnio;
+	public Byte getCantidadAnios() {
+		return cantidadAnios;
 	}
 
-	public void setCantidadAnio(Byte cantidadAnio) {
-		this.cantidadAnio = cantidadAnio;
+	public void setCantidadAnios(Byte cantidadAnios) {
+		this.cantidadAnios = cantidadAnios;
 	}
 
 	public boolean isEstado() {
@@ -65,7 +65,7 @@ public class Carrera {
 
 	@Override
 	public String toString() {
-		return "Carrera codigo= " + codigo + ", nombre= " + nombre + ", cantidadAnio= " + cantidadAnio + ", estado= "
+		return "Carrera codigo= " + codigo + ", nombre= " + nombre + ", cantidadAnio= " + cantidadAnios + ", estado= "
 				+ estado;
 	}
 

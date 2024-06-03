@@ -65,7 +65,7 @@ public class CollectionCarrera {
 
 			if (c.getCodigo() == carrera.getCodigo()) {
 				c.setNombre(carrera.getNombre());
-				c.setCantidadAnio(carrera.getCantidadAnio());
+				c.setCantidadAnios(carrera.getCantidadAnios());
 				c.setEstado(carrera.isEstado());
 			} else {
 				System.out.println("No se encuentra el codigo de la Carrera");

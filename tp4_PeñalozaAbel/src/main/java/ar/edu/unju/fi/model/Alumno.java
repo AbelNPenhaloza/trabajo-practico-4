@@ -2,6 +2,9 @@ package ar.edu.unju.fi.model;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Alumno {
 	private Integer lu;
 	private Integer dni;
@@ -22,6 +25,8 @@ public class Alumno {
 	/**
 	 * Contructor parametrizado
 	 * 
+	 * * @param lu
+	 * 
 	 * @param dni
 	 * @param nombre
 	 * @param apellido
@@ -29,10 +34,10 @@ public class Alumno {
 	 * @param telefono
 	 * @param fechaNacimiento
 	 * @param domicilio
-	 * @param lu
 	 */
 	public Alumno(Integer lu, Integer dni, String nombre, String apellido, String correoElectronico, String telefono,
 			LocalDate fechaNacimiento, String domicilio) {
+		this.lu = lu;
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -40,7 +45,7 @@ public class Alumno {
 		this.telefono = telefono;
 		this.fechaNacimiento = fechaNacimiento;
 		this.domicilio = domicilio;
-		this.lu = lu;
+
 	}
 
 	// Metodos accesores de la clase Alumno
@@ -108,13 +113,11 @@ public class Alumno {
 		this.domicilio = domicilio;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "Alumno dni= " + dni + ", nombre= " + nombre + ", apellido= " + apellido + ", correoElectronico= "
-				+ correoElectronico + ", telefono= " + telefono + ", fechaNacimiento= " + fechaNacimiento
-				+ ", domicilio= " + domicilio + ", lu= " + lu;
+		return "Alumno lu=" + lu + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido
+				+ ", correoElectronico=" + correoElectronico + ", telefono=" + telefono + ", fechaNacimiento="
+				+ fechaNacimiento + ", domicilio=" + domicilio;
 	}
 
 }
