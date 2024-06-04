@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import org.springframework.stereotype.Component;
 
 import ar.edu.unju.fi.model.Carrera;
+import ar.edu.unju.fi.model.Curso;
 import ar.edu.unju.fi.model.Docente;
 import ar.edu.unju.fi.model.Materia;
 import ar.edu.unju.fi.model.Modalidad;
@@ -27,16 +28,16 @@ public class CollectionMateria {
 			// Obtener la lista de carreras del CollectionCarrera
 			List<Carrera> carreras = CollectionCarrera.getCarreras();
 
-			materias.add(new Materia(1, "Prog Visual", "Programacion", (byte) 40, Modalidad.VIRTUAL, docentes.get(0),
+			materias.add(new Materia(1, "Prog Visual", Curso.PRIMERO, (byte) 40, Modalidad.VIRTUAL, docentes.get(0),
 					carreras.get(0)));
 
-			materias.add(new Materia(2, "Analisis Matematico", "Analisis", (byte) 30, Modalidad.PRESENCIAL,
+			materias.add(new Materia(2, "Analisis Matematico", Curso.SEGUNDO, (byte) 30, Modalidad.PRESENCIAL,
 					docentes.get(1), carreras.get(2)));
 
-			materias.add(new Materia(3, "Quimica", "Laboratorio", (byte) 40, Modalidad.VIRTUAL, docentes.get(2),
+			materias.add(new Materia(3, "Quimica", Curso.CUARTO, (byte) 40, Modalidad.VIRTUAL, docentes.get(2),
 					carreras.get(1)));
 
-			materias.add(new Materia(4, "Diseño", "FrontEnd", (byte) 40, Modalidad.VIRTUAL, docentes.get(3),
+			materias.add(new Materia(4, "Diseño", Curso.QUINTO, (byte) 40, Modalidad.VIRTUAL, docentes.get(3),
 					carreras.get(3)));
 
 		}
@@ -48,8 +49,8 @@ public class CollectionMateria {
 	 * 
 	 * @param materia a agregar
 	 **/
-	public static void agregarMateria(Materia materia) {
-		materias.add(materia);
+	public static boolean agregarMateria(Materia materia) {
+		return materias.add(materia) ? true : false;
 	}
 
 	/**

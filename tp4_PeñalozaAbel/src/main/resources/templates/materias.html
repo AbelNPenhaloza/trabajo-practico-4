@@ -9,6 +9,15 @@
 				<div class="row">
 					<div class="col col-sm-12 fondo-form p-5">
 						<div class="row mb-5">
+							<div th:if="${exito}" class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong data-th-text="${mensaje}"></strong>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+							<div th:if="${!exito && mensaje != ''}" class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong data-th-text="${mensaje}"></strong>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+							
 							<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2">
 							<a class="btn btn-primary" data-th-href="@{/materia/nuevo}" role="button">Nueva Materia</a>
 							</div>
