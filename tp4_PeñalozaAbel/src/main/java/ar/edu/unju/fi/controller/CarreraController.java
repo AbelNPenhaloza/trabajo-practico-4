@@ -88,7 +88,7 @@ public class CarreraController {
 		String mensaje = "";
 		try {
 			CollectionCarrera.modificarCarrera(carrera);
-			mensaje = "La carrera con codigo " + carrera.getCodigo() + "fue modificada con exito!";
+			mensaje = "La carrera con codigo " + carrera.getCodigo() + " fue modificada con exito!";
 			exito = true;
 		} catch (Exception e) {
 			mensaje = e.getMessage();

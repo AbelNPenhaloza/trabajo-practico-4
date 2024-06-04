@@ -33,29 +33,36 @@ public class MateriaController {
 
 	// Metodo para listar todas materias
 	@GetMapping("/listado")
-	public ModelAndView getMateriasPage() {
-		ModelAndView mav = new ModelAndView("materias");
+	public String getMateriasPage(Model model) {
 
-		mav.addObject("materias", CollectionMateria.getMaterias());
-
-		return mav;
-
+		model.addAttribute("titulo", "Materias");
+		model.addAttribute("exito", false);
+		model.addAttribute("mensaje", "");
+		model.addAttribute("materias", CollectionMateria.getMaterias());
+		return "materias";
 	}
 
 	// Metodo para agregar una nueva materia
 	@GetMapping("/nuevo")
-	public ModelAndView getNuevaMateriaPage() {
+	public String getNuevaMateriaPage(Model model) {
 
-		materia = new Materia();
-		ModelAndView mav = new ModelAndView("materia");
-		mav.addObject("materia", materia);
-		mav.addObject("materias", CollectionMateria.getMaterias());
-		return mav;
+		boolean edicion = false;
+
+		model.addAttribute("materia", materia);
+		model.addAttribute("edicion", edicion);
+		model.addAttribute("titulo", "Nueva Materia");
+		model.addAttribute("modalidades", Modalidad.values());
+		model.addAttribute("cursos", Curso.values());
+		model.addAttribute("docentes", CollectionDocente.getDocentes());
+		model.addAttribute("carreras", CollectionCarrera.getCarreras());
+
+		return "materia";
 	}
 
 	// Metodo para guardar una materia nueva usando el boton guardar
 	@PostMapping("/guardar")
 	public ModelAndView guardarMateria(@ModelAttribute("materia") Materia materia, Model model) {
+
 		ModelAndView modelView = new ModelAndView("materias");
 		String mensaje;
 
@@ -69,11 +76,13 @@ public class MateriaController {
 		if (exito) {
 			mensaje = "Materia guardada con exito!";
 		} else {
-			mensaje = "Materia no se pudo guardar";
+			mensaje = "La Materia no se pudo guardar";
 		}
 
 		model.addAttribute("exito", exito);
 		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("cursos", Curso.values());
+		model.addAttribute("modalidades", Modalidad.values());
 		modelView.addObject("materias", CollectionMateria.getMaterias());
 
 		return modelView;
@@ -104,9 +113,32 @@ public class MateriaController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarMateria(@ModelAttribute("materia") Materia materia) {
-		CollectionMateria.modificarMateria(materia);
-		return "redirect:/materia/listado";
+	public String modificarMateria(@ModelAttribute("materia") Materia materia, Model model) {
+
+		docente = CollectionDocente.buscarDocente(materia.getDocente().getLegajo());
+		carrera = CollectionCarrera.buscarCarrera(materia.getCarrera().getCodigo());
+		materia.setDocente(docente);
+		materia.setCarrera(carrera);
+		boolean exito = false;
+		String mensaje = "";
+		try {
+			CollectionMateria.modificarMateria(materia);
+
+			mensaje = "La Materia con codigo " + materia.getCodigo() + " fue modificada con exito!";
+			exito = true;
+		} catch (Exception e) {
+			mensaje = e.getMessage();
+			e.printStackTrace();
+		}
+
+		model.addAttribute("materias", CollectionMateria.getMaterias());
+		model.addAttribute("exito", exito);
+		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("docentes", CollectionDocente.getDocentes());
+		model.addAttribute("carreras", CollectionCarrera.getCarreras());
+		model.addAttribute("titulo", "Materias");
+		return "materias";
+
 	}
 
 	// Metodo para eliminar una materia

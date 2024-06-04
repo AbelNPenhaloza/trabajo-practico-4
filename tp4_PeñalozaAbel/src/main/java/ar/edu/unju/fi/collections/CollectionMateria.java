@@ -74,24 +74,29 @@ public class CollectionMateria {
 	 * 
 	 * @param materia objeto con los valores de atributos modificados.
 	 **/
-	public static void modificarMateria(Materia materia) {
+	public static void modificarMateria(Materia materia) throws Exception {
 		boolean encontrado = false;
-		for (Materia m : materias) {
 
-			if (m.getCodigo() == materia.getCodigo()) {
-				m.setNombre(materia.getNombre());
-				m.setCurso(materia.getCurso());
-				m.setCantidadDeHoras(materia.getCantidadDeHoras());
-				m.setModalidad(materia.getModalidad());
-				m.setDocente(materia.getDocente());
-				m.setCarrera(materia.getCarrera());
-				encontrado = true;
-				break;
+		try {
+			for (Materia m : materias) {
+
+				if (m.getCodigo() == materia.getCodigo()) {
+					m.setNombre(materia.getNombre());
+					m.setCurso(materia.getCurso());
+					m.setCantidadDeHoras(materia.getCantidadDeHoras());
+					m.setModalidad(materia.getModalidad());
+					m.setDocente(materia.getDocente());
+					m.setCarrera(materia.getCarrera());
+					encontrado = true;
+
+				}
+
 			}
-
-		}
-		if (!encontrado) {
-			System.out.println("No se encuentra el codigo de la Materia");
+			if (!encontrado) {
+				throw new Exception("La materia con codigo " + materia.getCodigo() + "no existe");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 

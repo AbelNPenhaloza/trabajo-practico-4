@@ -41,7 +41,8 @@
 							      <td data-th-text="${d.telefono}"></td>
 							      <td>
 							      	<a class="btn btn-warning" data-th-href="@{/docente/modificar/}+${d.legajo}" role="button">Editar</a>
-							      	<a class="btn btn-danger" data-th-href="@{/docente/eliminar/}+${d.legajo}" role="button">Eliminar</a>
+							      	<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+							      		th:data-codDocente="${d.legajo}">Eliminar</button>
 							      </td>
 							    </tr>
 							  </tbody>
@@ -53,6 +54,37 @@
 		</main>
 		<footer data-th-replace="~{/layouts/footer::footer}"></footer>
 	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" arial-labelledby="deleteModalLabel" aria-hidden="true" >
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>Está seguro de que desea eliminar este Docente?</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+	        <form th:action="@{/docente/eliminar/{codDocente}(codDocente=${selectedCodDocente})}" method="get">
+	        	<button type="submit" class="btn btn-danger">Eliminar</button>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function(){
+		let deleteModal = document.getElementById('deleteModal');
+		deleteModal.addEventListener('show.bs.modal', function (event){
+			let button = event.relatedTarget;
+			let codDocente = button.getAttribute('data-codDocente');
+			let form = deleteModal.querySelector('form');
+			form.setAttribute('action', '/docente/eliminar/' + codDocente);	
+			});
+		});
+	</script>
 </body>
 </html>
