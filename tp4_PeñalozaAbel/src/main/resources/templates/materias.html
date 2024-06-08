@@ -78,17 +78,7 @@
 	    </div>
 	  </div>
 	</div>
-	<script>
-		document.addEventListener('DOMContentLoaded', function(){
-		let deleteModal = document.getElementById('deleteModal');
-		deleteModal.addEventListener('show.bs.modal', function (event){
-			let button = event.relatedTarget;
-			let codMateria = button.getAttribute('data-codMateria');
-			let form = deleteModal.querySelector('form');
-			form.setAttribute('action', '/materia/eliminar/' + codMateria);	
-			});
-		});
-	</script>
+	<script data-th-src="@{/js/script.js}"></script>
 	<script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
