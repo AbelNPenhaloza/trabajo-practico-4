@@ -34,8 +34,8 @@ public class CollectionDocente {
 	 * 
 	 * @param docente a agregar
 	 **/
-	public static void agregarDocente(Docente docente) {
-		docentes.add(docente);
+	public static boolean agregarDocente(Docente docente) {
+		return docentes.add(docente) ? true : false;
 	}
 
 	/**
@@ -44,9 +44,13 @@ public class CollectionDocente {
 	 * @param legajo Docente.
 	 **/
 	public static void eliminarDocente(Integer legajo) {
+
 		Iterator<Docente> iterator = docentes.iterator();
+
 		while (iterator.hasNext()) {
-			if (iterator.next().getLegajo() == legajo) {
+
+			Docente docente = iterator.next();
+			if (docente.getLegajo().equals(legajo)) {
 				iterator.remove();
 			}
 		}
@@ -58,18 +62,26 @@ public class CollectionDocente {
 	 * 
 	 * @param docente objeto con los valores de atributos modificados.
 	 **/
-	public static void modificarDocente(Docente docente) {
-		for (Docente d : docentes) {
+	public static void modificarDocente(Docente docente) throws Exception {
 
-			if (d.getLegajo() == docente.getLegajo()) {
-				d.setNombre(docente.getNombre());
-				d.setApellido(docente.getApellido());
-				d.setCorreoElectronico(docente.getCorreoElectronico());
-				d.setTelefono(docente.getTelefono());
+		boolean encontrado = false;
+		try {
+			for (Docente d : docentes) {
 
-			} else {
-				System.out.println("No se encuentra el legajo del Docente");
+				if (d.getLegajo() == docente.getLegajo()) {
+					d.setNombre(docente.getNombre());
+					d.setApellido(docente.getApellido());
+					d.setCorreoElectronico(docente.getCorreoElectronico());
+					d.setTelefono(docente.getTelefono());
+					encontrado = true;
+				}
 			}
+			if (!encontrado) {
+				throw new Exception("El docente con codigo " + docente.getLegajo() + " no existe");
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
 		}
 	}
 

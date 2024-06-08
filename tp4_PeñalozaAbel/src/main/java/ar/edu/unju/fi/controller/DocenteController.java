@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.collections.CollectionDocente;
+import ar.edu.unju.fi.model.Curso;
 import ar.edu.unju.fi.model.Docente;
+import ar.edu.unju.fi.model.Modalidad;
 
 @Controller
 @RequestMapping("/docente")
@@ -23,6 +25,8 @@ public class DocenteController {
 	@GetMapping("/listado")
 	public String getDocentePage(Model model) {
 		model.addAttribute("docentes", CollectionDocente.getDocentes());
+		model.addAttribute("exito", false);
+		model.addAttribute("mensaje", "");
 		model.addAttribute("titulo", "Docentes");
 		return "docentes";
 	}
@@ -43,11 +47,21 @@ public class DocenteController {
 
 	// Metodo para guardar un docente nuevo usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarDocente(@ModelAttribute("docente") Docente docente) {
+	public ModelAndView guardarDocente(@ModelAttribute("docente") Docente docente, Model model) {
 
 		ModelAndView modelView = new ModelAndView("docentes");
+		String mensaje;
 
-		CollectionDocente.agregarDocente(docente);
+		boolean exito = CollectionDocente.agregarDocente(docente);
+		if (exito) {
+			mensaje = "Docente guardado con exito";
+		} else {
+			mensaje = "El Docente no se pudo guardar";
+		}
+		model.addAttribute("exito", exito);
+		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("modalidades", Modalidad.values());
+		model.addAttribute("cursos", Curso.values());
 		modelView.addObject("docentes", CollectionDocente.getDocentes());
 
 		return modelView;
@@ -56,6 +70,7 @@ public class DocenteController {
 	// Metodo que presenta el formulario para modificar
 	@GetMapping("/modificar/{legajo}")
 	public String getModificarDocentePage(Model model, @PathVariable(value = "legajo") Integer legajo) {
+
 		Docente docenteEncontrado = new Docente();
 		// toma valor verdadero para editar
 		boolean edicion = true;
@@ -70,9 +85,24 @@ public class DocenteController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarDocente(@ModelAttribute("docente") Docente docente) {
-		CollectionDocente.modificarDocente(docente);
-		return "redirect:/docente/listado";
+	public String modificarDocente(@ModelAttribute("docente") Docente docente, Model model) {
+
+		boolean exito = false;
+		String mensaje = "";
+		try {
+			CollectionDocente.modificarDocente(docente);
+			mensaje = "El docente con codigo " + docente.getLegajo() + " fue modificado con exito!";
+			exito = true;
+		} catch (Exception e) {
+			mensaje = e.getMessage();
+			e.printStackTrace();
+		}
+
+		model.addAttribute("docentes", CollectionDocente.getDocentes());
+		model.addAttribute("exito", exito);
+		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("titulo", "Docentes");
+		return "docentes";
 	}
 
 	// Metodo para eliminar un docente

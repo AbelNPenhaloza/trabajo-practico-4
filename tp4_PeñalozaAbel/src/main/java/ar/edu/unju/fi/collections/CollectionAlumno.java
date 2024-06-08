@@ -41,8 +41,8 @@ public class CollectionAlumno {
 	 * 
 	 * @param alumno a agregar
 	 **/
-	public static void agregarAlumno(Alumno alumno) {
-		alumnos.add(alumno);
+	public static boolean agregarAlumno(Alumno alumno) {
+		return alumnos.add(alumno) ? true : false;
 	}
 
 	/**
@@ -66,25 +66,31 @@ public class CollectionAlumno {
 	 * 
 	 * @param alumno objeto con los valores de atributos modificados.
 	 **/
-	public static void modificarAlumno(Alumno alumno) {
+	public static void modificarAlumno(Alumno alumno) throws Exception {
 		boolean encontrado = false;
-		for (Alumno a : alumnos) {
+		try {
+			for (Alumno a : alumnos) {
 
-			if (a.getLu().equals(alumno.getLu())) {
-				a.setDni(alumno.getDni());
-				a.setNombre(alumno.getNombre());
-				a.setApellido(alumno.getApellido());
-				a.setCorreoElectronico(alumno.getCorreoElectronico());
-				a.setTelefono(alumno.getTelefono());
-				a.setFechaNacimiento(alumno.getFechaNacimiento());
-				a.setDomicilio(alumno.getDomicilio());
-				encontrado = true;
-				break;
+				if (a.getLu().equals(alumno.getLu())) {
+					a.setDni(alumno.getDni());
+					a.setNombre(alumno.getNombre());
+					a.setApellido(alumno.getApellido());
+					a.setCorreoElectronico(alumno.getCorreoElectronico());
+					a.setTelefono(alumno.getTelefono());
+					a.setFechaNacimiento(alumno.getFechaNacimiento());
+					a.setDomicilio(alumno.getDomicilio());
+					encontrado = true;
+
+				}
+
 			}
+			if (!encontrado) {
+				throw new Exception("El Alumno con codigo " + alumno.getLu() + "no existe");
+			}
+		} catch (Exception e) {
 
-		}
-		if (!encontrado) {
-			System.out.println("No se encuentra la Libreta Universitaria del Alumno");
+			System.out.println(e.getMessage());
+			throw e;
 		}
 	}
 

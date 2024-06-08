@@ -1,15 +1,18 @@
 package ar.edu.unju.fi.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Materia {
 	private Integer codigo;
 	private String nombre;
-	private String curso;
+	private Curso curso;
 	private Byte cantidadDeHoras;
 	private Modalidad modalidad;
+	@Autowired
 	private Docente docente;
+	@Autowired
 	private Carrera carrera;
 
 	/**
@@ -29,7 +32,7 @@ public class Materia {
 	 * @param docente
 	 * @param carrera
 	 */
-	public Materia(Integer codigo, String nombre, String curso, Byte cantidadDeHoras, Modalidad modalidad,
+	public Materia(Integer codigo, String nombre, Curso curso, Byte cantidadDeHoras, Modalidad modalidad,
 			Docente docente, Carrera carrera) {
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -58,11 +61,11 @@ public class Materia {
 		this.nombre = nombre;
 	}
 
-	public String getCurso() {
+	public Curso getCurso() {
 		return curso;
 	}
 
-	public void setCurso(String curso) {
+	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
 

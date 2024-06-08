@@ -22,8 +22,11 @@ public class CarreraController {
 
 	@GetMapping("/listado")
 	public String getCarrerasPage(Model model) {
-		model.addAttribute("carreras", CollectionCarrera.getCarreras());
+
 		model.addAttribute("titulo", "Carreras");
+		model.addAttribute("exito", false);
+		model.addAttribute("mensaje", "");
+		model.addAttribute("carreras", CollectionCarrera.getCarreras());
 		return "carreras";
 
 	}
@@ -31,7 +34,6 @@ public class CarreraController {
 	// Metodo para agregar una nueva carrera
 	@GetMapping("/nuevo")
 	public String getNuevaCarreraPage(Model model) {
-
 		boolean edicion = false;
 
 		model.addAttribute("carrera", carrera);
@@ -44,11 +46,19 @@ public class CarreraController {
 
 	// Metodo para guardar una carrera nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarCarrera(@ModelAttribute("carrera") Carrera carrera) {
+	public ModelAndView guardarCarrera(@ModelAttribute("carrera") Carrera carrera, Model model) {
 
 		ModelAndView modelView = new ModelAndView("carreras");
-		carrera.setEstado(true);
-		CollectionCarrera.agregarCarrera(carrera);
+		String mensaje;
+
+		boolean exito = CollectionCarrera.agregarCarrera(carrera);
+		if (exito) {
+			mensaje = "Carrera guardada con exito";
+		} else {
+			mensaje = "Carrera no se pudo guardar";
+		}
+		model.addAttribute("exito", exito);
+		model.addAttribute("mensaje", mensaje);
 		modelView.addObject("carreras", CollectionCarrera.getCarreras());
 
 		return modelView;
@@ -72,9 +82,25 @@ public class CarreraController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarCarrera(@ModelAttribute("carrera") Carrera carrera) {
-		CollectionCarrera.modificarCarrera(carrera);
-		return "redirect:/carrera/listado";
+	public String modificarCarrera(@ModelAttribute("carrera") Carrera carrera, Model model) {
+
+		boolean exito = false;
+		String mensaje = "";
+		try {
+			CollectionCarrera.modificarCarrera(carrera);
+			mensaje = "La carrera con codigo " + carrera.getCodigo() + " fue modificada con exito!";
+			exito = true;
+		} catch (Exception e) {
+			mensaje = e.getMessage();
+			e.printStackTrace();
+		}
+
+		model.addAttribute("carreras", CollectionCarrera.getCarreras());
+		model.addAttribute("exito", exito);
+		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("titulo", "Carreras");
+		return "carreras";
+
 	}
 
 	// Metodo para eliminar una carrera

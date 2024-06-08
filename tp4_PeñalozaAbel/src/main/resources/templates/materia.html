@@ -28,7 +28,10 @@
 					<div class="row mb-3 justify-content-center">
 						<label for="curso" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Curso</label>
 						<div class="col-sm-12 col-lg-4">
-							<input type="text" class="form-control" id="curso" th:field="*{curso}">
+							<select class="form-select" id="curso" th:field="*{curso}">
+								<option value="">Seleccione una Modalidad</option>
+                                <option th:each="curso : ${cursos}" th:value="${curso}" th:text="${curso.name()}"></option>
+                            </select>
 						</div>
 					</div>
 					
@@ -52,7 +55,7 @@
 					<div class="row mb-3 justify-content-center">
 						<label for="docente" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Docente</label>
 						<div class="col-sm-12 col-lg-4">
-							<select class="form-select" id="docente" th:field="*{docente}">
+							<select class="form-select" id="docente" th:field="*{docente.legajo}">
 								<option value="">Seleccione un Docente</option>
             					<option th:each="docente : ${docentes}" th:value="${docente.legajo}" th:text="${docente.nombre} + ' ' + ${docente.apellido}"></option>
        						</select>
@@ -62,7 +65,7 @@
 					<div class="row mb-3 justify-content-center">
 						<label for="carrera" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Carrera</label>
 						<div class="col-sm-12 col-lg-4">
-							<select class="form-select" id="carrera" th:field="*{carrera}">
+							<select class="form-select" id="carrera" th:field="*{carrera.codigo}">
 								<option value="">Seleccione una Carrera</option>
             					<option th:each="carrera : ${carreras}" th:value="${carrera.codigo}" th:text="${carrera.nombre}"></option>
        						</select>
