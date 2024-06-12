@@ -1,4 +1,4 @@
-package ar.edu.unju.fi.model;
+package ar.edu.unju.fi.dto;
 
 import java.time.LocalDate;
 
@@ -9,11 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Alumno {
+@Component
+public class AlumnoDTO {
 	private Integer lu;
 	private Integer dni;
 	private String nombre;
@@ -23,6 +23,4 @@ public class Alumno {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaNacimiento;
 	private String domicilio;
-
-
 }
