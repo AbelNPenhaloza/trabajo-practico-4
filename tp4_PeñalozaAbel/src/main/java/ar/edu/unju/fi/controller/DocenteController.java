@@ -24,7 +24,8 @@ public class DocenteController {
 	
 	@Autowired
 	private IDocenteService docenteService;
-
+	
+	// Listado para visualizar en la tabla
 	@GetMapping("/listado")
 	public String getDocentePage(Model model) {
 		
