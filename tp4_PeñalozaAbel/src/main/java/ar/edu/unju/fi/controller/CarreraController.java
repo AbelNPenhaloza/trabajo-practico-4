@@ -11,14 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.collections.CollectionCarrera;
+import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.model.Carrera;
+import ar.edu.unju.fi.service.ICarreraService;
 
 @Controller
 @RequestMapping("/carrera")
 public class CarreraController {
 
 	@Autowired
-	private Carrera carrera;
+	private CarreraDTO carreraDTO;
+	//private Carrera carrera;
+	
+	@Autowired
+	private ICarreraService carreraService;
 
 	@GetMapping("/listado")
 	public String getCarrerasPage(Model model) {
@@ -26,7 +32,7 @@ public class CarreraController {
 		model.addAttribute("titulo", "Carreras");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("carreras", CollectionCarrera.getCarreras());
+		model.addAttribute("carreras", carreraService.findAll());
 		return "carreras";
 
 	}
@@ -36,7 +42,7 @@ public class CarreraController {
 	public String getNuevaCarreraPage(Model model) {
 		boolean edicion = false;
 
-		model.addAttribute("carrera", carrera);
+		model.addAttribute("carrera", carreraDTO);
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Carrera");
 
@@ -46,12 +52,12 @@ public class CarreraController {
 
 	// Metodo para guardar una carrera nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarCarrera(@ModelAttribute("carrera") Carrera carrera, Model model) {
+	public ModelAndView guardarCarrera(@ModelAttribute("carrera") CarreraDTO carreraDTO, Model model) {
 
 		ModelAndView modelView = new ModelAndView("carreras");
 		String mensaje;
 
-		boolean exito = CollectionCarrera.agregarCarrera(carrera);
+		boolean exito = carreraService.save(carreraDTO);
 		if (exito) {
 			mensaje = "Carrera guardada con exito";
 		} else {
@@ -59,7 +65,7 @@ public class CarreraController {
 		}
 		model.addAttribute("exito", exito);
 		model.addAttribute("mensaje", mensaje);
-		modelView.addObject("carreras", CollectionCarrera.getCarreras());
+		modelView.addObject("carreras", carreraService.findAll());
 
 		return modelView;
 	}
@@ -71,9 +77,9 @@ public class CarreraController {
 		// toma valor verdadero para editar
 		boolean edicion = true;
 		// hacer validadcion si o si
-		carreraEncontrada = CollectionCarrera.buscarCarrera(codigo);
+		CarreraDTO carreraEncontradaDTO = carreraService.findById(codigo);
 		model.addAttribute("edicion", edicion);
-		model.addAttribute("carrera", carreraEncontrada);
+		model.addAttribute("carrera", carreraEncontradaDTO);
 		model.addAttribute("titulo", "Modificar Carrera");
 
 		return "carrera";
@@ -82,20 +88,20 @@ public class CarreraController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarCarrera(@ModelAttribute("carrera") Carrera carrera, Model model) {
+	public String modificarCarrera(@ModelAttribute("carrera") CarreraDTO carreraDTO, Model model) {
 
 		boolean exito = false;
 		String mensaje = "";
 		try {
-			CollectionCarrera.modificarCarrera(carrera);
-			mensaje = "La carrera con codigo " + carrera.getCodigo() + " fue modificada con exito!";
+			carreraService.edit(carreraDTO);
+			mensaje = "La carrera con codigo " + carreraDTO.getCodigo() + " fue modificada con exito!";
 			exito = true;
 		} catch (Exception e) {
 			mensaje = e.getMessage();
 			e.printStackTrace();
 		}
 
-		model.addAttribute("carreras", CollectionCarrera.getCarreras());
+		model.addAttribute("carreras", carreraService.findAll());
 		model.addAttribute("exito", exito);
 		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("titulo", "Carreras");
@@ -106,7 +112,7 @@ public class CarreraController {
 	// Metodo para eliminar una carrera
 	@GetMapping("/eliminar/{codigo}")
 	public String eliminarCarrera(@PathVariable(value = "codigo") Integer codigo) {
-		CollectionCarrera.eliminarCarrera(codigo);
+		carreraService.deleteById(codigo);
 		return "redirect:/carrera/listado";
 	}
 }

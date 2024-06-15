@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="es-AR">
+<head data-th-replace="~{/layouts/header::head}"></head>
+<body>
+    <div class="container">
+        <header data-th-replace="~{/layouts/header::header}"></header>
+
+        <main>
+        	<section class="mb-3">
+                <div class="card shadow-sm ">
+                    <div class="card-body">
+                        <h2 class="card-title mb-3">Facultad de Ingeniería de Jujuy</h2>
+                        <p class="card-text">La Facultad de Ingeniería de la Universidad Nacional de Jujuy (FI-UNJu) es una institución académica dedicada a la formación integral de profesionales en diversas áreas de la ingeniería. Ubicada en la provincia de Jujuy, Argentina, esta facultad se distingue por su compromiso con la excelencia educativa, la investigación y el desarrollo tecnológico.</p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div id="carouselExampleCaptions" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img th:src="@{/assets/img/img1.jpg}" class="d-block w-100" alt="Img 1">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Clases en el Anfiteatro</h5>
+                                <p>Estudiantes de la carrera de APU recibiendo información de la carrera.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img th:src="@{/assets/img/img2.jpg}" class="d-block w-100" alt="Img 2">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Semana de Mayo en Ingeniería</h5>
+                                <p>Actividades preparatorias para la semana de Mayo en Ingeniería.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img th:src="@{/assets/img/img3.jpg}" class="d-block w-100" alt="Img 3">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Nueva Carrera</h5>
+                                <p>Oportunidades para los estudiantes de Ingeniería.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </section>
+            
+            <div class="row">
+                <section class="col-md-8">
+                	<h4 class="fst-italic text-center">Nuestras Noticias Destacadas</h4>
+                    <div class="album py-5 bg-body-tertiary">
+                    	<div class="container">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-3">
+                                <!-- Aquí van las tarjetas (cards) -->
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <img th:src="@{/assets/img/pasantia-balut-inf-ls-apu-mayo.jpg}" class="card-img-top img-fluid" alt="Descripción de la imagen">
+                                        <div class="card-body">
+                                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </div>
+                                                <small class="text-body-secondary">7 mins</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <img th:src="@{/assets/img/campamento-de-idiomas.jpeg}" class="card-img-top img-fluid" alt="Descripción de la imagen">
+                                        <div class="card-body">
+                                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </div>
+                                                <small class="text-body-secondary">9 mins</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card shadow-sm">
+                                        <img th:src="@{/assets/img/convocatoria_fiunju.jpg}" class="card-img-top img-fluid" alt="Descripción de la imagen">
+                                        <div class="card-body">
+                                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                </div>
+                                                <small class="text-body-secondary">6 mins</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Repite las tarjetas según sea necesario -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="col-md-4">
+					<div>
+					  <h4 class="fst-italic">Menú</h4>
+					     <ul class="list-unstyled">
+					        <li>
+				               <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="https://www.unju.edu.ar/sibunju/conssibunju.htm" target="_blank">
+					          	   <img th:src="@{/assets/img/biblio-2.jpg}" class="img-fluid" width="100" height="96" alt="Biblioteca">
+						           <div class="col-lg-8">
+						               <h6 class="mb-0">Biblioteca</h6>
+						               <small class="text-body-secondary">Accede a la biblioteca en línea</small>
+						           </div>
+					           </a>
+					          </li>
+					          <li>
+						         <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="https://www.fi.unju.edu.ar/secretarias/sec-academica/calendario-academico.html" target="_blank">
+						             <img th:src="@{/assets/img/calendario-unju-fi.jpg}" class="img-fluid" width="100" height="96" alt="Calendario Académico">
+						             <div class="col-lg-8">
+						             <h6 class="mb-0">Calendario Académico</h6>
+						             <small class="text-body-secondary">Consulta las fechas importantes</small>
+						             </div>
+						         </a>
+					          </li>
+					          <li>
+				               <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="https://www.fi.unju.edu.ar/aulas-virtuales-es/" target="_blank">
+					          	   <img th:src="@{/assets/img/aulas.jpg}" class="img-fluid" width="100" height="96" alt="Las Aulas Virtuales">
+						           <div class="col-lg-8">
+						               <h6 class="mb-0">Aulas Virtuales</h6>
+						               <small class="text-body-secondary">Accede a las aulas en línea</small>
+						           </div>
+					           </a>
+					          </li>
+					          <li>
+				               <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="https://www.fi.unju.edu.ar/modelos-de-notas.html" target="_blank">
+					          	   <img th:src="@{/assets/img/notas.jpg}" class="img-fluid" width="100" height="96" alt="Modelo de Notas">
+						           <div class="col-lg-8">
+						               <h6 class="mb-0">Modelo de Notas</h6>
+						               <small class="text-body-secondary">Accede a las notas en línea</small>
+						           </div>
+					           </a>
+					          </li>
+					          <li>
+				               <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="https://alumnos.unju.edu.ar/unju/" target="_blank">
+					          	   <img th:src="@{/assets/img/guarani.jpg}" class="img-fluid" width="100" height="96" alt="Sistema Guarani">
+						           <div class="col-lg-8">
+						               <h6 class="mb-0">Sistema Guarani</h6>
+						               <small class="text-body-secondary">Accede al Sistema en línea</small>
+						           </div>
+					           </a>
+					          </li>
+					          <!-- Añade más elementos de la lista según sea necesario -->
+					        </ul>
+					    </div>
+		 			</aside>
+        
+            </div>
+        </main>
+		<footer data-th-replace="~{/layouts/footer::footer}"></footer>
+	</div>
+    <script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
