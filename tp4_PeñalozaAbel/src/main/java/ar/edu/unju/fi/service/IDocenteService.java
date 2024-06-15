@@ -1,5 +1,18 @@
 package ar.edu.unju.fi.service;
 
-public interface IDocenteService {
+import java.util.List;
 
+import ar.edu.unju.fi.dto.DocenteDTO;
+
+public interface IDocenteService {
+	
+	List<DocenteDTO> findAll();
+
+	DocenteDTO findById(Integer legajo);
+
+	boolean save(DocenteDTO docenteDTO);
+
+	void deleteById(Integer legajo);
+
+	void edit(DocenteDTO docenteDTO) throws Exception;
 }
