@@ -14,5 +14,5 @@ public interface IAlumnoService {
 
 	void deleteById(Integer lu);
 
-	void edit(AlumnoDTO usuarioDTO) throws Exception;
+	void edit(AlumnoDTO alumnoDTO) throws Exception;
 }
