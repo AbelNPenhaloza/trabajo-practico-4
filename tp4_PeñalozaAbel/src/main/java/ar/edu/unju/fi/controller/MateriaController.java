@@ -13,8 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.dto.DocenteDTO;
 import ar.edu.unju.fi.dto.MateriaDTO;
+import ar.edu.unju.fi.mapper.CarreraMapper;
+import ar.edu.unju.fi.mapper.DocenteMapper;
+import ar.edu.unju.fi.mapper.MateriaMapper;
+import ar.edu.unju.fi.model.Carrera;
 import ar.edu.unju.fi.model.Curso;
+import ar.edu.unju.fi.model.Docente;
 import ar.edu.unju.fi.model.Modalidad;
+import ar.edu.unju.fi.service.ICarreraService;
+import ar.edu.unju.fi.service.IDocenteService;
 import ar.edu.unju.fi.service.IMateriaService;
 
 @Controller
@@ -26,7 +33,17 @@ public class MateriaController {
 
 	@Autowired
 	private IMateriaService materiaService;
+	@Autowired
+	private IDocenteService docenteService;
+	@Autowired
+	private ICarreraService carreraService;
 
+	@Autowired
+	private MateriaMapper materiaMapper;
+	@Autowired
+	private DocenteMapper docenteMapper;
+	@Autowired
+	private CarreraMapper carreraMapper;
 	@Autowired
 	private CarreraDTO carreraDTO;
 	@Autowired
@@ -54,8 +71,8 @@ public class MateriaController {
 		model.addAttribute("titulo", "Nueva Materia");
 		model.addAttribute("modalidades", Modalidad.values());
 		model.addAttribute("cursos", Curso.values());
-		model.addAttribute("docentes", docenteService.findAll());// Cambiar
-		model.addAttribute("carreras", carreraService.findAll());// Cambiar
+		model.addAttribute("docentes", docenteService.findAll());
+		model.addAttribute("carreras", carreraService.findAll());
 
 		return "materia";
 	}
@@ -67,10 +84,11 @@ public class MateriaController {
 		ModelAndView modelView = new ModelAndView("materias");
 		String mensaje;
 
-		docenteDTO = docenteService.findById(materiaDTO.getDocente().getLegajo());// Cambiar
-		carreraDTO = carreraService.findById(materiaDTO.getCarrera().getCodigo());// Cambiar
-		materiaDTO.setDocente(docenteDTO);
-		materiaDTO.setCarrera(carreraDTO);
+		Docente docente = docenteMapper.toDocente(docenteService.findById(materiaDTO.getDocente().getLegajo()));
+		Carrera carrera = carreraMapper.toCarrera(carreraService.findById(materiaDTO.getCarrera().getCodigo()));
+
+		materiaDTO.setDocente(docente);
+		materiaDTO.setCarrera(carrera);
 
 		boolean exito = materiaService.save(materiaDTO);
 
@@ -116,11 +134,11 @@ public class MateriaController {
 	@PostMapping("/modificar")
 	public String modificarMateria(@ModelAttribute("materia") MateriaDTO materiaDTO, Model model) {
 
-		docenteDTO = docenteService.findById(materiaDTO.getDocente().getLegajo());
-		carreraDTO = carreraService.findById(materiaDTO.getCarrera().getCodigo());
+		Docente docente = docenteMapper.toDocente(docenteService.findById(materiaDTO.getDocente().getLegajo()));
+		Carrera carrera = carreraMapper.toCarrera(carreraService.findById(materiaDTO.getCarrera().getCodigo()));
 
-		materiaDTO.setDocente(docenteDTO);
-		materiaDTO.setCarrera(carreraDTO);
+		materiaDTO.setDocente(docente);
+		materiaDTO.setCarrera(carrera);
 		boolean exito = false;
 		String mensaje = "";
 		try {

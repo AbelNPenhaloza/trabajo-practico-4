@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Component
 
 public class CarreraDTO {
+
 	private Integer codigo;
 	private String nombre;
 	private Byte cantidadAnios;
