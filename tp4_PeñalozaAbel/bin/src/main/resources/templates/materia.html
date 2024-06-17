@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="es-AR">
+<head data-th-replace="~{/layouts/header::head}"></head>
+<body>
+	<div class="container">
+		<header data-th-replace="~{/layouts/header::header}"></header>
+		<div class="row py-5 border p-4 col-9 mx-auto">
+			<div class="row mb-5">
+				<h3 data-th-text="${edicion}?'Modificar Materia': 'Nueva Materia'" class="text-center"></h3>			
+			</div>
+			<div class="row">
+				<form data-th-action="${edicion}?@{/materia/modificar} : @{/materia/guardar}" th:object="${materia}" method="post">
+					<div class="row mb-3 justify-content-center">
+						<label for="codigo" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Código</label>
+						<div class="col-sm-12 col-lg-4">
+							<input type="number" class="form-control" id="codigo" th:field="*{codigo}" th:disabled="${edicion}?true : false">
+							<input type="hidden" class="form-control" id="codigo" th:field="*{codigo}" th:if="${edicion}">
+						</div>
+					</div>
+					
+					<div class="row mb-3 justify-content-center">
+						<label for="nombre" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Nombre</label>
+						<div class="col-sm-12 col-lg-4">
+							<input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+						</div>
+					</div>
+					
+					<div class="row mb-3 justify-content-center">
+						<label for="curso" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Curso</label>
+						<div class="col-sm-12 col-lg-4">
+							<select class="form-select" id="curso" th:field="*{curso}">
+								<option value="">Seleccione una Modalidad</option>
+                                <option th:each="curso : ${cursos}" th:value="${curso}" th:text="${curso.name()}"></option>
+                            </select>
+						</div>
+					</div>
+					
+					<div class="row mb-3 justify-content-center">
+						<label for="horas" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Horas</label>
+						<div class="col-sm-12 col-lg-4">
+							<input type="number" class="form-control" id="horas" th:field="*{cantidadDeHoras}">
+						</div>
+					</div>
+					
+					<div class="row mb-3 justify-content-center">
+						<label for="modalidad" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Modalidad</label>
+						<div class="col-sm-12 col-lg-4">
+							<select class="form-select" id="modalidad" th:field="*{modalidad}">
+								<option value="">Seleccione una Modalidad</option>
+                                <option th:each="modalidad : ${modalidades}" th:value="${modalidad}" th:text="${modalidad.name()}"></option>
+                            </select>
+						</div>
+					</div>
+					
+					<div class="row mb-3 justify-content-center">
+						<label for="docente" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Docente</label>
+						<div class="col-sm-12 col-lg-4">
+							<select class="form-select" id="docente" th:field="*{docente.legajo}">
+								<option value="">Seleccione un Docente</option>
+            					<option th:each="docente : ${docentes}" th:value="${docente.legajo}" th:text="${docente.nombre} + ' ' + ${docente.apellido}"></option>
+       						</select>
+						</div>
+					</div>
+					
+					<div class="row mb-3 justify-content-center">
+						<label for="carrera" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Carrera</label>
+						<div class="col-sm-12 col-lg-4">
+							<select class="form-select" id="carrera" th:field="*{carrera.codigo}">
+								<option value="">Seleccione una Carrera</option>
+            					<option th:each="carrera : ${carreras}" th:value="${carrera.codigo}" th:text="${carrera.nombre}"></option>
+       						</select>
+						</div>
+					</div>					
+					
+					<div class="row mb-3 justify-content-center">
+						<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
+							<span class="mx-5 text-center"><input type="submit" class="btn btn-primary" th:value="${edicion}?'Modificar' : 'Guardar'"></span>
+							<span class="mx-5 text-center"><a class="btn btn-primary" th:href="@{/materia/listado}">Volver</a></span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<footer data-th-replace="~{/layouts/footer::footer}"></footer>
+	</div>
+
+<script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
