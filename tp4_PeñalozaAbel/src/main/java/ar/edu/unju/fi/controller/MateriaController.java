@@ -53,7 +53,7 @@ public class MateriaController {
 	// Metodo para listar todas materias
 	@GetMapping("/listado")
 	public String getMateriasPage(Model model) {
-		System.out.println("Hola ");
+
 		model.addAttribute("titulo", "Materias");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
