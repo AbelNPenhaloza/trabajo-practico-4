@@ -9,3 +9,4 @@ import ar.edu.unju.fi.model.Alumno;
 public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 
 }
+

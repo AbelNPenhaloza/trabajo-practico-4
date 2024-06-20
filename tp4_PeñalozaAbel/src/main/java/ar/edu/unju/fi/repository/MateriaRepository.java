@@ -9,3 +9,4 @@ import ar.edu.unju.fi.model.Materia;
 public interface MateriaRepository extends JpaRepository<Materia, Integer> {
 
 }
+

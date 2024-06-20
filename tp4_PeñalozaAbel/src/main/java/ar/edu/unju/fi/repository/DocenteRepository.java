@@ -9,3 +9,4 @@ import ar.edu.unju.fi.model.Docente;
 public interface DocenteRepository extends JpaRepository<Docente,Integer> {
 
 }
+

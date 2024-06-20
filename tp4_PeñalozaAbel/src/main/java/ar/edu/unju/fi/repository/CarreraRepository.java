@@ -9,3 +9,4 @@ import ar.edu.unju.fi.model.Carrera;
 public interface CarreraRepository extends JpaRepository<Carrera, Integer> {
 
 }
+
