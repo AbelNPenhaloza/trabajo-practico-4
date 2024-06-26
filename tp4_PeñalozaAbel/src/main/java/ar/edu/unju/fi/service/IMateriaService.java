@@ -3,16 +3,17 @@ package ar.edu.unju.fi.service;
 import java.util.List;
 
 import ar.edu.unju.fi.dto.MateriaDTO;
+import ar.edu.unju.fi.model.Materia;
 
 public interface IMateriaService {
 
 	List<MateriaDTO> findAll();
 
-	MateriaDTO findById(Integer codigo);
+	MateriaDTO findById(Long idMateria);
 
-	boolean save(MateriaDTO materiaDTO);
+	Materia save(MateriaDTO materiaDTO);
 
-	void deleteById(Integer codigo);
+	void deleteById(Long idMateria);
 
-	void edit(MateriaDTO materiaDTO) throws Exception;
+	void editarMateria(MateriaDTO materiaDTO) throws Exception;
 }
