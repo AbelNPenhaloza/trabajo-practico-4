@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import ar.edu.unju.fi.model.Docente;
 
 @Repository
-public interface DocenteRepository extends JpaRepository<Docente,Integer> {
+public interface DocenteRepository extends JpaRepository<Docente,Long> {
 
 }
 
