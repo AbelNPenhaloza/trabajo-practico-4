@@ -1,39 +1,32 @@
 package ar.edu.unju.fi.collections;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-
 import org.springframework.stereotype.Component;
-
-import ar.edu.unju.fi.model.Docente;
 
 @Component
 public class CollectionDocente {
 
-	private static List<Docente> docentes = new ArrayList<Docente>();
+	/** private static List<Docente> docentes = new ArrayList<Docente>();
 
 	/**
 	 * Metodo estatico que devuelve un ArrayList de Objetos de la clase Docente
-	 **/
+	 
 	public static List<Docente> getDocentes() {
 		if (docentes.isEmpty()) {
-			docentes.add(new Docente(1, "Lucas", "Perez", "lucas@edu.ar", "3886078695"));
-			docentes.add(new Docente(2, "Mario", "Martinez", "mario@edu.ar", "3886067890"));
-			docentes.add(new Docente(3, "Laura", "Acosta", "laura@edu.ar", "3885545678"));
-			docentes.add(new Docente(4, "Analia", "Toconas", "analia@edu.ar", "3885478908"));
-			docentes.add(new Docente(5, "Jose", "Vega", "jose@edu.ar", "3886087980"));
+			docentes.add(new Docente(null, 1, "Lucas", "Perez", "lucas@edu.ar", "3886078695", null));
+			docentes.add(new Docente(null, 2, "Mario", "Martinez", "mario@edu.ar", "3886067890", null));
+			docentes.add(new Docente(null, 3, "Laura", "Acosta", "laura@edu.ar", "3885545678", null));
+			docentes.add(new Docente(null, 4, "Analia", "Toconas", "analia@edu.ar", "3885478908", null));
+			docentes.add(new Docente(null, 5, "Jose", "Vega", "jose@edu.ar", "3886087980", null));
 		}
 		return docentes;
 	}
+	
 
 	/**
 	 * Metodo estatico que agrega un Objeto Docentes al ArrayList de docentes.
 	 * 
 	 * @param docente a agregar
-	 **/
+	 
 	public static boolean agregarDocente(Docente docente) {
 		return docentes.add(docente) ? true : false;
 	}
@@ -42,7 +35,7 @@ public class CollectionDocente {
 	 * Metodo estatico que elimina un Objetos docente del ArrayList de docente
 	 * 
 	 * @param legajo Docente.
-	 **/
+	 
 	public static void eliminarDocente(Integer legajo) {
 
 		Iterator<Docente> iterator = docentes.iterator();
@@ -61,7 +54,7 @@ public class CollectionDocente {
 	 * enviados en
 	 * 
 	 * @param docente objeto con los valores de atributos modificados.
-	 **/
+	 
 	public static void modificarDocente(Docente docente) throws Exception {
 
 		boolean encontrado = false;
@@ -91,7 +84,7 @@ public class CollectionDocente {
 	 * 
 	 * @param legajo, el legajo a buscar en el ArryList docentes.
 	 * @param return
-	 **/
+	 
 	public static Docente buscarDocente(Integer legajo) {
 
 		Predicate<Docente> filterLegajo = l -> l.getLegajo() == legajo;
@@ -104,4 +97,5 @@ public class CollectionDocente {
 
 	}
 
+	**/
 }
