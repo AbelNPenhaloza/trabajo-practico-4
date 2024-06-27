@@ -3,10 +3,7 @@ package ar.edu.unju.fi.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unju.fi.model.Alumno;
-import ar.edu.unju.fi.model.Carrera;
 import ar.edu.unju.fi.model.Curso;
-import ar.edu.unju.fi.model.Docente;
 import ar.edu.unju.fi.model.Modalidad;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -48,41 +45,14 @@ public class MateriaDTO {
 	private Boolean estado;
 
 	@NotNull(message = "Debe seleccionar un Docente")
-	private Docente docente;
+	private DocenteDTO docenteDTO;
 
 	@NotNull(message = "Debe seleccionar una Carrera")
-	private Carrera carrera;
+	private CarreraDTO carreraDTO;
 
 	@NotNull(message = "Debe seleccionar uno o mas Alumnos")
-	private List<Alumno> alumnos = new ArrayList<Alumno>();
+	private List<AlumnoDTO> alumnos = new ArrayList<AlumnoDTO>();
 
-	/**
-	 * @param nombre
-	 * @param curso
-	 * @param cantidadDeHoras
-	 * @param modalidad
-	 * @param estado
-	 * @param docente
-	 * @param carrera
-	 * @param alumnos
-	 */
-	public MateriaDTO(
-			@NotBlank(message = "Debe ingresar el nombre de la Materia") @Size(min = 3, max = 100, message = "El nombre de la materia debe tener entre 3 y 100 caracteres") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras") String nombre,
-			@NotNull(message = "Debe seleccionar un Curso") Curso curso,
-			@NotNull(message = "Debe ingresar la cantidad de horas de la Materia") @Pattern(regexp = "^(?:[1-9]?[0-9]|200)$", message = "La cantidad de horas debe estar entre 1 y 200") Integer cantidadDeHoras,
-			@NotNull(message = "Debe seleccionar una Modalidad") Modalidad modalidad,
-			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
-			@NotNull(message = "Debe seleccionar un Docente") Docente docente,
-			@NotNull(message = "Debe seleccionar una Carrera") Carrera carrera,
-			@NotNull(message = "Debe seleccionar uno o mas Alumnos") List<Alumno> alumnos) {
-		this.nombre = nombre;
-		this.curso = curso;
-		this.cantidadDeHoras = cantidadDeHoras;
-		this.modalidad = modalidad;
-		this.estado = estado;
-		this.docente = docente;
-		this.carrera = carrera;
-		this.alumnos = alumnos;
-	}
+
 
 }
