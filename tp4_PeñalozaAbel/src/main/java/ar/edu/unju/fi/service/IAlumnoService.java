@@ -3,16 +3,17 @@ package ar.edu.unju.fi.service;
 import java.util.List;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
+import ar.edu.unju.fi.model.Alumno;
 
 public interface IAlumnoService {
 
 	List<AlumnoDTO> findAll();
 
-	AlumnoDTO findById(Integer lu);
+	AlumnoDTO findById(Long idAlumno);
 
-	boolean save(AlumnoDTO alumnoDTO);
+	Alumno save(AlumnoDTO alumnoDTO);
 
-	void deleteById(Integer lu);
+	void deleteById(Long idAlumno);
 
-	void edit(AlumnoDTO alumnoDTO) throws Exception;
+	void editarAlumno(AlumnoDTO alumnoDTO) throws Exception;
 }

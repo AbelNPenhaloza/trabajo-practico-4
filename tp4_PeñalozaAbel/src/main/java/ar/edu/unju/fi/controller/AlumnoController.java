@@ -3,6 +3,7 @@ package ar.edu.unju.fi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.model.Alumno;
 import ar.edu.unju.fi.service.IAlumnoService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/alumno")
@@ -50,32 +52,43 @@ public class AlumnoController {
 
 	// Metodo para guardar un alumno nuevo usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarAlumno(@ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model) {
-
+	public ModelAndView guardarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model , BindingResult result) {
 		ModelAndView modelView = new ModelAndView("alumnos");
 		String mensaje;
-		boolean exito = alumnoService.save(alumnoDTO);
-		if (exito) {
-			mensaje = "Alumno guardado con exito";
-		} else {
-			mensaje = "El Alumno no se pudo guardar";
+		
+		if(result.hasErrors()) {
+			modelView = new ModelAndView("alumnos");
+			model.addAttribute("edicion", false);
+			model.addAttribute("titulo", "Nuevo Alumno");
+			modelView.setViewName("alumno");
+			return modelView;		
 		}
-		model.addAttribute("exito", exito);
+		
+		Alumno alumno = alumnoService.save(alumnoDTO);
+		
+		if(alumno!=null) {
+			mensaje = "Alumno guardado con exito";
+			model.addAttribute("exito", true);		
+		}else{
+			mensaje = "El Alumno no se pudo guardar";
+			model.addAttribute("exito", false);
+		}
+		
 		model.addAttribute("mensaje", mensaje);
 		modelView.addObject("alumnos", alumnoService.findAll());
-
+		
 		return modelView;
 	}
 
 	// Metodo que presenta el formulario para modificar
-	@GetMapping("/modificar/{lu}")
-	public String getModificarAlumnoPage(Model model, @PathVariable(value = "lu") Integer lu) {
+	@GetMapping("/modificar/{idAlumno}")
+	public String getModificarAlumnoPage(Model model, @PathVariable(value = "idAlumno") Long idAlumno) {
+        AlumnoDTO alumnoEncontradoDTO= new AlumnoDTO();
 
-		Alumno alumnoEncontrado = new Alumno();
 		// toma valor verdadero para editar
 		boolean edicion = true;
-		// hacer validadcion si o si
-		AlumnoDTO alumnoEncontradoDTO = alumnoService.findById(lu);
+
+		alumnoEncontradoDTO = alumnoService.findById(idAlumno);
 
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("alumno", alumnoEncontradoDTO);
@@ -86,12 +99,20 @@ public class AlumnoController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarAlumno(@ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model) {
+	public String modificarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model, BindingResult result) {
 
+		if(result.hasErrors()) {
+			model.addAttribute("edicion",true);
+			model.addAttribute("titulo","Modificar Alumno");
+			return "alumno";
+		}
+			
 		boolean exito = false;
 		String mensaje = "";
+		
+		
 		try {
-			alumnoService.edit(alumnoDTO);
+			alumnoService.editarAlumno(alumnoDTO);
 			mensaje = "El alumno con codigo " + alumnoDTO.getLu() + " fue modificado con exito!";
 			exito = true;
 		} catch (Exception e) {
@@ -103,13 +124,14 @@ public class AlumnoController {
 		model.addAttribute("exito", exito);
 		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("titulo", "Alumnos");
+		
 		return "alumnos";
 	}
 
 	// Metodo para eliminar una alumno
-	@GetMapping("/eliminar/{lu}")
-	public String eliminarAlumno(@PathVariable(value = "lu") Integer lu) {
-		alumnoService.deleteById(lu);
+	@GetMapping("/eliminar/{idAlumno}")
+	public String eliminarAlumno(@PathVariable(value = "idAlumno") Long idAlumno) {
+		alumnoService.deleteById(idAlumno);
 		return "redirect:/alumno/listado";
 	}
 }
