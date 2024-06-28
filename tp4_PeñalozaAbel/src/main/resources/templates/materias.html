@@ -31,7 +31,6 @@
 							      <th>Modalidad</th>
 							      <th>Docente Asignado</th>
 							      <th>Carrera</th>
-							      <th>Estado</th>
 							      <th>Opciones</th>
 							    </tr>
 							  </thead>
@@ -44,7 +43,7 @@
 							      <td data-th-text="${m.modalidad}"></td>
 							      <td data-th-text="${m.docente.nombre +' '+ m.docente.apellido}"></td>
 							      <td data-th-text="${m.carrera.nombre}"></td>
-							      <td data-th-text="${m.estado}"></td>							      
+							      						      
 							      <td>
 							      	<a class="btn btn-warning" data-th-href="@{/materia/modificar/}+${m.idMateria}" role="button">Editar</a>
 							      	<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"

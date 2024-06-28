@@ -71,18 +71,7 @@
        						</select>
 						</div>
 					</div>
-					
-					<div class="row mb-3 justify-content-center">
-						<label for="estado" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Estado</label>
-						<div class="col-sm-12 col-lg-4">
-							<select class="form-select" id="estado" th:field="*{estado}">
-								<option value="">Seleccione un Estado</option>
-								<option value="true">Activa</option>
-								<option value="false">Inactiva</option>
-							</select>
-						</div>
-					</div>					
-					
+														
 					<div class="row mb-3 justify-content-center">
 						<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
 							<span class="mx-5 text-center"><input type="submit" class="btn btn-primary" th:value="${edicion}?'Modificar' : 'Guardar'"></span>
