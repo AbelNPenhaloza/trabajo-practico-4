@@ -5,44 +5,67 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.edu.unju.fi.collections.CollectionCarrera;
+//import ar.edu.unju.fi.collections.CollectionCarrera;
 import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.mapper.CarreraMapper;
+import ar.edu.unju.fi.model.Carrera;
+import ar.edu.unju.fi.repository.CarreraRepository;
 import ar.edu.unju.fi.service.ICarreraService;
+
 
 @Service
 public class CarreraServiceImpl implements ICarreraService {
+	
+	
 	@Autowired
 	private CarreraMapper carreraMapper;
-
-	@Override
-	public List<CarreraDTO> findAll() {
-		List<CarreraDTO> carrerasDTO = carreraMapper.toCarreraDTOs(CollectionCarrera.getCarreras());
-		return carrerasDTO;
-	}
+	
+	@Autowired
+	private CarreraRepository carreraRepository;
 	
 	@Override
-	public CarreraDTO findById(Integer codigo) {
-		CarreraDTO carreraDTO = carreraMapper.toCarreraDTO(CollectionCarrera.buscarCarrera(codigo));
-		return carreraDTO;
+	public List<CarreraDTO> findAll() {
+		
+		List<CarreraDTO> carrerasDTO = carreraMapper.toCarreraDTOs(carreraRepository.findAll());
+		return carrerasDTO;
 	}
 
 	@Override
-	public boolean save(CarreraDTO carreraDTO) {
-		boolean respuesta = CollectionCarrera.agregarCarrera(carreraMapper.toCarrera(carreraDTO));
-		return respuesta;
+	public CarreraDTO findById(Integer idCarrera) {
+		// Carrera carrera = carreraRepository.findById(idCarrera).orElse(null);
+		// return carreraMapper.toCarreraDTO(carrera);
+		return carreraMapper.toCarreraDTO(carreraRepository.findById(idCarrera).get());
 	}
 
 	@Override
-	public void deleteById(Integer codigo) {
-		CollectionCarrera.eliminarCarrera(codigo);
+	public Carrera save(CarreraDTO carreraDTO) {
+		// Carrera carrera = carreraMapper.toCarrera(carreraDTO);
+		// carreraRepository.save(carrera);
+		// return true;
+		Carrera carrera = carreraRepository.save(carreraMapper.toCarrera(carreraDTO));
+		return carrera;
+	}
+
+	@Override
+	public void deleteById(Integer idCarrera) {
+		//carreraRepository.deleteById(idCodigo);
+		Carrera carrera = carreraRepository.findById(idCarrera).get();
+		carrera.setEstado(false);
+		carreraRepository.save(carrera);
 
 	}
 
 	@Override
-	public void edit(CarreraDTO carreraDTO) throws Exception {
-		CollectionCarrera.modificarCarrera(carreraMapper.toCarrera(carreraDTO));
-
+	public void editarCarrera(CarreraDTO carreraDTO) throws Exception {
+		/*
+		 * Carrera carrera= carreraMapper.toCarrera(carreraDTO); if
+		 * (veRepository.existsById(carrera.getIdCodigo())) {
+		 * carreraRepository.save(carrera); } else { throw new
+		 * Exception("El carrera con codigo: " + carrera.getIdCarrera() + " no existe");
+		 * }
+		 */
+		carreraRepository.save(carreraMapper.toCarrera(carreraDTO));
 	}
 
 }
+
