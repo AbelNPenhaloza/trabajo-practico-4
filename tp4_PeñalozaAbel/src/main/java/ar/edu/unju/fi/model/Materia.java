@@ -35,30 +35,33 @@ public class Materia {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_materia", nullable = false)
+	@Column(name = "materia_id", nullable = false)
 	private Long idMateria;
 
 	@NotBlank(message = "Debe ingresar el nombre de la Materia")
 	@Size(min = 3, max = 100, message = "El nombre de la materia debe tener entre 3 y 100 caracteres")
 	@Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras")
+	@Column(name = "materia_nombre")
 	private String nombre;
 
 	@NotNull(message = "Debe seleccionar un Curso")
 	@Enumerated(EnumType.STRING)
+	@Column(name = "materia_curso")
 	private Curso curso;
 
 	@NotNull(message = "Debe ingresar la cantidad de horas de la Materia")
 	@Min(value = 1, message = "La cantidad de horas debe ser al menos 1")
 	@Max(value = 200, message = "La cantidad de horas no puede exceder 200")
-	@Column(name = "cantidad_de_horas")
+	@Column(name = "materia_horas")
 	private Integer cantidadDeHoras;
 
 	@NotNull(message = "Debe seleccionar una Modalidad")
 	@Enumerated(EnumType.STRING)
+	@Column(name = "materia_modalidad")
 	private Modalidad modalidad;
 
 	@NotNull(message = "Debe seleccionar un estado")
-	@Column(nullable = false, columnDefinition = "boolean default true")
+	@Column(name = "materia_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 
 	@OneToOne
