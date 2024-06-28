@@ -19,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -64,7 +65,7 @@ public class Alumno {
 	
 	@Column(name="correoElectronico_alumno", nullable = false)
 	@NotBlank(message="Debe ingresar el correo electronico")
-	@Pattern(regexp="* + @ + *", message="Correo no valido")
+	@Email
 	private String correoElectronico;
 	
 	@Column(name="telefono_alumno", nullable = false)

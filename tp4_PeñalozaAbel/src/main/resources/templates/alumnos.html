@@ -47,9 +47,9 @@
 							      <td data-th-text="${a.fechaNacimiento}"></td>
 							      <td data-th-text="${a.domicilio}"></td>
 							      <td>
-							      	<a class="btn btn-warning" data-th-href="@{/alumno/modificar/}+${a.lu}" role="button">Editar</a>
+							      	<a class="btn btn-warning" data-th-href="@{/alumno/modificar/}+${a.idAlumno}" role="button">Editar</a>
 							      	<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-							      		th:data-codAlumno="${a.lu}">Eliminar</button>
+							      		th:data-codAlumno="${a.idAlumno}">Eliminar</button>
 							      </td>
 							    </tr>
 							  </tbody>
