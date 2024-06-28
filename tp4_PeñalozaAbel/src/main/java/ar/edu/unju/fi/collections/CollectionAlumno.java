@@ -10,15 +10,15 @@ import java.util.function.Predicate;
 import org.springframework.stereotype.Component;
 
 import ar.edu.unju.fi.model.Alumno;
-
+/**
 @Component
 public class CollectionAlumno {
 
 	private static List<Alumno> alumnos = new ArrayList<Alumno>();
 
-	/**
+	
 	 * Metodo estatico que devuelve un ArrayList de Objetos de la clase Alumno.
-	 **/
+	 
 	public static List<Alumno> getAlumnos(){
 		if(alumnos.isEmpty()) {
 			alumnos.add(new Alumno(3512, 35120345, "Abel", "Perez", "abel@gmail.com", "3887987980",
@@ -40,7 +40,7 @@ public class CollectionAlumno {
 	 * Metodo estatico que agrega un Objeto Alumno al ArrayList de alumnos.
 	 * 
 	 * @param alumno a agregar
-	 **/
+	 
 	public static boolean agregarAlumno(Alumno alumno) {
 		return alumnos.add(alumno) ? true : false;
 	}
@@ -49,7 +49,7 @@ public class CollectionAlumno {
 	 * Metodo estatico que elimina un Objetos alumno del ArrayList de alumnos
 	 * 
 	 * @param lu Alumno.
-	 **/
+	 
 	public static void eliminarAlumno(Integer lu) {
 		Iterator<Alumno> iterator = alumnos.iterator();
 		while (iterator.hasNext()) {
@@ -65,7 +65,7 @@ public class CollectionAlumno {
 	 * enviados en
 	 * 
 	 * @param alumno objeto con los valores de atributos modificados.
-	 **/
+	 
 	public static void modificarAlumno(Alumno alumno) throws Exception {
 		boolean encontrado = false;
 		try {
@@ -100,7 +100,7 @@ public class CollectionAlumno {
 	 * 
 	 * @param LU     la lu a buscar en el ArryList alumnos.
 	 * @param return
-	 **/
+	 
 	public static Alumno buscarAlumno(Integer lu) {
 
 		Predicate<Alumno> filterLu = l -> l.getLu().equals(lu);
@@ -114,3 +114,4 @@ public class CollectionAlumno {
 	}
 
 }
+**/
