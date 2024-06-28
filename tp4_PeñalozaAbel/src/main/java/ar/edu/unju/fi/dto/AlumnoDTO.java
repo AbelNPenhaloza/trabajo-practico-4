@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -41,7 +42,7 @@ public class AlumnoDTO {
 	
 	@Column(name="correoElectronico_alumno", nullable = false)
 	@NotBlank(message="Debe ingresar el correo electronico")
-	@Pattern(regexp="* + @ + *", message="Correo no valido")
+	@Email
 	private String correoElectronico;
 	
 	@Column(name="telefono_alumno", nullable = false)
