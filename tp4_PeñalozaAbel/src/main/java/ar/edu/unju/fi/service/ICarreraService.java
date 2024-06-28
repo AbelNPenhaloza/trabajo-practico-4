@@ -3,18 +3,17 @@ package ar.edu.unju.fi.service;
 import java.util.List;
 
 import ar.edu.unju.fi.dto.CarreraDTO;
+import ar.edu.unju.fi.model.Carrera;
 
 public interface ICarreraService {
-
+	
 	List<CarreraDTO> findAll();
 
-	CarreraDTO findById(Integer codigo);
+	CarreraDTO findById(Integer idCarrera);
 
-	boolean save(CarreraDTO carreraDTO);
+	Carrera save(CarreraDTO carreraDTO);
 
-	void deleteById(Integer codigo);
+	void deleteById(Integer idCarrera);
 
-	void edit(CarreraDTO carreraDTO) throws Exception;
-
-
+	void editarCarrera(CarreraDTO carreraDTO) throws Exception;
 }
