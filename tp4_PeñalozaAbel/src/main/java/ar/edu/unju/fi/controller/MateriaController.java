@@ -38,7 +38,7 @@ public class MateriaController {
 		model.addAttribute("titulo", "Materias");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("materias", materiaService.findAll());
+		model.addAttribute("materias", materiaService.findAllActive());
 		return "materias";
 	}
 
@@ -91,7 +91,7 @@ public class MateriaController {
 		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("cursos", Curso.values());
 		model.addAttribute("modalidades", Modalidad.values());
-		modelView.addObject("materias", materiaService.findAll());
+		modelView.addObject("materias", materiaService.findAllActive());
 
 		return modelView;
 
@@ -143,7 +143,7 @@ public class MateriaController {
 			model.addAttribute("mensaje", "Error al modificar la Materia: " + e.getMessage());
 		}
 
-		model.addAttribute("materias", materiaService.findAll());
+		model.addAttribute("materias", materiaService.findAllActive());
 		model.addAttribute("docentes", docenteService.findAll());
 		model.addAttribute("carreras", carreraService.findAll());
 		model.addAttribute("titulo", "Materias");
@@ -155,7 +155,7 @@ public class MateriaController {
 	@GetMapping("/eliminar/{idMateria}")
 	public String eliminarMateria(Model model, @PathVariable(value = "idMateria") Long idMateria) {
 		materiaService.deleteById(idMateria);
-		model.addAttribute("materias", materiaService.findAll());
+		model.addAttribute("materias", materiaService.findAllActive());
 		model.addAttribute("titulo", "Materias");
 		return "materias";
 	}

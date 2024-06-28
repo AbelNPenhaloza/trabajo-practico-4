@@ -11,6 +11,7 @@ import ar.edu.unju.fi.mapper.MateriaMapper;
 import ar.edu.unju.fi.model.Materia;
 import ar.edu.unju.fi.repository.MateriaRepository;
 import ar.edu.unju.fi.service.IMateriaService;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional
@@ -24,10 +25,16 @@ public class MateriaServiceImpl implements IMateriaService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<MateriaDTO> findAll() {
+	public List<MateriaDTO> findAllActive() {
+		List<Materia> materias = materiaRepository.findByEstadoTrue();
+		return materiaMapper.toMateriaDTOs(materias);
+	}
 
-		List<MateriaDTO> materiasDTO = materiaMapper.toMateriaDTOs(materiaRepository.findAll());
-		return materiasDTO;
+	@Override
+	@Transactional(readOnly = true)
+	public List<MateriaDTO> findAll() {
+		List<Materia> materias = materiaRepository.findAll();
+		return materiaMapper.toMateriaDTOs(materias);
 	}
 
 	@Override
@@ -37,21 +44,30 @@ public class MateriaServiceImpl implements IMateriaService {
 	}
 
 	@Override
-	public Materia save(MateriaDTO materiaDTO) {
+	@Transactional
+	public MateriaDTO save(MateriaDTO materiaDTO) {
 		Materia materia = materiaMapper.toMateria(materiaDTO);
-		return materiaRepository.save(materia);
+		materia = materiaRepository.save(materia);
+		return materiaMapper.toMateriaDTO(materia);
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(Long idMateria) {
-		Materia materia = materiaRepository.findById(idMateria).orElse(null);
-		if (materia != null) {
+		materiaRepository.findById(idMateria).ifPresentOrElse(materia -> {
 			materia.setEstado(false);
 			materiaRepository.save(materia);
-		}
+		}, () -> {
+			try {
+				throw new EntityNotFoundException("Materia no encontrada con id: " + idMateria);
+			} catch (EntityNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+		});
 	}
 
 	@Override
+	@Transactional
 	public void editarMateria(MateriaDTO materiaDTO) throws Exception {
 		Materia materia = materiaMapper.toMateria(materiaDTO);
 		if (!materiaRepository.existsById(materia.getIdMateria())) {

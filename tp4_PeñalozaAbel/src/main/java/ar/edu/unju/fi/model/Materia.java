@@ -58,6 +58,7 @@ public class Materia {
 	private Modalidad modalidad;
 
 	@NotNull(message = "Debe seleccionar un estado")
+	@Column(nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 
 	@OneToOne

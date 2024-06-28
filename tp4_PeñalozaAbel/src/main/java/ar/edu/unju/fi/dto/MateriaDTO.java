@@ -42,6 +42,7 @@ public class MateriaDTO {
 	private Modalidad modalidad;
 
 	@NotNull(message = "Debe seleccionar un estado")
+	@Column(nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 
 	@NotNull(message = "Debe seleccionar un Docente")
