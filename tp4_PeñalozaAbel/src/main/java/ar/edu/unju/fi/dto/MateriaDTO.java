@@ -34,7 +34,6 @@ public class MateriaDTO {
 
 	@NotNull(message = "Debe ingresar la cantidad de horas de la Materia")
 	@Pattern(regexp = "^(?:[1-9]?[0-9]|200)$", message = "La cantidad de horas debe estar entre 1 y 200")
-	@Column(name = "cantidad_de_horas")
 	private Integer cantidadDeHoras;
 
 	@NotNull(message = "Debe seleccionar una Modalidad")
