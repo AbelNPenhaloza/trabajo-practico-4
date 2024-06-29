@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "carreras")
+@Table(name = "CARRERAS")
 public class Carrera {
 	
 	@Id
@@ -46,7 +46,7 @@ public class Carrera {
 	@Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras")
 	private String nombre;
 	
-	@Column(name = "carrera_cantidad_años")
+	@Column(name = "carrera_cantidadAnios")
 	@NotBlank(message = "Debe ingresar la Cantidad de Anios")
 	@Pattern(regexp= "[1-7]")
 	private Byte cantidadAnios;
@@ -80,8 +80,6 @@ public class Carrera {
 		this.alumnos = alumnos;
 		this.materias = materias;
 	}
-
-	
 
 	
 
