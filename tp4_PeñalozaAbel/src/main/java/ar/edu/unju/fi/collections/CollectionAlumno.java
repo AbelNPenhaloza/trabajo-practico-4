@@ -10,10 +10,11 @@ import java.util.function.Predicate;
 import org.springframework.stereotype.Component;
 
 import ar.edu.unju.fi.model.Alumno;
-/**
+
 @Component
 public class CollectionAlumno {
 
+/**
 	private static List<Alumno> alumnos = new ArrayList<Alumno>();
 
 	
@@ -112,6 +113,5 @@ public class CollectionAlumno {
 		}
 
 	}
-
-}
 **/
+}
