@@ -25,7 +25,7 @@ public class Docente {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id_docente")
+	@Column(name = "docente_id")
 	private Long idDocente;
 	
 	@Column(name = "docente_legajo")
@@ -49,6 +49,7 @@ public class Docente {
 	private String correoElectronico;
 	
 	@NotNull(message = "Debe seleccionar un estado")
+	@Column(name = "docente_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 	
 	@Column(name = "docente_telefono")

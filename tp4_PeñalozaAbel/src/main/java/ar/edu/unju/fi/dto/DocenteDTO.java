@@ -38,6 +38,7 @@ public class DocenteDTO {
 	private String correoElectronico;
 	
 	@NotNull(message = "Debe seleccionar un estado")
+	@Column(name = "docente_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 	
 	@Column(name = "docente_telefono")
@@ -45,19 +46,4 @@ public class DocenteDTO {
 	@Pattern(regexp= "[0-9]*", message="Debe ingresar unicamente números")
 	@Size(min=7,max=15, message="El legajo debe contener como minimo 7 digitos y como maximo 15 digitos")
 	private String telefono;
-
-	public DocenteDTO(
-			@NotBlank(message = "Debe ingresar el legajo") @Size(min = 3, max = 12, message = "El legajo debe contener como minimo 3 digitos y como maximo 12 digitos") Integer legajo,
-			@NotBlank(message = "Debe ingresar nombre del docente") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras") String nombre,
-			@NotBlank(message = "Debe ingresar apellido del docente") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras") String apellido,
-			@NotBlank(message = "Debe ingresar correo del docente") @Email String correoElectronico,
-			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
-			@NotBlank(message = "Debe ingresar el telefono") @Pattern(regexp = "[0-9]*", message = "Debe ingresar unicamente números") @Size(min = 7, max = 15, message = "El legajo debe contener como minimo 7 digitos y como maximo 15 digitos") String telefono) {
-		this.legajo = legajo;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.correoElectronico = correoElectronico;
-		this.estado = estado;
-		this.telefono = telefono;
-	}
 }
