@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unju.fi.collections.CollectionCarrera;
+//import ar.edu.unju.fi.collections.CollectionCarrera;
 import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.model.Carrera;
 import ar.edu.unju.fi.service.ICarreraService;
-import ar.edu.unju.fi.service.imp.AlumnoServiceImpl;
-import ar.edu.unju.fi.service.imp.MateriaServiceImpl;
+//import ar.edu.unju.fi.service.imp.AlumnoServiceImpl;
+//import ar.edu.unju.fi.service.imp.MateriaServiceImpl;
 
 @Controller
 @RequestMapping("/carrera")
@@ -50,8 +50,8 @@ public class CarreraController {
 		model.addAttribute("carrera", carreraDTO);
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Carrera");
-		model.addAttribute("alumnos", AlumnoServiceImpl.findAll());
-		model.addAttribute("materias", MateriaServiceImpl.findAll());
+		//model.addAttribute("alumnos", AlumnoServiceImpl.findAll());
+		//model.addAttribute("materias", MateriaServiceImpl.findAll());
 
 		return "carrera";
 
@@ -67,8 +67,8 @@ public class CarreraController {
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Carrera");
-			model.addAttribute("alumnos", AlumnoServiceImpl.findAll());
-			model.addAttribute("materias", MateriaServiceImpl.findAll());
+			//model.addAttribute("alumnos", AlumnoServiceImpl.findAll());
+			//model.addAttribute("materias", MateriaServiceImpl.findAll());
 			modelView.setViewName("carrera");
 			return modelView;
 		}
@@ -100,8 +100,8 @@ public class CarreraController {
 
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("carrera", carreraDTO);
-		model.addAttribute("alumnos", alumnoService.findAll());
-		model.addAttribute("materias", materiaService.findAll());
+		//model.addAttribute("alumnos", alumnoService.findAll());
+		//model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Modificar Carrera");
 
 
@@ -114,9 +114,9 @@ public class CarreraController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", true);
-			model.addAttribute("titulo", "Modificar Materia");
-			model.addAttribute("docentes", alumnoService.findAll());
-			model.addAttribute("carreras", materiaService.findAll());
+			model.addAttribute("titulo", "Modificar Carrera");
+			//model.addAttribute("docentes", alumnoService.findAll());
+			//model.addAttribute("carreras", materiaService.findAll());
 			return "carrera";
 		}
 
@@ -129,8 +129,8 @@ public class CarreraController {
 			model.addAttribute("mensaje", "Error al modificar la Carrera: " + e.getMessage());
 		}
 		model.addAttribute("carreras", carreraService.findAll());
-		model.addAttribute("alumnoss", alumnoService.findAll());
-		model.addAttribute("materias", materiaService.findAll());
+		//model.addAttribute("alumnoss", alumnoService.findAll());
+		//model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Carreras");
 		return "carreras";
 
