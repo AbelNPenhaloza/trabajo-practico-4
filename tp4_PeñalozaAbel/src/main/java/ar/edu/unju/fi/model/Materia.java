@@ -2,10 +2,12 @@ package ar.edu.unju.fi.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +20,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -39,9 +42,8 @@ public class Materia {
 	private Long idMateria;
 
 	@NotBlank(message = "Debe ingresar el nombre de la Materia")
-	@Size(min = 3, max = 100, message = "El nombre de la materia debe tener entre 3 y 100 caracteres")
-	@Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras")
-	@Column(name = "materia_nombre")
+	@Pattern(regexp = "^[a-zA-Z\\s]{3,100}$", message = "El nombre debe contener solo letras y espacios, y tener entre 3 y 100 caracteres")
+	@Column(name = "materia_nombre", nullable = false)
 	private String nombre;
 
 	@NotNull(message = "Debe seleccionar un Curso")
@@ -66,17 +68,17 @@ public class Materia {
 
 	@OneToOne
 	@JoinColumn(name = "docente_id")
-	@NotNull(message = "Debe seleccionar un Docente")
+	@NotEmpty(message = "Debe seleccionar un Docente")
 	private Docente docente;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "carrera_id")
-	@NotNull(message = "Debe seleccionar una Carrera")
+	@NotEmpty(message = "Debe seleccionar una Carrera")
 	private Carrera carrera;
 
-	@ManyToMany
-	@JoinTable(name = "materias_alumnos", joinColumns = @JoinColumn(name = "alumno_id"), inverseJoinColumns = @JoinColumn(name = "materia_id"))
-	@NotNull(message = "Debe seleccionar uno o mas Alumnos")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "materias_alumnos", joinColumns = @JoinColumn(name = "materia_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
+	@NotEmpty(message = "Debe seleccionar uno o más Alumnos")
 	private List<Alumno> alumnos = new ArrayList<Alumno>();
 
 	/**
