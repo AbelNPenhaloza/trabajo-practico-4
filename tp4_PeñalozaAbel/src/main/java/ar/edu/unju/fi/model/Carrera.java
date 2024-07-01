@@ -61,9 +61,9 @@ public class Carrera {
 	private List<Alumno> alumnos = new ArrayList<Alumno>();
 	
 	@JoinColumn(name="materia_id")
-	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "carrera", cascade = CascadeType.ALL, orphanRemoval = true)
 	@NotNull(message = "Debe seleccionar una o mas materias. ")
-	private List<Materia> materias = new ArrayList<Materia>();
+	private List<Materia> materias = new ArrayList<>();
 
 	public Carrera(Integer idCarrera,
 			@NotBlank(message = "Debe ingresar el codigo de la carrera. ") @Size(min = 1, max = 5, message = "El codigo debe tener como minimo un digito. ") @Pattern(regexp = "[0-9]") Integer codigo,
@@ -80,6 +80,8 @@ public class Carrera {
 		this.alumnos = alumnos;
 		this.materias = materias;
 	}
+
+	
 
 
 	
