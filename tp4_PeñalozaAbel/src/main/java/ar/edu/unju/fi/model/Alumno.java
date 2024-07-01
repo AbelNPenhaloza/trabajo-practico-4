@@ -4,13 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,6 +42,7 @@ public class Alumno {
 	private Long idAlumno;
 		
 	@Column(name="alumno_lu", nullable = false)
+	@NotBlank(message="Debe ingresar la libreta universitaria")
 	private Integer lu;
 		
 	@Column(name="alumno_dni", nullable = false)
@@ -85,12 +84,34 @@ public class Alumno {
 	@NotBlank(message="Debe ingresar el domicilio")
 	private String domicilio;
 
-	@Autowired
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="carrera_id")
 	private Carrera carrera;
 	
 	@ManyToMany(mappedBy = "alumnos")
-	private List<Alumno> alumnos = new ArrayList<Alumno>();
+	private List<Materia> materias = new ArrayList<Materia>();
+
+	public Alumno(Long idAlumno, @NotBlank(message = "Debe ingresar la libreta universitaria") Integer lu,
+			@NotBlank(message = "Debe ingresar el dni") Integer dni,
+			@NotBlank(message = "Debe ingresar el nombre") @Size(min = 3, max = 20, message = "El nombre debe contener como mínimo 3 caracteres y como máximo 20 caracteres") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar únicamente letras") String nombre,
+			@NotBlank(message = "Debe ingresar el apellido") @Size(min = 3, max = 20, message = "El apellido debe contener como mínimo 3 caracteres y como máximo 20 caracteres") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar únicamente letras") String apellido,
+			@NotBlank(message = "Debe ingresar el correo electronico") @Email String correoElectronico,
+			@NotBlank(message = "Debe ingresar el telefono") String telefono,
+			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
+			@NotBlank(message = "Debe ingresar la fecha de nacimiento") @Past(message = "La fecha de nacimiento debe ser anterior a la fecha actual") LocalDate fechaNacimiento,
+			@NotBlank(message = "Debe ingresar el domicilio") String domicilio, Carrera carrera, List<Materia> materias) {
+		this.idAlumno = idAlumno;
+		this.lu = lu;
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.correoElectronico = correoElectronico;
+		this.telefono = telefono;
+		this.estado = estado;
+		this.fechaNacimiento = fechaNacimiento;
+		this.domicilio = domicilio;
+		this.carrera = carrera;
+		this.materias = materias;
+	}
 	
 }
