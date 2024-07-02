@@ -1,6 +1,5 @@
 package ar.edu.unju.fi.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,7 +33,6 @@ public class DocenteDTO {
 	private String correoElectronico;
 	
 	@NotNull(message = "Debe seleccionar un estado")
-	@Column(name = "docente_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 	
 	@NotBlank(message="Debe ingresar el telefono")
