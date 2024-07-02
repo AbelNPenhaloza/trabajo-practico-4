@@ -5,10 +5,10 @@ import java.util.List;
 
 import ar.edu.unju.fi.model.Curso;
 import ar.edu.unju.fi.model.Modalidad;
-import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -41,16 +41,15 @@ public class MateriaDTO {
 	private Modalidad modalidad;
 
 	@NotNull(message = "Debe seleccionar un estado")
-	@Column(nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 
-	@NotNull(message = "Debe seleccionar un Docente")
+	@NotEmpty(message = "Debe seleccionar un Docente")
 	private DocenteDTO docenteDTO;
 
-	@NotNull(message = "Debe seleccionar una Carrera")
+	@NotEmpty(message = "Debe seleccionar una Carrera")
 	private CarreraDTO carreraDTO;
 
-	@NotNull(message = "Debe seleccionar uno o mas Alumnos")
+	@NotEmpty(message = "Debe seleccionar uno o mas Alumnos")
 	private List<AlumnoDTO> alumnos = new ArrayList<AlumnoDTO>();
 
 
