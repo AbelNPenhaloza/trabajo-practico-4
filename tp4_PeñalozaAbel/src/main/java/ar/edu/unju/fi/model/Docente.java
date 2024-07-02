@@ -25,37 +25,37 @@ public class Docente {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "docente_id")
+	@Column(name = "docente_id", nullable = false)
 	private Long idDocente;
 	
-	@Column(name = "docente_legajo")
-	@NotBlank(message="Debe ingresar el legajo")
+	@NotBlank(message = "Debe ingresar el legajo")
 	@Size(min=3,max=12, message="El legajo debe contener como minimo 3 digitos y como maximo 12 digitos")
+	@Column(name = "docente_legajo", nullable = false)
 	private Integer legajo;
 	
-	@Column(name="docente_nombre")
 	@NotBlank(message="Debe ingresar nombre del docente")
 	@Pattern(regexp= "[a-z A-Z]*", message="Debe ingresar unicamente letras")
+	@Column(name="docente_nombre", nullable = false)
 	private String nombre;
 	
-	@Column(name="docente_apellido")
 	@NotBlank(message="Debe ingresar apellido del docente")
 	@Pattern(regexp= "[a-z A-Z]*", message="Debe ingresar unicamente letras")
+	@Column(name="docente_apellido", nullable = false)
 	private String apellido;
 	
-	@Column(name="docente_email")
 	@NotBlank(message="Debe ingresar correo del docente")
 	@Email
+	@Column(name="docente_email", nullable = false)
 	private String correoElectronico;
 	
 	@NotNull(message = "Debe seleccionar un estado")
 	@Column(name = "docente_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 	
-	@Column(name = "docente_telefono")
 	@NotBlank(message="Debe ingresar el telefono")
 	@Pattern(regexp= "[0-9]*", message="Debe ingresar unicamente números")
 	@Size(min=7,max=15, message="El legajo debe contener como minimo 7 digitos y como maximo 15 digitos")
+	@Column(name = "docente_telefono", nullable=false)
 	private String telefono;
 
 	public Docente(

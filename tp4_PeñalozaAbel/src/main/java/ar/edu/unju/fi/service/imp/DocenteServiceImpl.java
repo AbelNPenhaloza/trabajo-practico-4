@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unju.fi.dto.DocenteDTO;
 import ar.edu.unju.fi.mapper.DocenteMapper;
 import ar.edu.unju.fi.model.Docente;
 import ar.edu.unju.fi.repository.DocenteRepository;
 import ar.edu.unju.fi.service.IDocenteService;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
+@Transactional
 public class DocenteServiceImpl implements IDocenteService {
 	
 	@Autowired
@@ -21,46 +24,55 @@ public class DocenteServiceImpl implements IDocenteService {
 	private DocenteRepository docenteRepository;
 
 	@Override
+	@Transactional(readOnly = true)
+	public List<DocenteDTO> findAllActive() {
+		List<Docente> docentes = docenteRepository.findByEstadoTrue();
+		return docenteMapper.toDocenteDTOs(docentes);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
 	public List<DocenteDTO> findAll() {
-		
-		List<DocenteDTO> docentesDTO = docenteMapper.toDocenteDTOs(docenteRepository.findAll());
-		return docentesDTO;
+		List<Docente> docentes = docenteRepository.findAll();
+		return docenteMapper.toDocenteDTOs(docentes);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public DocenteDTO findById(Long idDocente) {
-		// Docente docente = docenteRepository.findById(idDocente).orElse(null);
-		// return docenteMapper.toDocenteDTO(docente);
-		return docenteMapper.toDocenteDTO(docenteRepository.findById(idDocente).get());
+		return docenteMapper.toDocenteDTO(docenteRepository.findById(idDocente).orElse(null));
 	}
 
 	@Override
-	public Docente save(DocenteDTO docenteDTO) {
-		// Docente docente = docenteMapper.toDocente(docenteDTO);
-		// docenteRepository.save(docente);
-		// return true;
-		Docente docente = docenteRepository.save(docenteMapper.toDocente(docenteDTO));
-		return docente;
+	@Transactional
+	public DocenteDTO save(DocenteDTO docenteDTO) {
+		Docente docente = docenteMapper.toDocente(docenteDTO);
+		docente = docenteRepository.save(docente);
+		return docenteMapper.toDocenteDTO(docente);
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(Long idDocente) {
-		//docenteRepository.deleteById(idCodigo);
-		Docente docente = docenteRepository.findById(idDocente).get();
-		docente.setEstado(false);
-		docenteRepository.save(docente);
-
+		docenteRepository.findById(idDocente).ifPresentOrElse(docente -> {
+			docente.setEstado(false);
+			docenteRepository.save(docente);
+		}, () -> {
+			try {
+				throw new EntityNotFoundException("Docente no encontrado con id: " + idDocente);
+			} catch (EntityNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+		});
 	}
 
 	@Override
+	@Transactional
 	public void editarDocente(DocenteDTO docenteDTO) throws Exception {
-		/*
-		 * Docente docente= docenteMapper.toDocente(docenteDTO); if
-		 * (docenteRepository.existsById(docente.getIdCodigo())) {
-		 * docenteRepository.save(docente); } else { throw new
-		 * Exception("El docente con codigo: " + docente.getIdDocente() + " no existe");
-		 * }
-		 */
-		docenteRepository.save(docenteMapper.toDocente(docenteDTO));
+		Docente docente = docenteMapper.toDocente(docenteDTO);
+		if(!docenteRepository.existsById(docente.getIdDocente())) {
+			throw new Exception("La materia con ID " + docente.getIdDocente() + " no existe.");
+		}
+		docenteRepository.save(docente);
 	}
 }

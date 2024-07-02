@@ -17,22 +17,18 @@ import lombok.Setter;
 public class DocenteDTO {
 	private Long idDocente;
 	
-	@Column(name = "docente_legajo")
 	@NotBlank(message="Debe ingresar el legajo")
 	@Size(min=3,max=12, message="El legajo debe contener como minimo 3 digitos y como maximo 12 digitos")
 	private Integer legajo;
 	
-	@Column(name="docente_nombre")
 	@NotBlank(message="Debe ingresar nombre del docente")
 	@Pattern(regexp= "[a-z A-Z]*", message="Debe ingresar unicamente letras")
 	private String nombre;
 	
-	@Column(name="docente_apellido")
 	@NotBlank(message="Debe ingresar apellido del docente")
 	@Pattern(regexp= "[a-z A-Z]*", message="Debe ingresar unicamente letras")
 	private String apellido;
 	
-	@Column(name="docente_email")
 	@NotBlank(message="Debe ingresar correo del docente")
 	@Email
 	private String correoElectronico;
@@ -41,7 +37,6 @@ public class DocenteDTO {
 	@Column(name = "docente_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 	
-	@Column(name = "docente_telefono")
 	@NotBlank(message="Debe ingresar el telefono")
 	@Pattern(regexp= "[0-9]*", message="Debe ingresar unicamente números")
 	@Size(min=7,max=15, message="El legajo debe contener como minimo 7 digitos y como maximo 15 digitos")
