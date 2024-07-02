@@ -12,16 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.DocenteDTO;
-import ar.edu.unju.fi.model.Docente;
 import ar.edu.unju.fi.service.IDocenteService;
 import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/docente")
 public class DocenteController {
-	
-	@Autowired
-	private DocenteDTO docenteDTO;
 	
 	@Autowired
 	private IDocenteService docenteService;
@@ -33,7 +29,7 @@ public class DocenteController {
 		model.addAttribute("titulo", "Docentes");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("docentes", docenteService.findAll());
+		model.addAttribute("docentes", docenteService.findAllActive());
 		return "docentes";
 	}
 
@@ -43,7 +39,7 @@ public class DocenteController {
 		
 		boolean edicion = false;
 
-		model.addAttribute("docente", docenteDTO);
+		model.addAttribute("docente", new DocenteDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Docente");
 
@@ -64,41 +60,35 @@ public class DocenteController {
 			modelView.setViewName("docente");
 			return modelView;
 		}
-
-		Docente docente = docenteService.save(docenteDTO);
 		
-		if (docente != null) {
-			mensaje = "Docente guardado con exito";
+		try {
+			docenteService.save(docenteDTO);
+			mensaje= "Docente guardado con éxito!";
 			model.addAttribute("exito", true);
-		} else {
-			mensaje = "El Docente no se pudo guardar";
+		} catch (Exception e) {
+			mensaje= "Docente no se pudo guardar: " + e.getMessage();
 			model.addAttribute("exito", false);
 		}
 		
-		// model.addAttribute("exito", exito);
 		model.addAttribute("mensaje", mensaje);
-		modelView.addObject("docentes", docenteService.findAll());
+		modelView.addObject("docentes", docenteService.findAllActive());
 
 		return modelView;
-		
 	}
 
 	// Metodo que presenta el formulario para modificar
 	@GetMapping("/modificar/{idDocente}")
 	public String getModificarDocentePage(Model model, @PathVariable(value = "idDocente") Long idDocente) {
 		
-		DocenteDTO docenteEncontradoDTO = new DocenteDTO();
+		DocenteDTO docenteDTO = docenteService.findById(idDocente);
 		// toma valor verdadero para editar
 		boolean edicion = true;
-		// hacer validadcion si o si
 		
-		docenteEncontradoDTO = docenteService.findById(idDocente);
 		model.addAttribute("edicion", edicion);
-		model.addAttribute("docente", docenteEncontradoDTO);
+		model.addAttribute("docente", docenteDTO);
 		model.addAttribute("titulo", "Modificar Docente");
 
 		return "docente";
-		
 	}
 
 	// Metodo para modificar y guardar la modificacion en la Collection
@@ -112,35 +102,24 @@ public class DocenteController {
 			return "materia";
 		}
 		
-		boolean exito = false;
-		String mensaje = "";
 		try {
 			docenteService.editarDocente(docenteDTO);
-			mensaje = "El docente con codigo " + docenteDTO.getIdDocente() + " fue modificado con exito!";
-			exito = true;
+			model.addAttribute("exito", true);
+			model.addAttribute("mensaje", "Docente fue modificado con éxito!");
 		} catch (Exception e) {
-			mensaje = e.getMessage();
-			e.printStackTrace();
+			model.addAttribute("exito", false);
+			model.addAttribute("mensaje", "Error al modificar el Docente: " + e.getMessage());
 		}
 
-		model.addAttribute("docentes", docenteService.findAll());
-		model.addAttribute("exito", exito);
-		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("docentes", docenteService.findAllActive());
 		model.addAttribute("titulo", "Docentes");
 		return "docentes";
 	}
 
-	// Metodo para eliminar un docente
-	// @GetMapping("/eliminar/{idDocente}")
-	// public String eliminarDocente(@PathVariable(value = "idDocente") Long idDocente) {
-	//	docenteService.deleteById(idDocente);
-	//	return "redirect:/docente/listado";
-	// }
-	
 	@GetMapping("/eliminar/{idDocente}")
 	public String eliminarDocente(Model model, @PathVariable(value = "idDocente") Long idDocente) {
 		docenteService.deleteById(idDocente);
-		model.addAttribute("docentes", docenteService.findAll());
+		model.addAttribute("docentes", docenteService.findAllActive());
 		model.addAttribute("titulo", "Docentes");
 		return "docentes";
 	}
