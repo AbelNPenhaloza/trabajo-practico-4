@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -22,7 +21,6 @@ public class CarreraDTO {
 	
 	private Integer idCarrera;
 
-	@Column(name = "carrera_codigo")
 	@NotBlank(message = "Debe ingresar el codigo de la carrera. ")
 	@Size(min= 1, max=5, message = "El codigo debe tener como minimo un digito. ")
 	@Pattern(regexp= "[0-9]")
@@ -38,7 +36,6 @@ public class CarreraDTO {
 	private Byte cantidadAnios;
 	
 	@NotNull(message = "Debe seleccionar un estado")
-	@Column(nullable = false, columnDefinition = "boolean default true")
 	private boolean estado;
 	
 	@NotNull(message = "Debe seleccionar uno o mas alumnos.")

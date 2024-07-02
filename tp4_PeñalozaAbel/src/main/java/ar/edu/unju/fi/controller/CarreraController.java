@@ -11,22 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-//import ar.edu.unju.fi.collections.CollectionCarrera;
 import ar.edu.unju.fi.dto.CarreraDTO;
-import ar.edu.unju.fi.model.Carrera;
 import ar.edu.unju.fi.service.ICarreraService;
-//import ar.edu.unju.fi.service.imp.AlumnoServiceImpl;
-//import ar.edu.unju.fi.service.imp.MateriaServiceImpl;
 
 @Controller
 @RequestMapping("/carrera")
 public class CarreraController {
-
-	
-	
-	@Autowired
-	private CarreraDTO carreraDTO;
-	//private Carrera carrera;
 	
 	@Autowired
 	private ICarreraService carreraService;
@@ -37,7 +27,7 @@ public class CarreraController {
 		model.addAttribute("titulo", "Carreras");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("carreras", carreraService.findAll());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		return "carreras";
 
 	}
@@ -47,11 +37,9 @@ public class CarreraController {
 	public String getNuevaCarreraPage(Model model) {
 		boolean edicion = false;
 
-		model.addAttribute("carrera", carreraDTO);
+		model.addAttribute("carrera", new CarreraDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Carrera");
-		//model.addAttribute("alumnos", AlumnoServiceImpl.findAll());
-		//model.addAttribute("materias", MateriaServiceImpl.findAll());
 
 		return "carrera";
 
@@ -67,25 +55,21 @@ public class CarreraController {
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Carrera");
-			//model.addAttribute("alumnos", AlumnoServiceImpl.findAll());
-			//model.addAttribute("materias", MateriaServiceImpl.findAll());
 			modelView.setViewName("carrera");
 			return modelView;
 		}
 
-		Carrera carrera = carreraService.save(carreraDTO);
-		
-		if (carrera != null) {
-			mensaje = "carrera guardada con exito";
+		try {
+			carreraService.save(carreraDTO);
+			mensaje= "Carrera guardada con éxito!";
 			model.addAttribute("exito", true);
-		} else {
-			mensaje = "La Carrera no se pudo guardar";
+		} catch (Exception e) {
+			mensaje= "Carrera no se pudo guardar: " + e.getMessage();
 			model.addAttribute("exito", false);
 		}
 		
-		// model.addAttribute("exito", exito);
 		model.addAttribute("mensaje", mensaje);
-		modelView.addObject("carreras", carreraService.findAll());
+		modelView.addObject("carreras", carreraService.findAllActive());
 
 		return modelView;
 		
@@ -100,8 +84,6 @@ public class CarreraController {
 
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("carrera", carreraDTO);
-		//model.addAttribute("alumnos", alumnoService.findAll());
-		//model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Modificar Carrera");
 
 
@@ -110,13 +92,12 @@ public class CarreraController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarCarrera(@ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model) {
+	public String modificarCarrera(@ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result,
+			Model model) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", true);
 			model.addAttribute("titulo", "Modificar Carrera");
-			//model.addAttribute("docentes", alumnoService.findAll());
-			//model.addAttribute("carreras", materiaService.findAll());
 			return "carrera";
 		}
 
@@ -128,9 +109,7 @@ public class CarreraController {
 			model.addAttribute("exito", false);
 			model.addAttribute("mensaje", "Error al modificar la Carrera: " + e.getMessage());
 		}
-		model.addAttribute("carreras", carreraService.findAll());
-		//model.addAttribute("alumnoss", alumnoService.findAll());
-		//model.addAttribute("materias", materiaService.findAll());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		model.addAttribute("titulo", "Carreras");
 		return "carreras";
 
@@ -140,7 +119,7 @@ public class CarreraController {
 	@GetMapping("/eliminar/{idCarrera}")
 	public String eliminarCarrera(Model model, @PathVariable(value = "idCarrera") Integer idCarrera) {
 		carreraService.deleteById(idCarrera);
-		model.addAttribute("carrerass", carreraService.findAll());
+		model.addAttribute("carrerass", carreraService.findAllActive());
 		model.addAttribute("titulo", "Carreras");
 		return "carrera";
 	}
