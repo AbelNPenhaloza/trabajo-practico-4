@@ -2,7 +2,6 @@ package ar.edu.unju.fi.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,7 +22,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -71,7 +69,7 @@ public class Materia {
 	@NotEmpty(message = "Debe seleccionar un Docente")
 	private Docente docente;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "carrera_id")
 	@NotEmpty(message = "Debe seleccionar una Carrera")
 	private Carrera carrera;
@@ -92,14 +90,14 @@ public class Materia {
 	 * @param alumnos
 	 */
 	public Materia(
-			@NotBlank(message = "Debe ingresar el nombre de la Materia") @Size(min = 3, max = 100, message = "El nombre de la materia debe tener entre 3 y 100 caracteres") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras") String nombre,
+			@NotBlank(message = "Debe ingresar el nombre de la Materia") @Pattern(regexp = "^[a-zA-Z\\s]{3,100}$", message = "El nombre debe contener solo letras y espacios, y tener entre 3 y 100 caracteres") String nombre,
 			@NotNull(message = "Debe seleccionar un Curso") Curso curso,
 			@NotNull(message = "Debe ingresar la cantidad de horas de la Materia") @Min(value = 1, message = "La cantidad de horas debe ser al menos 1") @Max(value = 200, message = "La cantidad de horas no puede exceder 200") Integer cantidadDeHoras,
 			@NotNull(message = "Debe seleccionar una Modalidad") Modalidad modalidad,
 			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
-			@NotNull(message = "Debe seleccionar un Docente") Docente docente,
-			@NotNull(message = "Debe seleccionar una Carrera") Carrera carrera,
-			@NotNull(message = "Debe seleccionar uno o mas Alumnos") List<Alumno> alumnos) {
+			@NotEmpty(message = "Debe seleccionar un Docente") Docente docente,
+			@NotEmpty(message = "Debe seleccionar una Carrera") Carrera carrera,
+			@NotEmpty(message = "Debe seleccionar uno o más Alumnos") List<Alumno> alumnos) {
 		this.nombre = nombre;
 		this.curso = curso;
 		this.cantidadDeHoras = cantidadDeHoras;
@@ -109,5 +107,7 @@ public class Materia {
 		this.carrera = carrera;
 		this.alumnos = alumnos;
 	}
+
+
 
 }
