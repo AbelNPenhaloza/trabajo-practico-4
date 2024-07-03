@@ -4,12 +4,17 @@ import java.util.List;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.model.Carrera;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { AlumnoMapper.class, MateriaMapper.class })
 public interface CarreraMapper {
+	
+	@Mappings({ @Mapping(target = "alumnos", source = "alumnos"), 
+		@Mapping(target = "materias", source = "materias") })
 
 	CarreraDTO toCarreraDTO(Carrera carrera);
 
@@ -19,6 +24,5 @@ public interface CarreraMapper {
 	List<CarreraDTO> toCarreraDTOs(List<Carrera> carreras);
 
 	List<Carrera> toCarreras(List<CarreraDTO> CarreraDTOs);
-
 
 }

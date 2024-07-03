@@ -1,14 +1,7 @@
 package ar.edu.unju.fi.collections;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-
 import org.springframework.stereotype.Component;
 
-import ar.edu.unju.fi.model.Carrera;
 
 @Component
 public class CollectionCarrera {
