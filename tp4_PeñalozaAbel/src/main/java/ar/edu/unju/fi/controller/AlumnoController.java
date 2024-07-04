@@ -48,11 +48,11 @@ public class AlumnoController {
 	// Metodo para guardar un alumno nuevo usando el boton guardar
 	@PostMapping("/guardar")
 	public ModelAndView guardarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model , BindingResult result) {
+		
 		ModelAndView modelView = new ModelAndView("alumnos");
 		String mensaje;
 		
 		if(result.hasErrors()) {
-			modelView = new ModelAndView("alumnos");
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nuevo Alumno");
 			modelView.setViewName("alumno");
@@ -61,10 +61,10 @@ public class AlumnoController {
 		
 		try {
 			alumnoService.save(alumnoDTO);
-			mensaje = "Alumno guardado con exito";
+			mensaje = "Alumno guardado con exito!";
 			model.addAttribute("exito", true);
 		} catch (Exception e) {
-			mensaje = "El Alumno no se pudo guardar";
+			mensaje = "El Alumno no se pudo guardar" + e.getMessage();
 			model.addAttribute("exito", false);	
 		}
 		
@@ -78,15 +78,15 @@ public class AlumnoController {
 	// Metodo que presenta el formulario para modificar
 	@GetMapping("/modificar/{idAlumno}")
 	public String getModificarAlumnoPage(Model model, @PathVariable(value = "idAlumno") Long idAlumno) {
-        AlumnoDTO alumnoEncontradoDTO= new AlumnoDTO();
+        
+		
+		AlumnoDTO alumnoDTO = alumnoService.findById(idAlumno);
 
 		// toma valor verdadero para editar
 		boolean edicion = true;
 
-		alumnoEncontradoDTO = alumnoService.findById(idAlumno);
-
 		model.addAttribute("edicion", edicion);
-		model.addAttribute("alumno", alumnoEncontradoDTO);
+		model.addAttribute("alumno", alumnoDTO);
 		model.addAttribute("titulo", "Modificar Alumno");
 
 		return "alumno";
@@ -105,10 +105,10 @@ public class AlumnoController {
 		try {
 			alumnoService.editarAlumno(alumnoDTO);
 			model.addAttribute("exito",true);
-			model.addAttribute("mensaje", "El alumno fue modificado con exito");
+			model.addAttribute("mensaje", "El alumno fue modificado con exito!");
 		} catch (Exception e) {
 			model.addAttribute("exito",false);
-			model.addAttribute("mensaje", "Error al modificar el alumno");
+			model.addAttribute("mensaje", "Error al modificar el Alumno"+ e.getMessage());
 		}
 
 		model.addAttribute("alumnos", alumnoService.findAllactive());
