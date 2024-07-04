@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="es-AR">
+	<head data-th-replace="~{/layouts/header::head}"></head>
+<body>
+	<div class="container">
+		<header data-th-replace="~{/layouts/header::header}"></header>
+		<main>
+			<h1>Filtrar Alumnos por Materia</h1>
+		    <form th:action="@{/materia/alumnos/filtro}" method="post">
+		        <div class="mb-3">
+		            <label for="materia" class="form-label">Seleccionar Materia</label>
+		            <select id="materia" name="idMateria" class="form-select" required>
+		                <option th:each="materia : ${materias}" th:value="${materia.idMateria}" th:text="${materia.nombre}"></option>
+		            </select>
+		        </div>
+		        <button type="submit" class="btn btn-primary">Filtrar</button>
+		    </form>
+
+		    <div th:if="${materia != null}">
+		        <h2>Alumnos en <span th:text="${materia.nombre}"></span></h2>
+		        <table class="table">
+		            <thead>
+		            <tr>
+		                <th>Nombre</th>
+		                <th>Apellido</th>
+		                <th>Correo Electrónico</th>
+		            </tr>
+		            </thead>
+		            <tbody>
+		            <tr th:each="alumno : ${alumnos}">
+		                <td th:text="${alumno.nombre}"></td>
+		                <td th:text="${alumno.apellido}"></td>
+		                <td th:text="${alumno.email}"></td>
+		            </tr>
+		            </tbody>
+		        </table>
+		    </div>	
+		</main>
+		<footer data-th-replace="~{/layouts/footer::footer}"></footer>
+	
+	</div>
+	
+	<script data-th-src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package ar.edu.unju.fi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.MateriaDTO;
@@ -24,21 +26,32 @@ import jakarta.validation.Valid;
 @RequestMapping("/materia")
 public class MateriaController {
 
-	@Autowired
-	private IMateriaService materiaService;
-	@Autowired
-	private IDocenteService docenteService;
-	@Autowired
-	private ICarreraService carreraService;
+	private final IMateriaService materiaService;
+	private final IDocenteService docenteService;
+	private final ICarreraService carreraService;
+
+	/**
+	 * @param materiaService
+	 * @param docenteService
+	 * @param carreraService
+	 */
+
+	public MateriaController(IMateriaService materiaService, IDocenteService docenteService,
+			ICarreraService carreraService) {
+		this.materiaService = materiaService;
+		this.docenteService = docenteService;
+		this.carreraService = carreraService;
+	}
 
 	// Metodo para listar todas materias
 	@GetMapping("/listado")
 	public String getMateriasPage(Model model) {
+		List<MateriaDTO> materias = materiaService.findAllActive();
 
 		model.addAttribute("titulo", "Materias");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("materias", materiaService.findAllActive());
+		model.addAttribute("materias", materias);
 		return "materias";
 	}
 
@@ -48,13 +61,13 @@ public class MateriaController {
 
 		boolean edicion = false;
 
-		model.addAttribute("materia", new MateriaDTO());// nuevo
+		model.addAttribute("materia", new MateriaDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Materia");
 		model.addAttribute("modalidades", Modalidad.values());
 		model.addAttribute("cursos", Curso.values());
-		model.addAttribute("docentes", docenteService.findAll());
-		model.addAttribute("carreras", carreraService.findAll());
+		model.addAttribute("docentes", docenteService.findAllActive());
+		model.addAttribute("carreras", carreraService.findAllActive());
 
 		return "materia";
 	}
@@ -73,8 +86,8 @@ public class MateriaController {
 			model.addAttribute("titulo", "Nueva Materia");
 			model.addAttribute("modalidades", Modalidad.values());
 			model.addAttribute("cursos", Curso.values());
-			model.addAttribute("docentes", docenteService.findAll());
-			model.addAttribute("carreras", carreraService.findAll());
+			model.addAttribute("docentes", docenteService.findAllActive());
+			model.addAttribute("carreras", carreraService.findAllActive());
 			modelView.setViewName("materia");
 			return modelView;
 		}
@@ -111,8 +124,8 @@ public class MateriaController {
 		model.addAttribute("materia", materiaDTO);
 		model.addAttribute("cursos", Curso.values());
 		model.addAttribute("modalidades", Modalidad.values());
-		model.addAttribute("docentes", docenteService.findAll());
-		model.addAttribute("carreras", carreraService.findAll());
+		model.addAttribute("docentes", docenteService.findAllActive());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		model.addAttribute("titulo", "Modificar Materia");
 
 		return "materia";
@@ -129,8 +142,8 @@ public class MateriaController {
 			model.addAttribute("titulo", "Modificar Materia");
 			model.addAttribute("modalidades", Modalidad.values());
 			model.addAttribute("cursos", Curso.values());
-			model.addAttribute("docentes", docenteService.findAll());
-			model.addAttribute("carreras", carreraService.findAll());
+			model.addAttribute("docentes", docenteService.findAllActive());
+			model.addAttribute("carreras", carreraService.findAllActive());
 			return "materia";
 		}
 
@@ -144,8 +157,8 @@ public class MateriaController {
 		}
 
 		model.addAttribute("materias", materiaService.findAllActive());
-		model.addAttribute("docentes", docenteService.findAll());
-		model.addAttribute("carreras", carreraService.findAll());
+		model.addAttribute("docentes", docenteService.findAllActive());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		model.addAttribute("titulo", "Materias");
 		return "materias";
 
@@ -158,6 +171,21 @@ public class MateriaController {
 		model.addAttribute("materias", materiaService.findAllActive());
 		model.addAttribute("titulo", "Materias");
 		return "materias";
+	}
+
+	@GetMapping("/alumnos/filtro")
+	public String filtroAlumnosPorMateria(Model model) {
+		model.addAttribute("materias", materiaService.findAllActive());
+		return "filtro-alumnos-materia";
+	}
+
+	@PostMapping("/alumnos/filtro")
+	public String filtrarAlumnosPorMateria(@RequestParam Long idMateria, Model model) {
+		MateriaDTO materia = materiaService.findById(idMateria);
+		model.addAttribute("alumnos", materia.getAlumnos());
+		model.addAttribute("materia", materia);
+		model.addAttribute("materias", materiaService.findAllActive());
+		return "filtro-alumnos-materia";
 	}
 
 

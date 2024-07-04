@@ -52,6 +52,4 @@ public class MateriaDTO {
 	@NotEmpty(message = "Debe seleccionar uno o mas Alumnos")
 	private List<AlumnoDTO> alumnos = new ArrayList<AlumnoDTO>();
 
-
-
 }
