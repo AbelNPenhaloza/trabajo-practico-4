@@ -18,7 +18,7 @@
               <span></span>
          </a>
          <ul class="nav nav-pills">
-             <li class="nav-item"><a href="#" class="nav-link">Inicio</a></li>
+             <li class="nav-item"><a th:href="@{/inicio}" class="nav-link">Inicio</a></li>
              <li class="nav-item dropdown">
          	 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           	  Administracion
@@ -28,6 +28,9 @@
             <li><a class="dropdown-item" th:href="@{/docente/listado}">Docentes</a></li>
             <li><a class="dropdown-item" th:href="@{/alumno/listado}">Alumnos</a></li>
             <li><a class="dropdown-item" th:href="@{/materia/listado}">Materias</a></li>
+            <li><a class="dropdown-item" th:href="@{/alumno/inscripcion}">Inscribir Alumno en Materia</a></li>
+            <li><a class="dropdown-item" th:href="@{/carrera/alumnos}">Consultar Alumnos por Carrera</a></li>
+            <li><a class="dropdown-item" th:href="@{/materia/alumnos/filtro}">Filtrar Alumnos por Materia</a></li>
           </ul>
         </li>
              <li class="nav-item"><a href="#" class="nav-link">Noticias</a></li>
