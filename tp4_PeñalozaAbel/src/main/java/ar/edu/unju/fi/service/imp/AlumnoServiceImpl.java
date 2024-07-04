@@ -20,21 +20,29 @@ public class AlumnoServiceImpl implements IAlumnoService {
 	@Autowired
 	private AlumnoRepository alumnoRepository;
 	
+
+	@Override
+	public List<AlumnoDTO> findAllactive() {
+		List<Alumno> alumnos = alumnoRepository.findByEstadoTrue();	
+		return alumnoMapper.toAlumnoDTOs(alumnos);
+	}
+	
 	@Override
 	public List<AlumnoDTO> findAll() {
-		List<AlumnoDTO> alumnosDTO = alumnoMapper.toAlumnoDTOs(alumnoRepository.findAll());
-		return alumnosDTO;
+		List<Alumno> alumnos = alumnoRepository.findAll();
+		return alumnoMapper.toAlumnoDTOs(alumnos);
 	}
 
 	@Override
 	public AlumnoDTO findById(Long idAlumno) {
-		return alumnoMapper.toAlumnoDTO(alumnoRepository.findById(idAlumno).get());
+		return alumnoMapper.toAlumnoDTO(alumnoRepository.findById(idAlumno).orElse(null));
 	}
 
 	@Override
-	public Alumno save(AlumnoDTO alumnoDTO) {
-	   Alumno alumno = alumnoRepository.save(alumnoMapper.toAlumno(alumnoDTO));
-	   return alumno;
+	public AlumnoDTO save(AlumnoDTO alumnoDTO) {
+	   Alumno alumno = alumnoMapper.toAlumno(alumnoDTO);
+	   alumno = alumnoRepository.save(alumno);
+	   return alumnoMapper.toAlumnoDTO(alumno);
 	}
 
 	@Override
@@ -46,7 +54,10 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
 	@Override
 	public void editarAlumno(AlumnoDTO alumnoDTO) throws Exception {
-        alumnoRepository.save(alumnoMapper.toAlumno(alumnoDTO));
+		Alumno alumno = alumnoMapper.toAlumno(alumnoDTO);
+		if(!alumnoRepository.existsById(alumno.getIdAlumno())) {
+			throw new Exception("El alumno con ID " + alumno.getIdAlumno() + " no existe.");		
+		}
+        alumnoRepository.save(alumno);
 	}
-
 }
