@@ -20,9 +20,6 @@ import jakarta.validation.Valid;
 public class AlumnoController {
 
 	@Autowired
-	private AlumnoDTO alumnoDTO;
-
-	@Autowired
 	private IAlumnoService alumnoService;
 
 	@GetMapping("/listado")
@@ -41,7 +38,7 @@ public class AlumnoController {
 
 		boolean edicion = false;
 
-		model.addAttribute("alumno", alumnoDTO);
+		model.addAttribute("alumno", new AlumnoDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nuevo Alumno");
 
