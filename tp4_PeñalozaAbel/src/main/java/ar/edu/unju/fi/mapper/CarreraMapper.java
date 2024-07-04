@@ -12,9 +12,9 @@ import ar.edu.unju.fi.model.Carrera;
 
 @Mapper(componentModel = "spring", uses = { AlumnoMapper.class, MateriaMapper.class })
 public interface CarreraMapper {
-	
-	@Mappings({ @Mapping(source = "alumnos", target = "alumnos"), 
-		@Mapping(source = "materias", target = "materias") })
+
+	@Mappings({ @Mapping(source = "alumnos", target = "alumnos", ignore = true),
+			@Mapping(source = "materias", target = "materias", ignore = true) })
 
 	CarreraDTO toCarreraDTO(Carrera carrera);
 
