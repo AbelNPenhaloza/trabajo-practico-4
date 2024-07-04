@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
-import ar.edu.unju.fi.model.Alumno;
 import ar.edu.unju.fi.service.IAlumnoService;
 import jakarta.validation.Valid;
 
@@ -22,7 +21,6 @@ public class AlumnoController {
 
 	@Autowired
 	private AlumnoDTO alumnoDTO;
-	// private Alumno alumno;
 
 	@Autowired
 	private IAlumnoService alumnoService;
@@ -33,7 +31,7 @@ public class AlumnoController {
 		model.addAttribute("titulo", "Alumnos");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("alumnos", alumnoService.findAll());
+		model.addAttribute("alumnos", alumnoService.findAllactive());
 		return "alumnos";
 	}
 
@@ -64,18 +62,18 @@ public class AlumnoController {
 			return modelView;		
 		}
 		
-		Alumno alumno = alumnoService.save(alumnoDTO);
-		
-		if(alumno!=null) {
+		try {
+			alumnoService.save(alumnoDTO);
 			mensaje = "Alumno guardado con exito";
-			model.addAttribute("exito", true);		
-		}else{
+			model.addAttribute("exito", true);
+		} catch (Exception e) {
 			mensaje = "El Alumno no se pudo guardar";
-			model.addAttribute("exito", false);
+			model.addAttribute("exito", false);	
 		}
 		
+		
 		model.addAttribute("mensaje", mensaje);
-		modelView.addObject("alumnos", alumnoService.findAll());
+		modelView.addObject("alumnos", alumnoService.findAllactive());
 		
 		return modelView;
 	}
@@ -106,23 +104,17 @@ public class AlumnoController {
 			model.addAttribute("titulo","Modificar Alumno");
 			return "alumno";
 		}
-			
-		boolean exito = false;
-		String mensaje = "";
-		
-		
+				
 		try {
 			alumnoService.editarAlumno(alumnoDTO);
-			mensaje = "El alumno con codigo " + alumnoDTO.getLu() + " fue modificado con exito!";
-			exito = true;
+			model.addAttribute("exito",true);
+			model.addAttribute("mensaje", "El alumno fue modificado con exito");
 		} catch (Exception e) {
-			mensaje = e.getMessage();
-			e.printStackTrace();
+			model.addAttribute("exito",false);
+			model.addAttribute("mensaje", "Error al modificar el alumno");
 		}
 
-		model.addAttribute("alumnos", alumnoService.findAll());
-		model.addAttribute("exito", exito);
-		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("alumnos", alumnoService.findAllactive());
 		model.addAttribute("titulo", "Alumnos");
 		
 		return "alumnos";
@@ -130,8 +122,11 @@ public class AlumnoController {
 
 	// Metodo para eliminar una alumno
 	@GetMapping("/eliminar/{idAlumno}")
-	public String eliminarAlumno(@PathVariable(value = "idAlumno") Long idAlumno) {
+	public String eliminarAlumno(Model model, @PathVariable(value = "idAlumno") Long idAlumno) {
 		alumnoService.deleteById(idAlumno);
-		return "redirect:/alumno/listado";
+		model.addAttribute("alumnos", alumnoService.findAllactive());
+		model.addAttribute("titulo", "Alumnos");
+		
+		return "alumnos";
 	}
 }
