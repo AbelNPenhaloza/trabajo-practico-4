@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.CarreraDTO;
+import ar.edu.unju.fi.service.IAlumnoService;
 import ar.edu.unju.fi.service.ICarreraService;
+import ar.edu.unju.fi.service.IMateriaService;
 
 @Controller
 @RequestMapping("/carrera")
@@ -20,6 +22,12 @@ public class CarreraController {
 	
 	@Autowired
 	private ICarreraService carreraService;
+	
+	@Autowired
+	private IAlumnoService alumnoService;
+	
+	@Autowired
+	private IMateriaService materiaService;
 
 	@GetMapping("/listado")
 	public String getCarrerasPage(Model model) {
@@ -40,6 +48,8 @@ public class CarreraController {
 		model.addAttribute("carrera", new CarreraDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Carrera");
+		model.addAttribute("alumnos", alumnoService.findAll());
+		model.addAttribute("materias", materiaService.findAll());
 
 		return "carrera";
 
@@ -55,6 +65,8 @@ public class CarreraController {
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Carrera");
+			model.addAttribute("alumnos", alumnoService.findAll());
+			model.addAttribute("materias", materiaService.findAll());
 			modelView.setViewName("carrera");
 			return modelView;
 		}
@@ -84,6 +96,8 @@ public class CarreraController {
 
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("carrera", carreraDTO);
+		model.addAttribute("alumnos", alumnoService.findAll());
+		model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Modificar Carrera");
 
 
@@ -98,6 +112,8 @@ public class CarreraController {
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", true);
 			model.addAttribute("titulo", "Modificar Carrera");
+			model.addAttribute("alumnos", alumnoService.findAll());
+			model.addAttribute("materias", materiaService.findAll());
 			return "carrera";
 		}
 
@@ -110,6 +126,8 @@ public class CarreraController {
 			model.addAttribute("mensaje", "Error al modificar la Carrera: " + e.getMessage());
 		}
 		model.addAttribute("carreras", carreraService.findAllActive());
+		model.addAttribute("alumnos", alumnoService.findAll());
+		model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Carreras");
 		return "carreras";
 

@@ -62,14 +62,13 @@ public class Carrera {
 	@NotEmpty(message = "Debe seleccionar una o mas materias. ")
 	private List<Materia> materias = new ArrayList<>();
 
-	public Carrera(Integer idCarrera,
+	public Carrera(
 			@NotBlank(message = "Debe ingresar el codigo de la carrera. ") @Size(min = 1, max = 5, message = "El codigo debe tener como minimo un digito. ") @Pattern(regexp = "[0-9]") Integer codigo,
 			@NotBlank(message = " Debe ingresar el nombre de la carrera.") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras") String nombre,
 			@NotBlank(message = "Debe ingresar la Cantidad de Anios") @Pattern(regexp = "[1-7]") Byte cantidadAnios,
 			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
 			@NotEmpty(message = "Debe seleccionar uno o mas alumnos. ") List<Alumno> alumnos,
 			@NotEmpty(message = "Debe seleccionar una o mas materias. ") List<Materia> materias) {
-		this.idCarrera = idCarrera;
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.cantidadAnios = cantidadAnios;
