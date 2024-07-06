@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.CarreraDTO;
+import ar.edu.unju.fi.mapper.AlumnoMapper;
 import ar.edu.unju.fi.mapper.CarreraMapper;
+import ar.edu.unju.fi.model.Alumno;
 import ar.edu.unju.fi.model.Carrera;
 import ar.edu.unju.fi.repository.CarreraRepository;
 import ar.edu.unju.fi.service.ICarreraService;
@@ -23,6 +26,9 @@ public class CarreraServiceImpl implements ICarreraService {
 	
 	@Autowired
 	private CarreraRepository carreraRepository;
+	
+	@Autowired
+	private AlumnoMapper alumnoMapper;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -77,6 +83,14 @@ public class CarreraServiceImpl implements ICarreraService {
 		}
 		carreraRepository.save(carrera);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<AlumnoDTO> findAlumnosByCarrera(Integer idCarrera){
+		List<Alumno> alumnos = carreraRepository.findAlumnosByCarrera(idCarrera);
+		return alumnoMapper.toAlumnoDTOs(alumnos);
+	}
+	
 
 }
 

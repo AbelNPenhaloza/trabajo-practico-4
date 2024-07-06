@@ -2,6 +2,7 @@ package ar.edu.unju.fi.service;
 
 import java.util.List;
 
+import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.CarreraDTO;
 
 public interface ICarreraService {
@@ -16,4 +17,6 @@ public interface ICarreraService {
 	void deleteById(Integer idCarrera);
 
 	void editarCarrera(CarreraDTO carreraDTO) throws Exception;
+	
+	List<AlumnoDTO> findAlumnosByCarrera(Integer idCarrera);
 }

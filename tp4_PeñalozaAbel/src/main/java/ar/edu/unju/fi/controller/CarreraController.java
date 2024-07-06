@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.CarreraDTO;
@@ -141,4 +142,21 @@ public class CarreraController {
 		model.addAttribute("titulo", "Carreras");
 		return "carrera";
 	}
+	
+	@GetMapping("/alumnos/filtro")
+	public String filtroAlumnosPorCarrera(Model model) {
+		model.addAttribute("carreras", materiaService.findAllActive());
+		return "filtro-alumnos-carrera";
+	}
+
+	@PostMapping("/alumnos/filtro")
+	public String filtrarAlumnosPorCarrera(@RequestParam Integer idCarrera, Model model) {
+		CarreraDTO carrera = carreraService.findById(idCarrera);
+		model.addAttribute("alumnos", carrera.getAlumnos());
+		model.addAttribute("carrera", carrera);
+		model.addAttribute("carreras", materiaService.findAllActive());
+		return "filtro-alumnos-carrera";
+	}
+	
+	
 }
