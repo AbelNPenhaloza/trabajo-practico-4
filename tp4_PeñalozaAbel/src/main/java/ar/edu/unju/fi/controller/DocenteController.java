@@ -1,6 +1,5 @@
 package ar.edu.unju.fi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,23 +8,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.edu.unju.fi.dto.DocenteDTO;
 import ar.edu.unju.fi.service.IDocenteService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/docente")
 public class DocenteController {
 	
-	@Autowired
-	private IDocenteService docenteService;
+	private final IDocenteService docenteService;
+	
+	public DocenteController(IDocenteService docenteService) {
+		this.docenteService = docenteService;
+	}
 	
 	// Listado para visualizar en la tabla 
 	@GetMapping("/listado")
-	public String getDocentePage(Model model) {
-		
+	public String getDocentesPage(Model model) {
+	
 		model.addAttribute("titulo", "Docentes");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
@@ -48,32 +51,30 @@ public class DocenteController {
 
 	// Metodo para guardar un docente nuevo usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarDocente(@Valid @ModelAttribute("docente") DocenteDTO docenteDTO, BindingResult result,
-			Model model) {
-		
-		ModelAndView modelView = new ModelAndView("docentes");
-		String mensaje;
+	public String guardarDocente(@Valid @ModelAttribute("docente") DocenteDTO docenteDTO, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nuevo Docente");
-			modelView.setViewName("docente");
-			return modelView;
+			return "docente";
 		}
+		
+		String mensaje;
 		
 		try {
 			docenteService.save(docenteDTO);
 			mensaje= "Docente guardado con éxito!";
-			model.addAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("mensaje", mensaje);
+			return "redirect:/docente/listado";
 		} catch (Exception e) {
+			model.addAttribute("error", true);
 			mensaje= "Docente no se pudo guardar: " + e.getMessage();
 			model.addAttribute("exito", false);
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("docente", docenteDTO);
+			return "docente";
 		}
-		
-		model.addAttribute("mensaje", mensaje);
-		modelView.addObject("docentes", docenteService.findAllActive());
-
-		return modelView;
 	}
 
 	// Metodo que presenta el formulario para modificar
@@ -99,28 +100,40 @@ public class DocenteController {
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", true);
 			model.addAttribute("titulo", "Modificar Docente");
-			return "materia";
+			return "docente";
 		}
+		
+		String mensaje;
 		
 		try {
 			docenteService.editarDocente(docenteDTO);
+			mensaje= "Docente fue modificado con éxito!";
 			model.addAttribute("exito", true);
-			model.addAttribute("mensaje", "Docente fue modificado con éxito!");
 		} catch (Exception e) {
+			mensaje= "Error al modificar el Docente: " + e.getMessage();
 			model.addAttribute("exito", false);
-			model.addAttribute("mensaje", "Error al modificar el Docente: " + e.getMessage());
 		}
 
+		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("docentes", docenteService.findAllActive());
 		model.addAttribute("titulo", "Docentes");
 		return "docentes";
 	}
 
 	@GetMapping("/eliminar/{idDocente}")
-	public String eliminarDocente(Model model, @PathVariable(value = "idDocente") Long idDocente) {
-		docenteService.deleteById(idDocente);
-		model.addAttribute("docentes", docenteService.findAllActive());
-		model.addAttribute("titulo", "Docentes");
-		return "docentes";
+	public String eliminarDocente(Model model, @PathVariable(value = "idDocente") Long idDocente, RedirectAttributes redirectAttributes) {
+		try {
+			docenteService.deleteById(idDocente);
+			redirectAttributes.addFlashAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("mensaje", "Docente eliminado correctamente.");
+		} catch (EntityNotFoundException e) {
+			redirectAttributes.addFlashAttribute("exito", false);
+			redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("exito", false);
+			redirectAttributes.addFlashAttribute("mensaje",
+					"Error al eliminar al docente. Por favor, inténtelo de nuevo.");
+		}
+		return "redirect:/docente/listado";
 	}
 }

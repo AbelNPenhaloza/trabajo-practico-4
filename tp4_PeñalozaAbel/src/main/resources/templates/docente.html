@@ -11,10 +11,10 @@
 			</div>
 			<div class="row">
 				<form data-th-action="${edicion}?@{/docente/modificar} : @{/docente/guardar}" th:object="${docente}" method="post">
-					<div class="row mb-3 justify-content-center">
+					<div class="row mb-3 justify-content-center" th:if="${edicion}">
 						<label for="codigo" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Código</label>
 						<div class="col-sm-12 col-lg-4">
-							<input type="number" class="form-control" id="codigo" th:field="*{idDocente}" th:disabled="${edicion}?true : false">
+						    <input type="number" class="form-control" id="codigo" th:field="*{idDocente}" th:disabled="${edicion}?true : false">  
 							<input type="hidden" class="form-control" id="codigo" th:field="*{idDocente}" th:if="${edicion}">
 						</div>
 					</div>
@@ -23,6 +23,7 @@
 						<label for="legajo" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Legajo</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="number" class="form-control" id="legajo" th:field="*{legajo}">
+							<div class="text-danger" th:if="${#fields.hasErrors('legajo')}" th:errors="*{legajo}"></div>
 						</div>
 					</div>
 					
@@ -30,6 +31,7 @@
 						<label for="nombre" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Nombre</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+							<div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 						</div>
 					</div>
 					
@@ -37,6 +39,7 @@
 						<label for="apellido" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Apellido</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="text" class="form-control" id="apellido" th:field="*{apellido}">
+							<div class="text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
 						</div>
 					</div>
 					
@@ -44,6 +47,7 @@
 						<label for="email" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Email</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="email" class="form-control" id="email" th:field="*{correoElectronico}">
+							<div class="text-danger" th:if="${#fields.hasErrors('correoElectronico')}" th:errors="*{correoElectronico}"></div>
 						</div>
 					</div>
 					
@@ -51,8 +55,11 @@
 						<label for="telefono" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Teléfono</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="tel" class="form-control" id="telefono" th:field="*{telefono}">
+							<div class="text-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
 						</div>
 					</div>
+					
+					<input type="hidden" id="estado" name="estado" value="true">
 					
 					<div class="row mb-3 justify-content-center">
 						<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
@@ -61,6 +68,11 @@
 						</div>
 					</div>
 				</form>
+				
+				<div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+					<strong data-th-text="${mensaje}"></strong>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
 			</div>
 		</div>
 		<footer data-th-replace="~{/layouts/footer::footer}"></footer>
