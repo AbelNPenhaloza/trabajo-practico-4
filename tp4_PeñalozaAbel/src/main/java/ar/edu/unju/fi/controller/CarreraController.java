@@ -1,5 +1,7 @@
 package ar.edu.unju.fi.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,12 +11,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.service.IAlumnoService;
 import ar.edu.unju.fi.service.ICarreraService;
 import ar.edu.unju.fi.service.IMateriaService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/carrera")
@@ -57,7 +64,7 @@ public class CarreraController {
 
 	// Metodo para guardar una carrera nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarCarrera(@ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model) {
+	public ModelAndView guardarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model) {
 
 		ModelAndView modelView = new ModelAndView("carreras");
 		String mensaje;
@@ -106,7 +113,7 @@ public class CarreraController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarCarrera(@ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result,
+	public String modificarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result,
 			Model model) {
 
 		if (result.hasErrors()) {
@@ -135,10 +142,35 @@ public class CarreraController {
 
 	// Metodo para eliminar una carrera
 	@GetMapping("/eliminar/{idCarrera}")
-	public String eliminarCarrera(Model model, @PathVariable(value = "idCarrera") Integer idCarrera) {
-		carreraService.deleteById(idCarrera);
-		model.addAttribute("carrerass", carreraService.findAllActive());
-		model.addAttribute("titulo", "Carreras");
-		return "carrera";
+	public String eliminarCarrera(Model model, @PathVariable(value = "idCarrera") Integer idCarrera, 
+			RedirectAttributes redirectAttributes) {
+		try {
+			carreraService.deleteById(idCarrera);
+			redirectAttributes.addFlashAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("mensaje", "Carrera eliminada exitosamnete. ");
+		} catch(EntityNotFoundException e) {
+			redirectAttributes.addFlashAttribute("exito", false);
+			redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
+		}catch (Exception e) {
+			redirectAttributes.addFlashAttribute("exito", false);
+			redirectAttributes.addFlashAttribute("mensaje", "Error al eliminar la carrera. Por favor, intentelo de nuevo.");
+		}
+		return "redirect:/carrera/listado";
+	}
+	
+	@GetMapping("/carrera/alumnos")
+	public String filtroAlumnosPorCarrera(Model model) {
+		model.addAttribute("carreras", materiaService.findAllActive());
+		return "consultar-alumnos-carrera";
+	}
+
+	@PostMapping("/carrera/alumnos")
+	public String filtrarAlumnosPorCarrera(@RequestParam Integer idCarrera, Model model) {
+		CarreraDTO carrera = carreraService.findById(idCarrera);
+		List<AlumnoDTO> alumnos = carreraService.findAlumnosByCarrera(idCarrera);
+		model.addAttribute("alumnos", alumnos);
+		model.addAttribute("carrera", carrera);
+		model.addAttribute("carreras", materiaService.findAllActive());
+		return "consultar-alumnos-carrera";
 	}
 }
