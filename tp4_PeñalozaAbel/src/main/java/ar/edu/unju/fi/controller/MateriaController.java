@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.MateriaDTO;
 import ar.edu.unju.fi.model.Curso;
 import ar.edu.unju.fi.model.Modalidad;
@@ -182,7 +183,8 @@ public class MateriaController {
 	@PostMapping("/alumnos/filtro")
 	public String filtrarAlumnosPorMateria(@RequestParam Long idMateria, Model model) {
 		MateriaDTO materia = materiaService.findById(idMateria);
-		model.addAttribute("alumnos", materia.getAlumnos());
+		List<AlumnoDTO> alumnos = materiaService.findAlumnosByMateria(idMateria);
+		model.addAttribute("alumnos", alumnos);
 		model.addAttribute("materia", materia);
 		model.addAttribute("materias", materiaService.findAllActive());
 		return "filtro-alumnos-materia";
