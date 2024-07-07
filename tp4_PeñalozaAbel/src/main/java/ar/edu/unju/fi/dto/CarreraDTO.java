@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,18 +20,14 @@ public class CarreraDTO {
 	
 	private Integer idCarrera;
 
-	@NotBlank(message = "Debe ingresar el codigo de la carrera. ")
-	@Size(min= 1, max=5, message = "El codigo debe tener como minimo un digito. ")
-	@Pattern(regexp= "[0-9]")
+	@NotNull(message = "Debe ingresar el codigo de la carrera. ")
 	private Integer codigo;
 	
 	@NotBlank(message = "Debe ingresar el nombre de la Carrera. ")
-	@Size(min = 10, max = 100, message = "El nombre de la carrera debe tener entre 10 y 100 caracteres. ")
-	@Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras")
+	@Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "Debe ingresar unicamente letras y numeros")
 	private String nombre;
 	
 	@NotNull(message = "Debe ingresar la cantidad de anios de la carrera. ")
-	@Pattern(regexp= "[1-7]")
 	private Byte cantidadAnios;
 	
 	@NotNull(message = "Debe seleccionar un estado")

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="es-AR">
+	<head data-th-replace="~{/layouts/header::head}"></head>
+<body>
+    <div class="container">
+	    <header data-th-replace="~{/layouts/header::header}"></header>
+        <div class="container mt-5">
+            <h1>Consultar Alumnos por Carrera</h1>
+            <form th:action="@{/carrera/alumnos}" method="post">
+                <div class="mb-3">
+                    <label for="carrera" class="form-label">Seleccionar Carrera</label>
+                    <select id="carrera" name="idCarrera" class="form-select" required>
+                        <option th:each="carrera : ${carreras}" th:value="${carrera.idCarrera}" th:text="${carrera.nombre}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Consultar</button>
+            </form>
+
+            <div th:if="${carrera != null}">
+                <h2>Alumnos en <span th:text="${carrera.nombre}"></span></h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo Electrónico</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="alumno : ${alumnos}">
+                        <td th:text="${alumno.nombre}"></td>
+                        <td th:text="${alumno.apellido}"></td>
+                        <td th:text="${alumno.correoElectronico}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <footer data-th-replace="~{/layouts/footer::footer}"></footer>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

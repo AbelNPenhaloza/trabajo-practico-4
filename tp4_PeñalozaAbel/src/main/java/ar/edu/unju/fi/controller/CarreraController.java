@@ -2,7 +2,6 @@ package ar.edu.unju.fi.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,14 +26,18 @@ import jakarta.validation.Valid;
 @RequestMapping("/carrera")
 public class CarreraController {
 	
-	@Autowired
-	private ICarreraService carreraService;
+	private final ICarreraService carreraService;
 	
-	@Autowired
-	private IAlumnoService alumnoService;
+	private final IAlumnoService alumnoService;
 	
-	@Autowired
-	private IMateriaService materiaService;
+	private final IMateriaService materiaService;
+	
+	public CarreraController(ICarreraService carreraService, IAlumnoService alumnoService,
+			IMateriaService materiaService) {
+		this.carreraService = carreraService;
+		this.alumnoService = alumnoService;
+		this.materiaService = materiaService;
+	}
 
 	@GetMapping("/listado")
 	public String getCarrerasPage(Model model) {
@@ -93,6 +96,7 @@ public class CarreraController {
 		return modelView;
 		
 	}
+	
 
 	// Metodo que presenta el formulario para modificar
 	@GetMapping("/modificar/{idCarrera}")
@@ -158,19 +162,19 @@ public class CarreraController {
 		return "redirect:/carrera/listado";
 	}
 	
-	@GetMapping("/carrera/alumnos")
+	@GetMapping("/alumnos")
 	public String filtroAlumnosPorCarrera(Model model) {
-		model.addAttribute("carreras", materiaService.findAllActive());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		return "consultar-alumnos-carrera";
 	}
 
-	@PostMapping("/carrera/alumnos")
+	@PostMapping("/alumnos")
 	public String filtrarAlumnosPorCarrera(@RequestParam Integer idCarrera, Model model) {
 		CarreraDTO carrera = carreraService.findById(idCarrera);
 		List<AlumnoDTO> alumnos = carreraService.findAlumnosByCarrera(idCarrera);
 		model.addAttribute("alumnos", alumnos);
 		model.addAttribute("carrera", carrera);
-		model.addAttribute("carreras", materiaService.findAllActive());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		return "consultar-alumnos-carrera";
 	}
 }
