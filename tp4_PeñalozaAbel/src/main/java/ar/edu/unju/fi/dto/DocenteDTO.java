@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,20 +13,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class DocenteDTO {
 	private Long idDocente;
 	
-	@NotBlank(message="Debe ingresar el legajo")
-	@Size(min=3,max=12, message="El legajo debe contener como minimo 3 digitos y como maximo 12 digitos")
+	@NotNull(message="Debe ingresar el legajo")
 	private Integer legajo;
 	
 	@NotBlank(message="Debe ingresar nombre del docente")
-	@Pattern(regexp= "[a-z A-Z]*", message="Debe ingresar unicamente letras")
+	@Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "El nombre debe contener solo letras y espacios, y tener entre 3 y 40 caracteres")
 	private String nombre;
 	
 	@NotBlank(message="Debe ingresar apellido del docente")
-	@Pattern(regexp= "[a-z A-Z]*", message="Debe ingresar unicamente letras")
+	@Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "El nombre debe contener solo letras y espacios, y tener entre 3 y 40 caracteres")
 	private String apellido;
 	
 	@NotBlank(message="Debe ingresar correo del docente")
@@ -36,7 +37,7 @@ public class DocenteDTO {
 	private Boolean estado;
 	
 	@NotBlank(message="Debe ingresar el telefono")
-	@Pattern(regexp= "[0-9]*", message="Debe ingresar unicamente números")
-	@Size(min=7,max=15, message="El legajo debe contener como minimo 7 digitos y como maximo 15 digitos")
+	@Pattern(regexp = "\\d+", message = "El teléfono debe contener solo dígitos")
+    @Size(min = 7, max = 15, message = "El teléfono debe tener entre 7 y 15 dígitos")
 	private String telefono;
 }
