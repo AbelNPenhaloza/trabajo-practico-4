@@ -10,10 +10,11 @@ import org.mapstruct.Mappings;
 import ar.edu.unju.fi.dto.MateriaDTO;
 import ar.edu.unju.fi.model.Materia;
 
-@Mapper(componentModel = "spring", uses = { DocenteMapper.class, AlumnoMapper.class, CarreraMapper.class })
+@Mapper(componentModel = "spring", uses = { DocenteMapper.class, CarreraMapper.class, AlumnoMapper.class })
 public interface MateriaMapper {
 	@Mappings({ @Mapping(source = "docente", target = "docenteDTO"),
-			@Mapping(source = "carrera", target = "carreraDTO"), @Mapping(source = "alumnos", target = "alumnos") })
+		@Mapping(source = "carrera", target = "carreraDTO"),
+		@Mapping(source = "alumnos", target = "alumnos", ignore = true) })
 	MateriaDTO toMateriaDTO(Materia materia);
 
 	@InheritInverseConfiguration

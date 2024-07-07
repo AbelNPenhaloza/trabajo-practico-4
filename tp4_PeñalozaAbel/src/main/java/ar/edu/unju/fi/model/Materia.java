@@ -1,7 +1,7 @@
 package ar.edu.unju.fi.model;
-import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,13 +25,11 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-@Entity
-@Table(name = "materias")
 @Getter
 @Setter
 @NoArgsConstructor
-
+@Entity
+@Table(name = "materias")
 public class Materia {
 
 	@Id
@@ -40,9 +38,10 @@ public class Materia {
 	private Long idMateria;
 
 	@NotBlank(message = "Debe ingresar el nombre de la Materia")
-	@Pattern(regexp = "^[a-zA-Z\\s]{3,100}$", message = "El nombre debe contener solo letras y espacios, y tener entre 3 y 100 caracteres")
+	@Pattern(regexp = "^[\\p{L}A-Z ]{3,100}$", message = "El nombre debe contener solo letras y espacios, y tener entre 3 y 100 caracteres")
 	@Column(name = "materia_nombre", nullable = false)
 	private String nombre;
+
 
 	@NotNull(message = "Debe seleccionar un Curso")
 	@Enumerated(EnumType.STRING)
@@ -66,25 +65,24 @@ public class Materia {
 
 	@OneToOne
 	@JoinColumn(name = "docente_id")
-	@NotEmpty(message = "Debe seleccionar un Docente")
+	@NotNull(message = "Debe seleccionar un Docente")
 	private Docente docente;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "carrera_id")
-	@NotEmpty(message = "Debe seleccionar una Carrera")
+	@NotNull(message = "Debe seleccionar una Carrera")
 	private Carrera carrera;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "materias_alumnos", joinColumns = @JoinColumn(name = "materia_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
-	@NotEmpty(message = "Debe seleccionar uno o más Alumnos")
-	private List<Alumno> alumnos = new ArrayList<Alumno>();
+	@JoinTable(name = "materia_alumno", joinColumns = @JoinColumn(name = "materia_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
+	@NotNull(message = "Debe seleccionar uno o más Alumnos")
+	private List<Alumno> alumnos;
 
 	/**
 	 * @param nombre
 	 * @param curso
 	 * @param cantidadDeHoras
 	 * @param modalidad
-	 * @param estado
 	 * @param docente
 	 * @param carrera
 	 * @param alumnos
@@ -94,7 +92,6 @@ public class Materia {
 			@NotNull(message = "Debe seleccionar un Curso") Curso curso,
 			@NotNull(message = "Debe ingresar la cantidad de horas de la Materia") @Min(value = 1, message = "La cantidad de horas debe ser al menos 1") @Max(value = 200, message = "La cantidad de horas no puede exceder 200") Integer cantidadDeHoras,
 			@NotNull(message = "Debe seleccionar una Modalidad") Modalidad modalidad,
-			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
 			@NotEmpty(message = "Debe seleccionar un Docente") Docente docente,
 			@NotEmpty(message = "Debe seleccionar una Carrera") Carrera carrera,
 			@NotEmpty(message = "Debe seleccionar uno o más Alumnos") List<Alumno> alumnos) {
@@ -102,7 +99,6 @@ public class Materia {
 		this.curso = curso;
 		this.cantidadDeHoras = cantidadDeHoras;
 		this.modalidad = modalidad;
-		this.estado = estado;
 		this.docente = docente;
 		this.carrera = carrera;
 		this.alumnos = alumnos;
