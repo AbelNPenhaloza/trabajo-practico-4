@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -23,10 +22,10 @@ import lombok.Setter;
 public class AlumnoDTO {
 	private Long idAlumno;
 
-	@NotBlank(message="Debe ingresar la libreta universitaria")
+	@NotNull(message="Debe ingresar la libreta universitaria")
 	private Integer lu;
 			
-	@NotBlank(message="Debe ingresar el dni")	
+	@NotNull(message="Debe ingresar el dni")	
 	private Integer dni;
 	
 	@NotBlank(message="Debe ingresar el nombre")
@@ -46,20 +45,19 @@ public class AlumnoDTO {
 	@NotBlank(message="Debe ingresar el telefono")
 	private String telefono;
 	
-	@NotNull(message = "Debe seleccionar un estado")
 	private Boolean estado;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotBlank(message="Debe ingresar la fecha de nacimiento")
+	@NotNull(message="Debe ingresar la fecha de nacimiento")
 	@Past(message="La fecha de nacimiento debe ser anterior a la fecha actual")
 	private LocalDate fechaNacimiento;
 	
 	@NotBlank(message="Debe ingresar el domicilio")
 	private String domicilio;
 	
-	@NotEmpty(message = "Debe seleccionar una Carrera")
+	@NotNull(message = "Debe seleccionar una Carrera")
 	private CarreraDTO carreraDTO;
 	
-	@NotEmpty(message = "Debe seleccionar una o mas materias.")
+	
 	private List<MateriaDTO> materias = new ArrayList<MateriaDTO>();
 }

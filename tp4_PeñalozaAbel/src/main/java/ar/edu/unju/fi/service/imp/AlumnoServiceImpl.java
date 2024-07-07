@@ -56,7 +56,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 	@Override
 	@Transactional
 	public void deleteById(Long idAlumno) {
-		alumnoRepository.findById(idAlumno).ifPresentOrElse(alumno -> {
+		    alumnoRepository.findById(idAlumno).ifPresentOrElse(alumno -> {
 			alumno.setEstado(false);
 			alumnoRepository.save(alumno);
 		}, () -> {
@@ -77,4 +77,11 @@ public class AlumnoServiceImpl implements IAlumnoService {
 		}
         alumnoRepository.save(alumno);
 	}
+
+	@Override
+	public boolean existeAlumnoLu(Integer lu) {
+		return alumnoRepository.existsByLuAndEstadoTrue(lu);
+	}
+
+	
 }

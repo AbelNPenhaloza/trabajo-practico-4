@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.service.IAlumnoService;
+import ar.edu.unju.fi.service.ICarreraService;
+import ar.edu.unju.fi.service.IMateriaService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -21,12 +23,22 @@ public class AlumnoController {
 
 	@Autowired
 	private IAlumnoService alumnoService;
-
+	
+	private ICarreraService carreraService;	
+	
+    public AlumnoController(IAlumnoService alumnoService, ICarreraService carreraService, IMateriaService materiaService){
+    	this.alumnoService = alumnoService;
+    	this.carreraService = carreraService;
+    } 
+    	
+	
 	@GetMapping("/listado")
 	public String getAlumnosPage(Model model) {
 
 		model.addAttribute("titulo", "Alumnos");
 		model.addAttribute("exito", false);
+		model.addAttribute("exitoeliminar", false);
+		model.addAttribute("erroreliminar", false);
 		model.addAttribute("mensaje", "");
 		model.addAttribute("alumnos", alumnoService.findAllactive());
 		return "alumnos";
@@ -41,30 +53,45 @@ public class AlumnoController {
 		model.addAttribute("alumno", new AlumnoDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nuevo Alumno");
-
+		model.addAttribute("carreras", carreraService.findAllActive());
+		
 		return "alumno";
 	}
 
 	// Metodo para guardar un alumno nuevo usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model , BindingResult result) {
+	public ModelAndView guardarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, BindingResult result, Model model) {
 		
 		ModelAndView modelView = new ModelAndView("alumnos");
 		String mensaje;
 		
+		 if (alumnoService.existeAlumnoLu(alumnoDTO.getLu())) {
+			
+			 model.addAttribute("edicion", false);
+			 model.addAttribute("titulo", "Nuevo Alumno");
+			 model.addAttribute("carreras", carreraService.findAllActive());
+			 modelView.setViewName("alumno");
+			 model.addAttribute("repetido",true);
+			 model.addAttribute("mensajelu", "La libreta universitada ya está registrada para otro alumno");
+			 return modelView;	
+		   }
+		
 		if(result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nuevo Alumno");
+			model.addAttribute("carreras", carreraService.findAllActive());
 			modelView.setViewName("alumno");
 			return modelView;		
 		}
-		
+				
 		try {
 			alumnoService.save(alumnoDTO);
 			mensaje = "Alumno guardado con exito!";
 			model.addAttribute("exito", true);
+		
 		} catch (Exception e) {
 			mensaje = "El Alumno no se pudo guardar" + e.getMessage();
+			
 			model.addAttribute("exito", false);	
 		}
 		
@@ -87,6 +114,7 @@ public class AlumnoController {
 
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("alumno", alumnoDTO);
+		model.addAttribute("carreras", carreraService.findAllActive());
 		model.addAttribute("titulo", "Modificar Alumno");
 
 		return "alumno";
@@ -94,11 +122,23 @@ public class AlumnoController {
 
 	// Metodo para modificar y guardar la modificacion en la Collection
 	@PostMapping("/modificar")
-	public String modificarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, Model model, BindingResult result) {
+	public String modificarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, BindingResult result, Model model) {
 
+		
+		 if (alumnoService.existeAlumnoLu(alumnoDTO.getLu())) {
+				
+			 model.addAttribute("edicion", true);
+			 model.addAttribute("titulo", "Modificar Alumno");
+			 model.addAttribute("carreras", carreraService.findAllActive());
+			 model.addAttribute("repetido",true);
+			 model.addAttribute("mensajelu", "La libreta universitada ya está registrada para otro alumno");
+			 return "alumno";	
+		   }
+		 
 		if(result.hasErrors()) {
 			model.addAttribute("edicion",true);
 			model.addAttribute("titulo","Modificar Alumno");
+			model.addAttribute("carreras", carreraService.findAllActive());
 			return "alumno";
 		}
 				
@@ -112,6 +152,7 @@ public class AlumnoController {
 		}
 
 		model.addAttribute("alumnos", alumnoService.findAllactive());
+		model.addAttribute("carreras", carreraService.findAllActive());
 		model.addAttribute("titulo", "Alumnos");
 		
 		return "alumnos";
@@ -120,7 +161,19 @@ public class AlumnoController {
 	// Metodo para eliminar una alumno
 	@GetMapping("/eliminar/{idAlumno}")
 	public String eliminarAlumno(Model model, @PathVariable(value = "idAlumno") Long idAlumno) {
-		alumnoService.deleteById(idAlumno);
+		String mensaje;
+	
+		try {
+			alumnoService.deleteById(idAlumno);
+			mensaje="El Alumno con la id: "+ idAlumno +" ha sido eliminado";	
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("exitoeliminar",true);
+		} catch (Exception e) {
+			 mensaje = e.getMessage(); 
+		     model.addAttribute("mensaje", mensaje);
+		     model.addAttribute("erroreliminar", true); 
+		}
+				
 		model.addAttribute("alumnos", alumnoService.findAllactive());
 		model.addAttribute("titulo", "Alumnos");
 		
