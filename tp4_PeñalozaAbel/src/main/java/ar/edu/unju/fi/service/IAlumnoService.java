@@ -12,7 +12,8 @@ public interface IAlumnoService {
 	AlumnoDTO findById(Long idAlumno);
 	
 	boolean existeAlumnoLu(Integer lu);
-	 
+	
+	void inscribirAlumnoEnMateria(Long idAlumno, Long idMateria);
 
 	AlumnoDTO save(AlumnoDTO alumnoDTO);
 

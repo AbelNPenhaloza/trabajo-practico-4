@@ -6,21 +6,23 @@
         <header data-th-replace="~{/layouts/header::header}"></header>
         <div class="container mt-5">
             <h1>Inscribir Alumno en Materia</h1>
-            <form th:action="@{/alumno/inscripcion/guardar}" method="post">
-                <div class="mb-3">
-                    <label for="alumno" class="form-label">Seleccionar Alumno</label>
-                    <select id="alumno" name="idAlumno" class="form-select" required>
-                        <option th:each="alumno : ${alumnos}" th:value="${alumno.id}" th:text="${alumno.nombre} + ' ' + ${alumno.apellido}"></option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="materia" class="form-label">Seleccionar Materia</label>
-                    <select id="materia" name="idMateria" class="form-select" required>
-                        <option th:each="materia : ${materias}" th:value="${materia.idMateria}" th:text="${materia.nombre}"></option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Inscribir</button>
-            </form>
+            <form th:action="@{/alumno/inscripcion}" method="post">
+        	<div class="form-group">
+            <label for="alumno">Alumno</label>
+            	<select class="form-control" id="alumno" name="alumnoId">
+                	<option th:each="alumno : ${alumnos}" th:value="${alumno.idAlumno}" th:text="${alumno.nombre + ' ' + alumno.apellido}"></option>
+            	</select>
+        	</div>
+        	<div class="form-group">
+            	<label for="materia">Materia</label>
+            	<select class="form-control" id="materia" name="materiaId">
+                	<option th:each="materia : ${materias}" th:value="${materia.idMateria}" th:text="${materia.nombre}"></option>
+            	</select>
+        	</div>
+        		<button type="submit" class="btn btn-primary">Inscribir</button>
+    		</form>
+    	<div th:if="${exito}" class="alert alert-success" th:text="${exito}"></div>
+    	<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
         </div>
         <footer data-th-replace="~{/layouts/footer::footer}"></footer>
     </div>
