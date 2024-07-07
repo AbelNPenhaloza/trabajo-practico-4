@@ -18,5 +18,5 @@ public interface ICarreraService {
 
 	void editarCarrera(CarreraDTO carreraDTO) throws Exception;
 	
-	List<AlumnoDTO> findAlumnosByCarrera(Integer idCarrera);
+	public List<AlumnoDTO> findAlumnosByCarrera(Integer idCarrera);
 }
