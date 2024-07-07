@@ -13,8 +13,8 @@ import ar.edu.unju.fi.model.Alumno;
 @Mapper(componentModel = "spring", uses = { MateriaMapper.class, CarreraMapper.class})
 public interface AlumnoMapper{
 
-	@Mappings({ @Mapping(target="carreraDTO",source="carrera"),
-		@Mapping(target = "materias", source = "materias") })
+	@Mappings({ @Mapping(source = "carrera", target = "carreraDTO"),
+		        @Mapping(source = "materias", target = "materias") })
 	AlumnoDTO toAlumnoDTO(Alumno alumno);
 
 	@InheritInverseConfiguration

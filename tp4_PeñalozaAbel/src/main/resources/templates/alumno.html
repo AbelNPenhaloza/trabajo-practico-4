@@ -8,26 +8,30 @@
 			<div class="row mb-5">
 				<h3 data-th-text="${edicion}?'Modificar Alumno': 'Nuevo Alumno'" class="text-center"></h3>			
 			</div>
+			
+			<div th:if="${repetido}" class="alert alert-danger alert-dismissible fade show" role="alert">
+				<strong data-th-text="${mensajelu}"></strong>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			
 			<div class="row">
 				<form data-th-action="${edicion}?@{/alumno/modificar} : @{/alumno/guardar}" th:object="${alumno}" method="post">
-					
-					
-					
-					
-					
-					<input type="number" class="form-control" id="codigo" th:field="*{idAlumno}" th:disabled="${edicion}?true : false">
-			    	<input type="hidden" class="form-control" id="codigo" th:field="*{idAlumno}" th:if="${edicion}">
-					
-					
-					
-					
-					
+							
+							
+					<div class="row mb-3 justify-content-center" th:if="${edicion}">
+						<label for="codigo" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Código</label>
+						<div class="col-sm-12 col-lg-4">
+						    <input type="number" class="form-control" id="codigo" th:field="*{idAlumno}" th:disabled="${edicion}?true : false">  
+							<input type="hidden" class="form-control" id="codigo" th:field="*{idAlumno}" th:if="${edicion}">
+						</div>
+					</div> 
+													
 					<div class="row mb-3 justify-content-center">
 						<label for="lu" class="col-sm-12 col-lg-2 col-form-label text-lg-end">LU</label>
 						<div class="col-sm-12 col-lg-4">
 						
 							<input type="number" class="form-control" id="lu" th:field="*{lu}">
-									
+					        <div class="text-danger" th:if="${#fields.hasErrors('lu')}" th:errors="*{lu}"></div>
 						</div>
 					</div>
 					
@@ -35,6 +39,7 @@
 						<label for="dni" class="col-sm-12 col-lg-2 col-form-label text-lg-end">DNI</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="number" class="form-control" id="dni" th:field="*{dni}">
+							<div class="text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
 						</div>
 					</div>
 					
@@ -42,6 +47,7 @@
 						<label for="nombre" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Nombre</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+					        <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 						</div>
 					</div>
 					
@@ -49,6 +55,7 @@
 						<label for="apellido" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Apellido</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="text" class="form-control" id="apellido" th:field="*{apellido}">
+							<div class="text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
 						</div>
 					</div>
 					
@@ -56,6 +63,7 @@
 						<label for="email" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Email</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="email" class="form-control" id="email" th:field="*{correoElectronico}">
+							<div class="text-danger" th:if="${#fields.hasErrors('correoElectronico')}" th:errors="*{correoElectronico}"></div>
 						</div>
 					</div>
 					
@@ -63,6 +71,7 @@
 						<label for="telefono" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Teléfono</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="tel" class="form-control" id="telefono" th:field="*{telefono}">
+							<div class="text-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
 						</div>
 					</div>
 										
@@ -70,6 +79,7 @@
 						<label for="fechaNacimiento" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Fecha de Nacimiento</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="date" class="form-control" id="fechaNacimiento" th:field="*{fechaNacimiento}">
+							<div class="text-danger" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
 						</div>
 					</div>
 					
@@ -77,15 +87,33 @@
 						<label for="domicilio" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Domicilio</label>
 						<div class="col-sm-12 col-lg-4">
 							<input type="text" class="form-control" id="domicilio" th:field="*{domicilio}">
+							<div class="text-danger" th:if="${#fields.hasErrors('domicilio')}" th:errors="*{domicilio}"></div>
 						</div>
 					</div>
 					
+   					 
+   					  <div class="row mb-3 justify-content-center">
+                        <label for="carrera" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Carrera</label>
+                        <div class="col-sm-12 col-lg-4">
+		                 <select class="form-select" id="carrera" th:field="*{carreraDTO.idCarrera}">
+						    <option value="" disabled selected>Seleccione una carrera</option>
+						    <option th:each="carrera : ${carreras}" th:value="${carrera.idCarrera}" th:text="${carrera.nombre}"></option>
+						</select>
+						<div class="text-danger" th:if="${#fields.hasErrors('carreraDTO')}" th:errors="*{carreraDTO}"></div>
+                        </div>
+                    </div>
+   					 
+				
+					<input type="hidden" id="estado" name="estado" value="true">
+				 					
 					<div class="row mb-3 justify-content-center">
 						<div class="col-sm-12 col-lg-6 d-flex justify-content-center">
 							<span class="mx-5 text-center"><input type="submit" class="btn btn-primary" th:value="${edicion}?'Modificar' : 'Guardar'"></span>
 							<span class="mx-5 text-center"><a class="btn btn-primary" th:href="@{/alumno/listado}">Volver</a></span>
 						</div>
 					</div>
+					
+					
 				</form>
 			</div>
 		</div>

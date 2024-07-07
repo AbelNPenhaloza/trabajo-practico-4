@@ -41,13 +41,15 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="alumno_id", nullable = false)
 	private Long idAlumno;
+	
+	
 		
 	@Column(name="alumno_lu", nullable = false)
-	@NotBlank(message="Debe ingresar la libreta universitaria")
+	@NotNull(message="Debe ingresar la libreta universitaria")
 	private Integer lu;
 		
 	@Column(name="alumno_dni", nullable = false)
-	@NotBlank(message="Debe ingresar el dni")	
+	@NotNull(message="Debe ingresar el dni")	
 	private Integer dni;
 	
 	@Column(name="alumno_nombre", nullable = false)
@@ -72,12 +74,11 @@ public class Alumno {
 	private String telefono;
 	
 	@Column(name="alumno_estado", nullable = false, columnDefinition = "boolean default true")
-	@NotNull(message = "Debe seleccionar un estado")
 	private Boolean estado;
 	
 	@Column(name="alumno_fecha_de_nacimiento", nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotBlank(message="Debe ingresar la fecha de nacimiento")
+	@NotNull(message="Debe ingresar la fecha de nacimiento")
 	@Past(message="La fecha de nacimiento debe ser anterior a la fecha actual")
 	private LocalDate fechaNacimiento;
 	
@@ -87,11 +88,10 @@ public class Alumno {
 
 	@ManyToOne
 	@JoinColumn(name="carrera_id")
-	@NotEmpty(message = "Debe seleccionar una carrera.")
+	@NotNull(message = "Debe seleccionar una carrera.")
 	private Carrera carrera;
 	
 	@ManyToMany(mappedBy = "alumnos")
-	@NotEmpty(message = "Debe seleccionar uno o mas materias.")
 	private List<Materia> materias = new ArrayList<Materia>();
 
 	public Alumno(@NotBlank(message = "Debe ingresar la libreta universitaria") Integer lu,

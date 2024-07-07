@@ -10,5 +10,7 @@ import java.util.List;
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
      List<Alumno>findByEstadoTrue();
+    // boolean existsByLu(Integer lu);
+     boolean existsByLuAndEstadoTrue(Integer lu);
 }
 

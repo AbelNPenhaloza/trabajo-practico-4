@@ -10,6 +10,9 @@ public interface IAlumnoService {
 	List<AlumnoDTO> findAll();
 
 	AlumnoDTO findById(Long idAlumno);
+	
+	boolean existeAlumnoLu(Integer lu);
+	 
 
 	AlumnoDTO save(AlumnoDTO alumnoDTO);
 
