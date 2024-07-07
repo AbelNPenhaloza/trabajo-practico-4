@@ -14,7 +14,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,19 +33,16 @@ public class Carrera {
 	private Integer idCarrera;
 	
 	@Column(name = "carrera_codigo")
-	@NotBlank(message = "Debe ingresar el codigo de la carrera. ")
-	@Size(min= 1, max=5, message = "El codigo debe tener como minimo un digito. ")
-	@Pattern(regexp= "[0-9]")
+	@NotNull(message = "Debe ingresar el codigo de la carrera. ")
 	private Integer codigo;
 	
 	@Column(name = "carrera_nombre")
 	@NotBlank(message = " Debe ingresar el nombre de la carrera.")
-	@Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras")
+	@Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "Debe ingresar unicamente letras y numeros")
 	private String nombre;
 	
 	@Column(name = "carrera_cantidad_años")
-	@NotBlank(message = "Debe ingresar la Cantidad de Anios")
-	@Pattern(regexp= "[1-7]")
+	@NotNull(message = "Debe ingresar la Cantidad de Anios")
 	private Byte cantidadAnios;
 	
 	@NotNull(message = "Debe seleccionar un estado")
@@ -62,9 +58,9 @@ public class Carrera {
 	private List<Materia> materias = new ArrayList<>();
 
 	public Carrera(
-			@NotBlank(message = "Debe ingresar el codigo de la carrera. ") @Size(min = 1, max = 5, message = "El codigo debe tener como minimo un digito. ") @Pattern(regexp = "[0-9]") Integer codigo,
-			@NotBlank(message = " Debe ingresar el nombre de la carrera.") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar unicamente letras") String nombre,
-			@NotBlank(message = "Debe ingresar la Cantidad de Anios") @Pattern(regexp = "[1-7]") Byte cantidadAnios,
+			@NotNull(message = "Debe ingresar el codigo de la carrera. ") Integer codigo,
+			@NotBlank(message = " Debe ingresar el nombre de la carrera.") @Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "Debe ingresar unicamente letras y numeros") String nombre,
+			@NotNull(message = "Debe ingresar la Cantidad de Anios") Byte cantidadAnios,
 			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
 			@NotNull(message = "Debe seleccionar uno o mas alumnos. ") List<Alumno> alumnos,
 			@NotNull(message = "Debe seleccionar una o mas materias. ") List<Materia> materias) {

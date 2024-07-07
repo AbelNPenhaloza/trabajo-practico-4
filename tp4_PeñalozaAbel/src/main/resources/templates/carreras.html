@@ -28,7 +28,6 @@
 							      <th>Código</th>
 							      <th>Nombre</th>
 							      <th>Duración</th>
-							      <th>Estado</th>
 							      <th>Opciones</th>
 							    </tr>
 							  </thead>
@@ -38,13 +37,9 @@
 							      <td data-th-text="${c.nombre}"></td>
 							      <td data-th-text="${c.cantidadAnios}+' años'"></td>
 							      <td>
-							      	<span th:if="${c.estado}">Activa</span>
-							      	<span th:if="${!c.estado}">Inactiva</span>
-							      </td>
-							      <td>
-							      	<a class="btn btn-warning" data-th-href="@{/carrera/modificar/}+${c.codigo}" role="button">Editar</a>
+							      	<a class="btn btn-warning" data-th-href="@{/carrera/modificar/}+${c.idCarrera}" role="button">Editar</a>
 							      	<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-							      		th:data-codCarrera="${c.codigo}">Eliminar</button>
+							      		th:data-codCarrera="${c.idCarrera}">Eliminar</button>
 							      </td>
 							   </tr>
 							  </tbody>
