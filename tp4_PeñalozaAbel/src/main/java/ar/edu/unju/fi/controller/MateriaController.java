@@ -77,29 +77,25 @@ public class MateriaController {
 	public ModelAndView guardarMateria(@Valid @ModelAttribute("materia") MateriaDTO materiaDTO, BindingResult result,
 			Model model) {
 
-		ModelAndView modelAndView = new ModelAndView("materias");
+		ModelAndView modelView = new ModelAndView("materias");
 
 		String mensaje;
 
-		System.out.println(materiaDTO.toString());
 		if (result.hasErrors()) {
-			System.out.println("Entraste al Error///Abel");
+
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Materia");
 			model.addAttribute("modalidades", Modalidad.values());
 			model.addAttribute("cursos", Curso.values());
 			model.addAttribute("docentes", docenteService.findAllActive());
 			model.addAttribute("carreras", carreraService.findAllActive());
-			modelAndView.setViewName("materia");
-			return modelAndView;
+			modelView.setViewName("materia");
+
+			return modelView;
 		}
 
 		try {
-			// Aquí deberías convertir los IDs en entidades Docente y Carrera antes de
-			// guardar
-			materiaDTO.setDocenteDTO(docenteService.findById(materiaDTO.getDocenteDTO().getIdDocente()));
-			materiaDTO.setCarreraDTO(carreraService.findById(materiaDTO.getCarreraDTO().getIdCarrera()));
-			System.out.println(materiaDTO.toString());
+
 			materiaService.save(materiaDTO);
 			mensaje = "Materia guardada con éxito!";
 			model.addAttribute("exito", true);
@@ -107,15 +103,14 @@ public class MateriaController {
 		} catch (Exception e) {
 
 			mensaje = "La Materia no se pudo guardar: " + e.getMessage();
-			System.out.println("Entraste al catch///Abel");
 			model.addAttribute("exito", false);
 
 		}
 
 		model.addAttribute("mensaje", mensaje);
-		model.addAttribute("carreras", materiaService.findAllActive());
+		modelView.addObject("materias", materiaService.findAllActive());
 
-		return modelAndView;
+		return modelView;
 
 	}
 
@@ -206,6 +201,5 @@ public class MateriaController {
 		model.addAttribute("materias", materiaService.findAllActive());
 		return "filtro-alumnos-materia";
 	}
-
 
 }
