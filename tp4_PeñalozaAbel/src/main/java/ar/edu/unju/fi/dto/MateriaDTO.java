@@ -43,7 +43,7 @@ public class MateriaDTO {
 
 	@NotNull(message = "Debe seleccionar un estado")
 	@Column(nullable = false, columnDefinition = "boolean default true")
-	private Boolean estado;
+	private Boolean estado = true;
 
 	@NotNull(message = "Debe seleccionar un Docente")
 	private DocenteDTO docenteDTO;
