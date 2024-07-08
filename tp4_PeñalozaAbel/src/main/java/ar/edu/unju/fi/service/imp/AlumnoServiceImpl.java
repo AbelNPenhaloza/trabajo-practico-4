@@ -24,14 +24,22 @@ public class AlumnoServiceImpl implements IAlumnoService {
 	
 	private final AlumnoMapper alumnoMapper;
 	private final AlumnoRepository alumnoRepository;
+	private final MateriaRepository materiaRepository;
 	
-	public AlumnoServiceImpl(AlumnoMapper alumnoMapper, AlumnoRepository alumnoRepository) {
-		this.alumnoMapper= alumnoMapper;
-		this.alumnoRepository= alumnoRepository;
+	
+	
+	/**
+	 * @param alumnoMapper
+	 * @param alumnoRepository
+	 * @param materiaRepository
+	 */
+	public AlumnoServiceImpl(AlumnoMapper alumnoMapper, AlumnoRepository alumnoRepository,
+			MateriaRepository materiaRepository) {
+		this.alumnoMapper = alumnoMapper;
+		this.alumnoRepository = alumnoRepository;
+		this.materiaRepository = materiaRepository;
 	}
-	
-	@Autowired
-	private MateriaRepository materiaRepository;
+
 	
 
 	@Override
