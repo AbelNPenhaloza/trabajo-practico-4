@@ -61,7 +61,7 @@ public class Materia {
 
 	@NotNull(message = "Debe seleccionar un estado")
 	@Column(name = "materia_estado", nullable = false, columnDefinition = "boolean default true")
-	private Boolean estado;
+	private Boolean estado = true;
 
 	@OneToOne
 	@JoinColumn(name = "docente_id")
