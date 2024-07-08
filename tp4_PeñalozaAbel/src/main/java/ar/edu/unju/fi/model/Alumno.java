@@ -19,7 +19,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -41,9 +40,7 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="alumno_id", nullable = false)
 	private Long idAlumno;
-	
-	
-		
+			
 	@Column(name="alumno_lu", nullable = false)
 	@NotNull(message="Debe ingresar la libreta universitaria")
 	private Integer lu;
@@ -73,6 +70,7 @@ public class Alumno {
 	@NotBlank(message="Debe ingresar el telefono")
 	private String telefono;
 	
+	@NotNull(message = "Debe seleccionar un estado")
 	@Column(name="alumno_estado", nullable = false, columnDefinition = "boolean default true")
 	private Boolean estado;
 	
@@ -94,17 +92,16 @@ public class Alumno {
 	@ManyToMany(mappedBy = "alumnos")
 	private List<Materia> materias = new ArrayList<Materia>();
 
-	public Alumno(@NotBlank(message = "Debe ingresar la libreta universitaria") Integer lu,
-			@NotBlank(message = "Debe ingresar el dni") Integer dni,
+	public Alumno(@NotNull(message = "Debe ingresar la libreta universitaria") Integer lu,
+			@NotNull(message = "Debe ingresar el dni") Integer dni,
 			@NotBlank(message = "Debe ingresar el nombre") @Size(min = 3, max = 20, message = "El nombre debe contener como mínimo 3 caracteres y como máximo 20 caracteres") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar únicamente letras") String nombre,
 			@NotBlank(message = "Debe ingresar el apellido") @Size(min = 3, max = 20, message = "El apellido debe contener como mínimo 3 caracteres y como máximo 20 caracteres") @Pattern(regexp = "[a-z A-Z]*", message = "Debe ingresar únicamente letras") String apellido,
 			@NotBlank(message = "Debe ingresar el correo electronico") @Email String correoElectronico,
 			@NotBlank(message = "Debe ingresar el telefono") String telefono,
 			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
-			@NotBlank(message = "Debe ingresar la fecha de nacimiento") @Past(message = "La fecha de nacimiento debe ser anterior a la fecha actual") LocalDate fechaNacimiento,
+			@NotNull(message = "Debe ingresar la fecha de nacimiento") @Past(message = "La fecha de nacimiento debe ser anterior a la fecha actual") LocalDate fechaNacimiento,
 			@NotBlank(message = "Debe ingresar el domicilio") String domicilio,
-			@NotEmpty(message = "Debe seleccionar una carrera.") Carrera carrera,
-			@NotEmpty(message = "Debe seleccionar uno o mas materias.") List<Materia> materias) {
+			@NotNull(message = "Debe seleccionar una carrera.") Carrera carrera, List<Materia> materias) {
 		this.lu = lu;
 		this.dni = dni;
 		this.nombre = nombre;
