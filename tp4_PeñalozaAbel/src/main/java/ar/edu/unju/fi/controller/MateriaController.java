@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.MateriaDTO;
@@ -75,11 +75,8 @@ public class MateriaController {
 
 	// Metodo para guardar una materia nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarMateria(@Valid @ModelAttribute("materia") MateriaDTO materiaDTO, BindingResult result,
-			Model model) {
-
-		ModelAndView modelView = new ModelAndView("materias");
-		String mensaje;
+	public String guardarMateria(@Valid @ModelAttribute("materia") MateriaDTO materiaDTO, BindingResult result,
+			Model model, RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
 
@@ -89,25 +86,31 @@ public class MateriaController {
 			model.addAttribute("cursos", Curso.values());
 			model.addAttribute("docentes", docenteService.findAllActive());
 			model.addAttribute("carreras", carreraService.findAllActive());
-			modelView.setViewName("materia");
-			return modelView;
-		}
 
+			return "materia";
+		}
+		String mensaje;
 		try {
 			materiaService.save(materiaDTO);
 			mensaje = "Materia guardada con éxito!";
-			model.addAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("mensaje", mensaje);
+			return "redirect:/materia/listado";
+
 		} catch (Exception e) {
+
 			mensaje = "La Materia no se pudo guardar: " + e.getMessage();
 			model.addAttribute("exito", false);
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("materia", materiaDTO);
+			model.addAttribute("cursos", Curso.values());
+			model.addAttribute("modalidades", Modalidad.values());
+			model.addAttribute("docentes", docenteService.findAllActive());
+			model.addAttribute("carreras", carreraService.findAllActive());
+
+			return "materia";
+
 		}
-
-		model.addAttribute("mensaje", mensaje);
-		model.addAttribute("cursos", Curso.values());
-		model.addAttribute("modalidades", Modalidad.values());
-		modelView.addObject("materias", materiaService.findAllActive());
-
-		return modelView;
 
 	}
 
@@ -147,16 +150,20 @@ public class MateriaController {
 			model.addAttribute("carreras", carreraService.findAllActive());
 			return "materia";
 		}
+		String mensaje;
 
 		try {
 			materiaService.editarMateria(materiaDTO);
+			mensaje = "La Materia fue modificada con éxito!";
 			model.addAttribute("exito", true);
-			model.addAttribute("mensaje", "La Materia fue modificada con éxito!");
+
 		} catch (Exception e) {
+			mensaje = "Error al modificar la Materia: " + e.getMessage();
 			model.addAttribute("exito", false);
-			model.addAttribute("mensaje", "Error al modificar la Materia: " + e.getMessage());
+
 		}
 
+		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("materias", materiaService.findAllActive());
 		model.addAttribute("docentes", docenteService.findAllActive());
 		model.addAttribute("carreras", carreraService.findAllActive());

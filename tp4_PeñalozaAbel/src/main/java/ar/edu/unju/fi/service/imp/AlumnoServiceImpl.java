@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.mapper.AlumnoMapper;
 import ar.edu.unju.fi.model.Alumno;
+import ar.edu.unju.fi.model.Materia;
 import ar.edu.unju.fi.repository.AlumnoRepository;
+import ar.edu.unju.fi.repository.MateriaRepository;
 import ar.edu.unju.fi.service.IAlumnoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
 		this.alumnoMapper= alumnoMapper;
 		this.alumnoRepository= alumnoRepository;
 	}
+	
+	@Autowired
+	private MateriaRepository materiaRepository;
 	
 
 	@Override
@@ -109,6 +114,20 @@ public class AlumnoServiceImpl implements IAlumnoService {
 		log.debug("La LU: {} existe: {}", lu, exists);
 		return exists;
 	}
+	
+	@Override
+    public void inscribirAlumnoEnMateria(Long alumnoId, Long materiaId) {
+        Alumno alumno = alumnoRepository.findById(alumnoId).orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        Materia materia = materiaRepository.findById(materiaId).orElseThrow(() -> new RuntimeException("Materia no encontrada"));
+
+        // Verificar si el alumno ya está inscrito en la materia
+        if (materia.getAlumnos().contains(alumno)) {
+            throw new RuntimeException("El alumno ya está inscrito en esta materia");
+        }
+
+        materia.getAlumnos().add(alumno);
+        materiaRepository.save(materia);
+    }
 
 	
 }

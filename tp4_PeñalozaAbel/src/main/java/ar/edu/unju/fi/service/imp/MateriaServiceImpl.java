@@ -91,7 +91,6 @@ public class MateriaServiceImpl implements IMateriaService {
 			if (materiaOptional.isPresent()) {
 				Materia materia = materiaOptional.get();
 				materia.setEstado(false);
-
 				materiaRepository.save(materia);
 				log.info("Materia con ID {} marcada como inactiva", idMateria);
 			} else {

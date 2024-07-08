@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
@@ -24,11 +25,16 @@ public class AlumnoController {
 	@Autowired
 	private IAlumnoService alumnoService;
 	
+	@Autowired
 	private ICarreraService carreraService;	
+	
+	@Autowired
+	private IMateriaService materiaService;
 	
     public AlumnoController(IAlumnoService alumnoService, ICarreraService carreraService, IMateriaService materiaService){
     	this.alumnoService = alumnoService;
     	this.carreraService = carreraService;
+    	this.materiaService = materiaService;
     } 
     	
 	
@@ -169,4 +175,27 @@ public class AlumnoController {
 		
 		return "alumnos";
 	}
+	
+	 @GetMapping("/inscripcion")
+	    public String getInscripcionPage(Model model) {
+	        model.addAttribute("alumnos", alumnoService.findAllactive());
+	        model.addAttribute("materias", materiaService.findAllActive());
+	        return "inscripcion-alumno-materia";
+	    }
+
+	    @PostMapping("/inscripcion")
+	    public ModelAndView inscribirAlumno(@RequestParam("alumnoId") Long alumnoId, @RequestParam("materiaId") Long materiaId, Model model) {
+	        ModelAndView modelAndView = new ModelAndView("inscripcion-alumno-materia");
+
+	        try {
+	            alumnoService.inscribirAlumnoEnMateria(alumnoId, materiaId);
+	            model.addAttribute("exito", "Alumno inscrito con éxito en la materia!");
+	        } catch (RuntimeException e) {
+	            model.addAttribute("error", "Error al inscribir al alumno en la materia: " + e.getMessage());
+	        }
+
+	        model.addAttribute("alumnos", alumnoService.findAllactive());
+	        model.addAttribute("materias", materiaService.findAllActive());
+	        return modelAndView;
+	    }
 }
