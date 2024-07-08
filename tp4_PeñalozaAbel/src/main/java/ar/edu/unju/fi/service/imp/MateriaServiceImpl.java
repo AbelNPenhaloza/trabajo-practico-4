@@ -26,16 +26,21 @@ public class MateriaServiceImpl implements IMateriaService {
 	private final MateriaMapper materiaMapper;
 	private final MateriaRepository materiaRepository;
 
+
+
 	/**
 	 * @param alumnoMapper
 	 * @param materiaMapper
 	 * @param materiaRepository
+	 * @param docenteRepository
+	 * @param carreraRepository
 	 */
 	public MateriaServiceImpl(AlumnoMapper alumnoMapper, MateriaMapper materiaMapper,
 			MateriaRepository materiaRepository) {
 		this.alumnoMapper = alumnoMapper;
 		this.materiaMapper = materiaMapper;
 		this.materiaRepository = materiaRepository;
+
 	}
 
 	@Override
@@ -71,6 +76,7 @@ public class MateriaServiceImpl implements IMateriaService {
 		log.debug("Materia encontrada: {}", materia);
 		return materiaMapper.toMateriaDTO(materia);
 	}
+
 
 	@Override
 	@Transactional

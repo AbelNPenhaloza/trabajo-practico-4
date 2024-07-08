@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.MateriaDTO;
@@ -47,12 +47,11 @@ public class MateriaController {
 	// Metodo para listar todas materias
 	@GetMapping("/listado")
 	public String getMateriasPage(Model model) {
-		List<MateriaDTO> materias = materiaService.findAllActive();
 
 		model.addAttribute("titulo", "Materias");
 		model.addAttribute("exito", false);
 		model.addAttribute("mensaje", "");
-		model.addAttribute("materias", materias);
+		model.addAttribute("materias", materiaService.findAllActive());
 		return "materias";
 	}
 
@@ -75,46 +74,50 @@ public class MateriaController {
 
 	// Metodo para guardar una materia nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public String guardarMateria(@Valid @ModelAttribute("materia") MateriaDTO materiaDTO, BindingResult result,
-			Model model, RedirectAttributes redirectAttributes) {
+	public ModelAndView guardarMateria(@Valid @ModelAttribute("materia") MateriaDTO materiaDTO, BindingResult result,
+			Model model) {
 
+		ModelAndView modelAndView = new ModelAndView("materias");
+
+		String mensaje;
+
+		System.out.println(materiaDTO.toString());
 		if (result.hasErrors()) {
-
+			System.out.println("Entraste al Error///Abel");
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Materia");
 			model.addAttribute("modalidades", Modalidad.values());
 			model.addAttribute("cursos", Curso.values());
 			model.addAttribute("docentes", docenteService.findAllActive());
 			model.addAttribute("carreras", carreraService.findAllActive());
-
-			return "materia";
+			modelAndView.setViewName("materia");
+			return modelAndView;
 		}
-		String mensaje;
+
 		try {
+			// Aquí deberías convertir los IDs en entidades Docente y Carrera antes de
+			// guardar
+			materiaDTO.setDocenteDTO(docenteService.findById(materiaDTO.getDocenteDTO().getIdDocente()));
+			materiaDTO.setCarreraDTO(carreraService.findById(materiaDTO.getCarreraDTO().getIdCarrera()));
+			System.out.println(materiaDTO.toString());
 			materiaService.save(materiaDTO);
 			mensaje = "Materia guardada con éxito!";
-			redirectAttributes.addFlashAttribute("exito", true);
-			redirectAttributes.addFlashAttribute("mensaje", mensaje);
-			return "redirect:/materia/listado";
+			model.addAttribute("exito", true);
 
 		} catch (Exception e) {
 
 			mensaje = "La Materia no se pudo guardar: " + e.getMessage();
+			System.out.println("Entraste al catch///Abel");
 			model.addAttribute("exito", false);
-			model.addAttribute("mensaje", mensaje);
-			model.addAttribute("materia", materiaDTO);
-			model.addAttribute("cursos", Curso.values());
-			model.addAttribute("modalidades", Modalidad.values());
-			model.addAttribute("docentes", docenteService.findAllActive());
-			model.addAttribute("carreras", carreraService.findAllActive());
-
-			return "materia";
 
 		}
 
+		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("carreras", materiaService.findAllActive());
+
+		return modelAndView;
+
 	}
-
-
 
 	// Metodo que presenta el formulario para modificar
 	@GetMapping("/modificar/{idMateria}")
@@ -150,23 +153,18 @@ public class MateriaController {
 			model.addAttribute("carreras", carreraService.findAllActive());
 			return "materia";
 		}
-		String mensaje;
 
 		try {
 			materiaService.editarMateria(materiaDTO);
-			mensaje = "La Materia fue modificada con éxito!";
 			model.addAttribute("exito", true);
+			model.addAttribute("mensaje", "La Materia fue modificada con éxito!");
 
 		} catch (Exception e) {
-			mensaje = "Error al modificar la Materia: " + e.getMessage();
 			model.addAttribute("exito", false);
-
+			model.addAttribute("mensaje", "Error al modificar la Materia: " + e.getMessage());
 		}
 
-		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("materias", materiaService.findAllActive());
-		model.addAttribute("docentes", docenteService.findAllActive());
-		model.addAttribute("carreras", carreraService.findAllActive());
 		model.addAttribute("titulo", "Materias");
 		return "materias";
 
@@ -175,7 +173,19 @@ public class MateriaController {
 	// Metodo para eliminar una materia
 	@GetMapping("/eliminar/{idMateria}")
 	public String eliminarMateria(Model model, @PathVariable(value = "idMateria") Long idMateria) {
-		materiaService.deleteById(idMateria);
+
+		String mensaje;
+		try {
+			materiaService.deleteById(idMateria);
+			mensaje = "La Materia con el id: " + idMateria + " ha sido eliminada con exito";
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("exito", true);
+		} catch (Exception e) {
+			mensaje = e.getMessage();
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("exito", false);
+		}
+
 		model.addAttribute("materias", materiaService.findAllActive());
 		model.addAttribute("titulo", "Materias");
 		return "materias";

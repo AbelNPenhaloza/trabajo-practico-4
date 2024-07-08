@@ -1,7 +1,8 @@
 package ar.edu.unju.fi.model;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -61,22 +62,22 @@ public class Materia {
 
 	@NotNull(message = "Debe seleccionar un estado")
 	@Column(name = "materia_estado", nullable = false, columnDefinition = "boolean default true")
-	private Boolean estado = true;
+	private Boolean estado;
 
 	@OneToOne
 	@JoinColumn(name = "docente_id")
 	@NotNull(message = "Debe seleccionar un Docente")
 	private Docente docente;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToOne
 	@JoinColumn(name = "carrera_id")
 	@NotNull(message = "Debe seleccionar una Carrera")
 	private Carrera carrera;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "materia_alumno", joinColumns = @JoinColumn(name = "materia_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
-	@NotNull(message = "Debe seleccionar uno o más Alumnos")
-	private List<Alumno> alumnos;
+	// @NotNull(message = "Debe seleccionar uno o más Alumnos")
+	private List<Alumno> alumnos = new ArrayList<Alumno>();
 
 	/**
 	 * @param nombre
