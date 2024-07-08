@@ -49,14 +49,9 @@ public class MateriaDTO {
 	@NotNull(message = "Debe seleccionar una Carrera")
 	private CarreraDTO carreraDTO;
 
-	// @NotNull(message = "Debe seleccionar uno o más Alumnos")
+	@NotNull(message = "Debe seleccionar uno o más Alumnos")
 	private List<AlumnoDTO> alumnos = new ArrayList<AlumnoDTO>();
 
-	@Override
-	public String toString() {
-		return "MateriaDTO [nombre=" + nombre + ", curso=" + curso + ", cantidadDeHoras=" + cantidadDeHoras
-				+ ", modalidad=" + modalidad + ", estado=" + estado + ", docenteDTO=" + docenteDTO + ", carreraDTO="
-				+ carreraDTO + "]";
-	}
+
 
 }

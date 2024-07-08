@@ -76,7 +76,7 @@ public class Materia {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "materia_alumno", joinColumns = @JoinColumn(name = "materia_id"), inverseJoinColumns = @JoinColumn(name = "alumno_id"))
-	// @NotNull(message = "Debe seleccionar uno o más Alumnos")
+	@NotNull(message = "Debe seleccionar uno o más Alumnos")
 	private List<Alumno> alumnos = new ArrayList<Alumno>();
 
 	/**
