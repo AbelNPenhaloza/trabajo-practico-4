@@ -22,7 +22,8 @@
 					<div class="row mb-3 justify-content-center">
 						<label for="legajo" class="col-sm-12 col-lg-2 col-form-label text-lg-end">Legajo</label>
 						<div class="col-sm-12 col-lg-4">
-							<input type="number" class="form-control" id="legajo" th:field="*{legajo}">
+							<input type="number" class="form-control" id="legajo" th:field="*{legajo}" th:disabled="${edicion}?true : false">
+							<input type="hidden" class="form-control" id="legajo" th:field="*{legajo}" th:if="${edicion}">
 							<div class="text-danger" th:if="${#fields.hasErrors('legajo')}" th:errors="*{legajo}"></div>
 						</div>
 					</div>

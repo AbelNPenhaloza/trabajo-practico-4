@@ -124,18 +124,31 @@ public class AlumnoServiceImpl implements IAlumnoService {
 	}
 	
 	@Override
-    public void inscribirAlumnoEnMateria(Long alumnoId, Long materiaId) {
-        Alumno alumno = alumnoRepository.findById(alumnoId).orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
-        Materia materia = materiaRepository.findById(materiaId).orElseThrow(() -> new RuntimeException("Materia no encontrada"));
+	public void inscribirAlumnoEnMateria(Long alumnoId, Long materiaId) {
+	    log.info("Iniciando inscripción del alumno con ID {} en la materia con ID {}", alumnoId, materiaId);
 
-        // Verificar si el alumno ya está inscrito en la materia
-        if (materia.getAlumnos().contains(alumno)) {
-            throw new RuntimeException("El alumno ya está inscrito en esta materia");
-        }
+	    Alumno alumno = alumnoRepository.findById(alumnoId).orElseThrow(() -> {
+	        log.error("Alumno con ID {} no encontrado", alumnoId);
+	        return new RuntimeException("Alumno no encontrado");
+	    });
+	    log.info("Alumno con ID {} encontrado: {}", alumnoId, alumno);
 
-        materia.getAlumnos().add(alumno);
-        materiaRepository.save(materia);
-    }
+	    Materia materia = materiaRepository.findById(materiaId).orElseThrow(() -> {
+	        log.error("Materia con ID {} no encontrada", materiaId);
+	        return new RuntimeException("Materia no encontrada");
+	    });
+	    log.info("Materia con ID {} encontrada: {}", materiaId, materia);
+
+	    // Verificar si el alumno ya está inscrito en la materia
+	    if (materia.getAlumnos().contains(alumno)) {
+	        log.warn("El alumno con ID {} ya está inscrito en la materia con ID {}", alumnoId, materiaId);
+	        throw new RuntimeException("El alumno ya está inscrito en esta materia");
+	    }
+
+	    materia.getAlumnos().add(alumno);
+	    materiaRepository.save(materia);
+	    log.info("Alumno con ID {} inscrito en la materia con ID {} exitosamente", alumnoId, materiaId);
+	}
 
 	
 }
