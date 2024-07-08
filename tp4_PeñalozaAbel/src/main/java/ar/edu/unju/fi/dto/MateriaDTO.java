@@ -1,10 +1,10 @@
 package ar.edu.unju.fi.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unju.fi.model.Curso;
 import ar.edu.unju.fi.model.Modalidad;
-import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Max;
@@ -41,9 +41,7 @@ public class MateriaDTO {
 	@Enumerated(EnumType.STRING)
 	private Modalidad modalidad;
 
-	@NotNull(message = "Debe seleccionar un estado")
-	@Column(nullable = false, columnDefinition = "boolean default true")
-	private Boolean estado = true;
+	private Boolean estado;
 
 	@NotNull(message = "Debe seleccionar un Docente")
 	private DocenteDTO docenteDTO;
@@ -51,7 +49,14 @@ public class MateriaDTO {
 	@NotNull(message = "Debe seleccionar una Carrera")
 	private CarreraDTO carreraDTO;
 
-	@NotNull(message = "Debe seleccionar uno o más Alumnos")
-	private List<AlumnoDTO> alumnos;
+	// @NotNull(message = "Debe seleccionar uno o más Alumnos")
+	private List<AlumnoDTO> alumnos = new ArrayList<AlumnoDTO>();
+
+	@Override
+	public String toString() {
+		return "MateriaDTO [nombre=" + nombre + ", curso=" + curso + ", cantidadDeHoras=" + cantidadDeHoras
+				+ ", modalidad=" + modalidad + ", estado=" + estado + ", docenteDTO=" + docenteDTO + ", carreraDTO="
+				+ carreraDTO + "]";
+	}
 
 }
