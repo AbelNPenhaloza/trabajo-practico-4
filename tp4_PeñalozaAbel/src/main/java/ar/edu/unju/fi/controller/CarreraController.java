@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.CarreraDTO;
-import ar.edu.unju.fi.service.IAlumnoService;
 import ar.edu.unju.fi.service.ICarreraService;
-import ar.edu.unju.fi.service.IMateriaService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -28,15 +25,9 @@ public class CarreraController {
 	
 	private final ICarreraService carreraService;
 	
-	private final IAlumnoService alumnoService;
 	
-	private final IMateriaService materiaService;
-	
-	public CarreraController(ICarreraService carreraService, IAlumnoService alumnoService,
-			IMateriaService materiaService) {
+	public CarreraController(ICarreraService carreraService) {
 		this.carreraService = carreraService;
-		this.alumnoService = alumnoService;
-		this.materiaService = materiaService;
 	}
 
 	@GetMapping("/listado")
@@ -58,8 +49,6 @@ public class CarreraController {
 		model.addAttribute("carrera", new CarreraDTO());
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("titulo", "Nueva Carrera");
-		model.addAttribute("alumnos", alumnoService.findAll());
-		model.addAttribute("materias", materiaService.findAll());
 
 		return "carrera";
 
@@ -67,33 +56,31 @@ public class CarreraController {
 
 	// Metodo para guardar una carrera nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public ModelAndView guardarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model) {
+	public String guardarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) {
 
-		ModelAndView modelView = new ModelAndView("carreras");
-		String mensaje;
-		
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Carrera");
-			model.addAttribute("alumnos", alumnoService.findAll());
-			model.addAttribute("materias", materiaService.findAll());
-			modelView.setViewName("carrera");
-			return modelView;
-		}
-
-		try {
-			carreraService.save(carreraDTO);
-			mensaje= "Carrera guardada con éxito!";
-			model.addAttribute("exito", true);
-		} catch (Exception e) {
-			mensaje= "Carrera no se pudo guardar: " + e.getMessage();
-			model.addAttribute("exito", false);
+			return "carrera";
 		}
 		
-		model.addAttribute("mensaje", mensaje);
-		modelView.addObject("carreras", carreraService.findAllActive());
-
-		return modelView;
+		String mensaje;
+		
+		try {
+			carreraService.save(carreraDTO);
+			mensaje= "Carrera guardado con éxito!";
+			redirectAttributes.addFlashAttribute("exito", true);
+			redirectAttributes.addFlashAttribute("mensaje", mensaje);
+			return "redirect:/carrera/listado";
+		} catch (Exception e) {
+			model.addAttribute("error", true);
+			mensaje= "Carrera no se pudo guardar: " + e.getMessage();
+			model.addAttribute("exito", false);
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("carrera", carreraDTO);
+			return "carrera";
+		}
 		
 	}
 	
@@ -107,8 +94,6 @@ public class CarreraController {
 
 		model.addAttribute("edicion", edicion);
 		model.addAttribute("carrera", carreraDTO);
-		model.addAttribute("alumnos", alumnoService.findAll());
-		model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Modificar Carrera");
 
 
@@ -119,26 +104,25 @@ public class CarreraController {
 	@PostMapping("/modificar")
 	public String modificarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result,
 			Model model) {
-
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", true);
 			model.addAttribute("titulo", "Modificar Carrera");
-			model.addAttribute("alumnos", alumnoService.findAll());
-			model.addAttribute("materias", materiaService.findAll());
-			return "carrera";
+			return "docente";
 		}
-
+		
+		String mensaje;
+		
 		try {
 			carreraService.editarCarrera(carreraDTO);
+			mensaje= "Carrera fue modificado con éxito!";
 			model.addAttribute("exito", true);
-			model.addAttribute("mensaje", "La Carrera fue modificada con éxito!");
 		} catch (Exception e) {
+			mensaje= "Error al modificar la Carrera: " + e.getMessage();
 			model.addAttribute("exito", false);
-			model.addAttribute("mensaje", "Error al modificar la Carrera: " + e.getMessage());
 		}
+
+		model.addAttribute("mensaje", mensaje);
 		model.addAttribute("carreras", carreraService.findAllActive());
-		model.addAttribute("alumnos", alumnoService.findAll());
-		model.addAttribute("materias", materiaService.findAll());
 		model.addAttribute("titulo", "Carreras");
 		return "carreras";
 

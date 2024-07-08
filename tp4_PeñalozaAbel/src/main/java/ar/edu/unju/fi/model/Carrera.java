@@ -38,7 +38,7 @@ public class Carrera {
 	
 	@Column(name = "carrera_nombre")
 	@NotBlank(message = " Debe ingresar el nombre de la carrera.")
-	@Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "Debe ingresar unicamente letras y numeros")
+	@Pattern(regexp = "^[\\p{L}0-9\\s]{3,}$", message = "Debe ingresar unicamente letras y numeros")
 	private String nombre;
 	
 	@Column(name = "carrera_cantidad_años")
@@ -59,7 +59,8 @@ public class Carrera {
 
 	public Carrera(
 			@NotNull(message = "Debe ingresar el codigo de la carrera. ") Integer codigo,
-			@NotBlank(message = " Debe ingresar el nombre de la carrera.") @Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "Debe ingresar unicamente letras y numeros") String nombre,
+			@NotBlank(message = " Debe ingresar el nombre de la carrera.") @Pattern(regexp = "^[\\p{L}0-9\\s]{3,}$",
+			message = "Debe ingresar unicamente letras y numeros") String nombre,
 			@NotNull(message = "Debe ingresar la Cantidad de Anios") Byte cantidadAnios,
 			@NotNull(message = "Debe seleccionar un estado") Boolean estado,
 			@NotNull(message = "Debe seleccionar uno o mas alumnos. ") List<Alumno> alumnos,

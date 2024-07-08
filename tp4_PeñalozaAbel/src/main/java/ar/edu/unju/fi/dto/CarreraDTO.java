@@ -24,7 +24,7 @@ public class CarreraDTO {
 	private Integer codigo;
 	
 	@NotBlank(message = "Debe ingresar el nombre de la Carrera. ")
-	@Pattern(regexp = "^[a-zA-Z\\s]{3,40}$", message = "Debe ingresar unicamente letras y numeros")
+	@Pattern(regexp = "^[\\p{L}0-9\\s]{3,}$", message = "Debe ingresar unicamente letras y numeros")
 	private String nombre;
 	
 	@NotNull(message = "Debe ingresar la cantidad de anios de la carrera. ")
