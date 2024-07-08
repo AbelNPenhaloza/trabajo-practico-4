@@ -125,16 +125,6 @@ public class AlumnoController {
 	public String modificarAlumno(@Valid @ModelAttribute("alumno") AlumnoDTO alumnoDTO, BindingResult result, Model model) {
 
 		
-		 if (alumnoService.existeAlumnoLu(alumnoDTO.getLu())) {
-				
-			 model.addAttribute("edicion", true);
-			 model.addAttribute("titulo", "Modificar Alumno");
-			 model.addAttribute("carreras", carreraService.findAllActive());
-			 model.addAttribute("repetido",true);
-			 model.addAttribute("mensajelu", "La libreta universitada ya está registrada para otro alumno");
-			 return "alumno";	
-		   }
-		 
 		if(result.hasErrors()) {
 			model.addAttribute("edicion",true);
 			model.addAttribute("titulo","Modificar Alumno");

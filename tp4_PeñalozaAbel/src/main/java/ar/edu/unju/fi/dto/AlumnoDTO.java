@@ -45,6 +45,7 @@ public class AlumnoDTO {
 	@NotBlank(message="Debe ingresar el telefono")
 	private String telefono;
 	
+	@NotNull(message = "Debe seleccionar un estado")
 	private Boolean estado;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -13,7 +13,6 @@ public interface IAlumnoService {
 	
 	boolean existeAlumnoLu(Integer lu);
 	 
-
 	AlumnoDTO save(AlumnoDTO alumnoDTO);
 
 	void deleteById(Long idAlumno);
