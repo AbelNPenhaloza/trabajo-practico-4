@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.fi.dto.AlumnoDTO;
 import ar.edu.unju.fi.dto.CarreraDTO;
 import ar.edu.unju.fi.service.ICarreraService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @Controller
@@ -56,32 +55,30 @@ public class CarreraController {
 
 	// Metodo para guardar una carrera nueva usando el boton guardar
 	@PostMapping("/guardar")
-	public String guardarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model,
-			RedirectAttributes redirectAttributes) {
+	public ModelAndView guardarCarrera(@Valid @ModelAttribute("carrera") CarreraDTO carreraDTO, BindingResult result, Model model) {
+		ModelAndView modelAndView = new ModelAndView("carreras");
+
+		String mensaje;
 
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", false);
 			model.addAttribute("titulo", "Nueva Carrera");
-			return "carrera";
+			modelAndView.setViewName("carrera");
+			return modelAndView;
 		}
-		
-		String mensaje;
 		
 		try {
 			carreraService.save(carreraDTO);
 			mensaje= "Carrera guardado con éxito!";
-			redirectAttributes.addFlashAttribute("exito", true);
-			redirectAttributes.addFlashAttribute("mensaje", mensaje);
-			return "redirect:/carrera/listado";
+			model.addAttribute("exito", true);
 		} catch (Exception e) {
-			model.addAttribute("error", true);
 			mensaje= "Carrera no se pudo guardar: " + e.getMessage();
 			model.addAttribute("exito", false);
-			model.addAttribute("mensaje", mensaje);
-			model.addAttribute("carrera", carreraDTO);
-			return "carrera";
 		}
+		model.addAttribute("mensaje", mensaje);
+		model.addAttribute("carreras", carreraService.findAllActive() );
 		
+		return modelAndView;
 	}
 	
 
@@ -107,7 +104,7 @@ public class CarreraController {
 		if (result.hasErrors()) {
 			model.addAttribute("edicion", true);
 			model.addAttribute("titulo", "Modificar Carrera");
-			return "docente";
+			return "carrera";
 		}
 		
 		String mensaje;
@@ -126,24 +123,27 @@ public class CarreraController {
 		model.addAttribute("titulo", "Carreras");
 		return "carreras";
 
+
 	}
 
 	// Metodo para eliminar una carrera
 	@GetMapping("/eliminar/{idCarrera}")
-	public String eliminarCarrera(Model model, @PathVariable(value = "idCarrera") Integer idCarrera, 
-			RedirectAttributes redirectAttributes) {
+	public String eliminarCarrera(Model model, @PathVariable(value = "idCarrera") Integer idCarrera) {
+		String mensaje;
 		try {
 			carreraService.deleteById(idCarrera);
-			redirectAttributes.addFlashAttribute("exito", true);
-			redirectAttributes.addFlashAttribute("mensaje", "Carrera eliminada exitosamnete. ");
-		} catch(EntityNotFoundException e) {
-			redirectAttributes.addFlashAttribute("exito", false);
-			redirectAttributes.addFlashAttribute("mensaje", e.getMessage());
-		}catch (Exception e) {
-			redirectAttributes.addFlashAttribute("exito", false);
-			redirectAttributes.addFlashAttribute("mensaje", "Error al eliminar la carrera. Por favor, intentelo de nuevo.");
+			mensaje = "La carrera con el id: " + idCarrera + " ha sido eliminada con exito";
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("exito", true);
+		} catch (Exception e) {
+			mensaje = e.getMessage();
+			model.addAttribute("mensaje", mensaje);
+			model.addAttribute("exito", false);
 		}
-		return "redirect:/carrera/listado";
+
+		model.addAttribute("carreras", carreraService.findAllActive());
+		model.addAttribute("titulo", "Carreras");
+		return "carreras";
 	}
 	
 	@GetMapping("/alumnos")
